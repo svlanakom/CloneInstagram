@@ -1,3 +1,44 @@
-h1 {
-    color: #657;
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: blue;
+}
+
+.main {
+  height: 70%;
+  width: 100%;
+  display: flex;
+
+}
+
+.itemone {
+  background-color: cyan;
+  width: 30%;
+}
+
+.itemtoo {
+ 
+  background-color: darkgreen;
+  width: 40%;
+}
+.itemthree {
+ 
+  background-color: darkviolet;
+  width: 30%;
+}
+
+.footer {
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: crimson;
 }

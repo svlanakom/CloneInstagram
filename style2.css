@@ -1,0 +1,42 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.left {
+  width: 500px;
+  height: 100%;
+  float: left;
+  background-color: fuchsia;
+}
+
+.right {
+  width: 500px;
+  height: 100%;
+  float: right;
+  background-color: gold;
+}
+
+.content {
+  height: 100%;
+  margin-left: 500px;
+  margin-right: 200px;
+  background-color: grey;
+}
+
+.header {
+  background-color: darkviolet;
+  height: 78px;
+}
+
+.content,
+.left,
+.right {
+  height: 80vh;
+}
+
+.footer {
+  background-color: darkviolet;
+  height: 70px;
+}
