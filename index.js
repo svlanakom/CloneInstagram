@@ -38,13 +38,17 @@ const onPasswordChange = (event) => {
 emailInputElem.addEventListener("input", onEmailChange);
 passwordInputElem.addEventListener("input", onPasswordChange);
 
-const isMatch = (value) =>
+
+
+const isMatch = value => 
   passwordInputElem.value === passwordInputElemConfirm.value
+  
     ? undefined
     : "Passwords do not match";
+ 
 
 const chekPassword = (event) => {
-  const errorText = [isRequired, isMatch]
+  const errorText = [isRequired, isMatch, isNumberPassword]
     .map((validator) => validator(event.target.value))
     .filter((errorText) => errorText)
     .join(", ");
@@ -52,13 +56,21 @@ const chekPassword = (event) => {
 };
 passwordInputElemConfirm.addEventListener("input", chekPassword);
 
-const onSubmit = (event) => {
-  event.preventDefault();
+
+
+const onSubmit = (event) => { 
+
+  event.preventDefault()
+ if (passwordInputElem.value !== passwordInputElemConfirm.value)
+ return false
+  modalWindow.style.display = "block";
+  mainForm.style.display = "none";
+  
+ 
 
   localStorage.setItem("email", emailInputElem.value);
   localStorage.setItem("password", passwordInputElem.value);
 
-  // modalWindow.style.display = "block";
-  // mainForm.style.display = "none";
+  
 };
 formElem.addEventListener("submit", onSubmit);
