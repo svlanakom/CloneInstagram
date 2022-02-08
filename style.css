@@ -1,44 +1,98 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
+* {
+  box-sizing: border-box;
 }
+body {
+  margin: 0;
+}
+.conteiner {
+  display: flex;
+  min-height: calc(100vh - 20vh);
+}
+.content {
+  flex: 1;
+}
+.navigation {
+  flex: 0 0 20vw;
+  background: beige;
+  
+}
+.sidebar {
+  flex: 0 0 20vw;
+  background: rgb(241, 241, 238);
+}
+
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-  background-color: blue;
+  background: rgb(117, 50, 205);
+  height: 10vh;
 }
-
-.main {
-  height: 70%;
-  width: 100%;
-  display: flex;
-
-}
-
-.itemone {
-  background-color: cyan;
-  width: 30%;
-}
-
-.itemtoo {
- 
-  background-color: darkgreen;
-  width: 40%;
-}
-.itemthree {
- 
-  background-color: darkviolet;
-  width: 30%;
-}
-
 .footer {
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-  background-color: crimson;
+  background: yellowgreen;
+  height: 10vh;
 }
+.content{
+  background-color: blanchedalmond;
+  height: 80vh;
+  display: block;
+ 
+  
+  
+  
+}
+
+.login-form{
+  width: 300px;
+  background-color: rgb(231, 236, 236);
+  padding: 20px;
+  margin: 100px auto;
+ 
+  
+}
+.form-title{
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.form-label{
+  display: block;
+  margin-bottom: 4px;
+  
+
+}
+
+.form-input{
+  width: 100%;
+  height: 32px;
+  border-radius: 4px;
+  padding: 4px;
+  border: 1px solid grey;
+  outline: none
+
+}
+
+.form-input:invalid {
+  border: 3px solid red;
+}
+.submit-button {
+  width: 100%;
+  height: 32px;
+  border-radius: 4px;
+  margin-top: 16px;
+  background-color: coral;
+  color: white;
+
+}
+
+
+.error-text{
+  color: red
+}
+
+.modal{
+  text-align: center;
+  display: none;
+  padding-top: 200px;
+  
+}
+
+
+
