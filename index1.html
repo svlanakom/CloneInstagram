@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style1.css" />
+  </head>
+  <body>
+    <header class="header">Шапка</header>
+    <div class="conteiner">
+      <nav class="navigation">Навигация</nav>
+      <main class="content">
+        <div class="main-form">
+          <h1 class="form-title">User Edit Form</h1>
+          <form
+            id="userEditForm"
+            class="user-edit-form"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <input
+                class="form-input"
+                type="text"
+                name="username"
+                data-validators="required, min-length(3), max-length(10)"
+              />
+              <label class="form-input-label">Username</label>
+
+              <div class="form-group—error-conttainer">
+                <span class="error-message error-message—required"
+                  >Username is required</span
+                >
+                <span class="error-message error-message—error—min—length"
+                  >Username should be at least 3 characters</span
+                >
+                <span class="error-message error-message—error—max—length"
+                  >Username should be less then 10 characters</span
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input class="form-input" type="email" name="email" />
+              <label class="form-input-label">Email</label>
+            </div>
+
+            <div class="form-group">
+              <input class="form-input" type="password" name="password" />
+              <label class="form-label" for="password1">Password</label>
+            </div>
+            <div class="form-group">
+              <input class="form-input" type="password" />
+              <label class="form-label" for="password1">
+                Confirm Password</label
+              >
+            </div>
+            <button class="btn">Save</button>
+          </form>
+        </div>
+      </main>
+      <aside class="sidebar">Боковая панель</aside>
+    </div>
+    <footer class="footer">Подвал</footer>
+    <script type="text/javascript" src="inputs.js"></script>
+    <script type="text/javascript" src="index1.js"></script>
+  </body>
+</html>
