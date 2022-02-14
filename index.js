@@ -103,10 +103,10 @@ console.log(all);
 
 addStorages()
 
-
 function getUsersfromLocalStorage(){
   return JSON.parse(localStorage.getItem('users'))
  
 }
-getUsersfromLocalStorage()
+
+
 
