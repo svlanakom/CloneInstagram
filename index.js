@@ -66,10 +66,17 @@ const chekPassword = (event) => {
 };
 passwordInputElemConfirm.addEventListener("input", chekPassword);
 
+
+
+
 const onSubmit = (event) => {
-  event.preventDefault();
+
+  getUsersfromLocalStorage()
+  
   if (passwordInputElem.value !== passwordInputElemConfirm.value) 
   return false;
+  
+  
   modalWindow.style.display = "block";
   mainForm.style.display = "none";
 
@@ -79,29 +86,15 @@ const onSubmit = (event) => {
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
- console.log(newFormData)
-  const all = getUsersfromLocalStorage()
-  localStorage.setItem('users', JSON.stringify(newFormData));
-  
  
+ 
+  localStorage.setItem('users', JSON.stringify(newFormData));
+ 
+  console.log(localStorage.getItem('users'));
+ event.preventDefault();
 };
 formElem.addEventListener("submit", onSubmit);
 
-function addStorages() {
-  let usersAll = []
-  const all = getUsersfromLocalStorage()
-console.log(all);
- for( let i = 0; i < localStorage.length; i++ ){
-  localStorage.key(i)
-    console.log(localStorage.key(i));
-   usersAll.push();
-   
- }
- return usersAll;
- 
-}
-
-addStorages()
 
 function getUsersfromLocalStorage(){
   return JSON.parse(localStorage.getItem('users'))
