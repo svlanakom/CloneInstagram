@@ -12,7 +12,6 @@ const modalWindow = document.querySelector(".modal");
 const mainForm = document.querySelector(".main-form");
 const errorTextt = document.querySelector(".error-text");
 
-
 const isRequired = (value) => (value ? undefined : "Requared");
 
 const isEmail = (value) =>
@@ -38,19 +37,17 @@ const onPasswordChange = (event) => {
   passwordErrorEllem.textContent = errorText;
 };
 
-
 const onNameChange = (event) => {
   const errorText = [isRequired]
-  .map((validator) => validator(event.target.value))
-  .filter((errorText) => errorText)
-  .join(", ");
+    .map((validator) => validator(event.target.value))
+    .filter((errorText) => errorText)
+    .join(", ");
   nameErrorEl.textContent = errorText;
-
-}
+};
 
 emailInputElem.addEventListener("input", onEmailChange);
 passwordInputElem.addEventListener("input", onPasswordChange);
-userNameEl.addEventListener("input", onNameChange)
+userNameEl.addEventListener("input", onNameChange);
 
 const isMatch = (value) =>
   passwordInputElem.value === passwordInputElemConfirm.value
@@ -67,39 +64,52 @@ const chekPassword = (event) => {
 passwordInputElemConfirm.addEventListener("input", chekPassword);
 
 
-
-
 const onSubmit = (event) => {
+  event.preventDefault();
 
-  getUsersfromLocalStorage()
-  
-  if (passwordInputElem.value !== passwordInputElemConfirm.value) 
-  return false;
-  
-  
+  if (passwordInputElem.value !== passwordInputElemConfirm.value)
+   return false;
+
   modalWindow.style.display = "block";
   mainForm.style.display = "none";
 
   const formData = [...new FormData(formElem)];
-  
+ console.log(formData)
   const newFormData = formData.reduce(
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
- 
- 
-  localStorage.setItem('users', JSON.stringify(newFormData));
- 
-  console.log(localStorage.getItem('users'));
- event.preventDefault();
+  console.log(newFormData)
+  localStorage.setItem("users", JSON.stringify(newFormData));
+
 };
+
 formElem.addEventListener("submit", onSubmit);
 
-
-function getUsersfromLocalStorage(){
-  return JSON.parse(localStorage.getItem('users'))
- 
+function getUsersfromLocalStorage() {
+  return JSON.parse(localStorage.getItem("users"));
 }
+console.log(getUsersfromLocalStorage())
 
 
+// class form {
+//     constructor(email, password){
+//         this.email = email;
+//         this.password = password;
+//         this.userData ={
+//             [this.email]:{
+//                 password: this.password,
 
+//             }}
+//           this.isUser = this.chekUser();
+
+//     }
+//     chekUser(){
+//         let userData = user.getUsersfromLocalStorage();
+//         let userExist = Object.keys(userData).includes(this.email)
+//         return userExist;
+//     }
+//     IsEmptyInputData(inputValue) {
+//         return inputValue.length === 0;
+//     }
+// }
