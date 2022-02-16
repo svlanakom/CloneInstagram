@@ -63,33 +63,41 @@ const chekPassword = (event) => {
 };
 passwordInputElemConfirm.addEventListener("input", chekPassword);
 
-
 const onSubmit = (event) => {
   event.preventDefault();
 
-  if (passwordInputElem.value !== passwordInputElemConfirm.value)
-   return false;
+  if (passwordInputElem.value !== passwordInputElemConfirm.value) return false;
 
   modalWindow.style.display = "block";
   mainForm.style.display = "none";
 
   const formData = [...new FormData(formElem)];
- console.log(formData)
+  console.log(formData);
   const newFormData = formData.reduce(
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
-  console.log(newFormData)
-  localStorage.setItem("users", JSON.stringify(newFormData));
+  newFormData.isLogine = true;
 
+  console.log(newFormData.email);
+
+  const users = JSON.parse(localStorage.getItem("users"));
+
+  if (!users) {
+    localStorage.setItem(
+      "users",
+      JSON.stringify({ [newFormData.email]: newFormData })
+    );
+  } else {
+    users[newFormData.email] = newFormData;
+    localStorage.setItem("users", JSON.stringify(users));
+  }
 };
-
 formElem.addEventListener("submit", onSubmit);
 
 function getUsersfromLocalStorage() {
   return JSON.parse(localStorage.getItem("users"));
 }
-console.log(getUsersfromLocalStorage())
 
 
 // class form {
@@ -99,6 +107,7 @@ console.log(getUsersfromLocalStorage())
 //         this.userData ={
 //             [this.email]:{
 //                 password: this.password,
+//                 isLogin: this.isLogin
 
 //             }}
 //           this.isUser = this.chekUser();
