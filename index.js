@@ -11,6 +11,8 @@ const submitEl = document.querySelector(".submit-button");
 const modalWindow = document.querySelector(".modal");
 const mainForm = document.querySelector(".main-form");
 const errorTextt = document.querySelector(".error-text");
+const mainLogin = document.querySelector(".main-form-login");
+const submitLogin = document.querySelector(".submit-button-login");
 
 const isRequired = (value) => (value ? undefined : "Requared");
 
@@ -77,9 +79,9 @@ const onSubmit = (event) => {
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
-  newFormData.isLogine = true;
 
-  console.log(newFormData.email);
+  newFormData.isLogine = true;
+  console.log(newFormData.isLogine);
 
   const users = JSON.parse(localStorage.getItem("users"));
 
@@ -93,32 +95,27 @@ const onSubmit = (event) => {
     localStorage.setItem("users", JSON.stringify(users));
   }
 };
+
+
 formElem.addEventListener("submit", onSubmit);
 
-function getUsersfromLocalStorage() {
-  return JSON.parse(localStorage.getItem("users"));
+
+// сабмит формы входа по емейлу и паролю(если такой емейл есть в локал сторадж(зарегистрированный пользователь), 
+// то залогиненый пользователь видит список всех зарегистрированных с кнопками delete и edite)
+const onSClickLogin = (event) => {
+  event.preventDefault();
+
+ if (isLogine) {
+  modalWindow.style.display = "block";
+  mainForm.style.display = "none";
+  mainLogin.style.display = "none";
+ } else {
+ 
+  modalWindow.style.display = "none";
+  mainForm.style.display = "none";
+  mainLogin.style.display = "none";
+  
+ }
 }
 
-
-// class form {
-//     constructor(email, password){
-//         this.email = email;
-//         this.password = password;
-//         this.userData ={
-//             [this.email]:{
-//                 password: this.password,
-//                 isLogin: this.isLogin
-
-//             }}
-//           this.isUser = this.chekUser();
-
-//     }
-//     chekUser(){
-//         let userData = user.getUsersfromLocalStorage();
-//         let userExist = Object.keys(userData).includes(this.email)
-//         return userExist;
-//     }
-//     IsEmptyInputData(inputValue) {
-//         return inputValue.length === 0;
-//     }
-// }
+submitLogin.addEventListener("submit", onSClickLogin);

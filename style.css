@@ -93,6 +93,35 @@ body {
   padding-top: 200px;
   
 }
+.list-group{
+  display: block;
+}
 
+.list-users{
+  text-align: center;
+  padding-top: 200px;
+}
+.submit-button-login{
+  width: 100%;
+  height: 32px;
+  border-radius: 4px;
+  margin-top: 16px;
+  background-color: coral;
+  color: white;
+}
+/* 
+.list-group{
+  display: none;
+  
+  
+   
+
+}
+.list-item{
+  width: 100px;
+  
+ 
+  
+} */
 
 
