@@ -108,9 +108,25 @@ console.log(userExist);
 
 const html = userExist
   .map(
-    (item) => `<div>${item}</div><button>delete</button><button>edite</button>`
+    (item) => `<div>${item}</div><button class="button-delete">delete</button><button class="button-edit">edite</button>`
   )
   .join("");
 
 const list = document.querySelector(".list-container");
 list.innerHTML = html;
+
+
+// const deleteUser = document.querySelector(".delete.button");
+// const editUser = document.querySelector(".edit.button");
+
+// function handleDelete(e){
+//   e.preventDefault();
+//   modalWindow()
+// }
+
+// deleteUser.addEventListener('click', handleDelete)
+
+
+//  function modalWindow(){
+   
+//  }
