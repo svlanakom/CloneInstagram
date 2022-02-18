@@ -19,24 +19,47 @@ const isRequired = (value) => (value ? undefined : "Requared");
 const isEmail = (value) =>
   value.includes("@") ? undefined : "Should be an email";
 
-const onEmailChange = (event) => {
-  const errorText = [isRequired, isEmail]
-    .map((validator) => validator(event.target.value))
-    .filter((errorText) => errorText)
-    .join(", ");
-
-  emailErrorElem.textContent = errorText;
+const isEmailUsed = (value) => {
+  const users = JSON.parse(localStorage.getItem("users"));
+  return !users || !Object.keys(users).includes(value)
+    ? undefined
+    : "This email used";
 };
+
+const isMatch = (value) =>
+  passwordInputElem.value === passwordInputElemConfirm.value
+    ? undefined
+    : "Passwords do not match";
 
 const isNumberPassword = (value) =>
   /^\d+$/.test(value) ? undefined : "Should be a number";
 
-const onPasswordChange = (event) => {
+const chekEmail = (value) => {
+  const errorText = [isRequired, isEmail, isEmailUsed]
+    .map((validator) => validator(value))
+    .filter((errorText) => errorText)
+    .join(", ");
+  emailErrorElem.textContent = errorText;
+  return !errorText;
+};
+
+const chekPassword = (value) => {
   const errorText = [isRequired, isNumberPassword]
-    .map((validator) => validator(event.target.value))
+    .map((validator) => validator(value))
     .filter((errorText) => errorText)
     .join(", ");
   passwordErrorEllem.textContent = errorText;
+  return !errorText;
+};
+
+const checkPasswordConfirm = (value) => {
+  const errorText = [isRequired, isMatch, isNumberPassword]
+    .map((validator) => validator(value))
+    .filter((errorText) => errorText)
+    .join(", ");
+
+  passwordErrorConfirm.textContent = errorText;
+  return !errorText;
 };
 
 const onNameChange = (event) => {
@@ -45,30 +68,37 @@ const onNameChange = (event) => {
     .filter((errorText) => errorText)
     .join(", ");
   nameErrorEl.textContent = errorText;
+  return !errorText;
 };
 
+const onEmailChange = (event) => {
+  chekEmail(event.target.value);
+};
+
+const onPasswordChange = (event) => {
+  chekPassword(event.target.value);
+};
+
+const onPasswordSubmitChange = (event) => {
+  checkPasswordConfirm(event.target.value);
+};
+
+userNameEl.addEventListener("input", onNameChange);
 emailInputElem.addEventListener("input", onEmailChange);
 passwordInputElem.addEventListener("input", onPasswordChange);
-userNameEl.addEventListener("input", onNameChange);
+passwordInputElemConfirm.addEventListener("input", onPasswordSubmitChange);
 
-const isMatch = (value) =>
-  passwordInputElem.value === passwordInputElemConfirm.value
-    ? undefined
-    : "Passwords do not match";
 
-const chekPassword = (event) => {
-  const errorText = [isRequired, isMatch, isNumberPassword]
-    .map((validator) => validator(event.target.value))
-    .filter((errorText) => errorText)
-    .join(", ");
-  passwordErrorConfirm.textContent = errorText;
-};
-passwordInputElemConfirm.addEventListener("input", chekPassword);
 
 const onSubmit = (event) => {
   event.preventDefault();
 
-  if (passwordInputElem.value !== passwordInputElemConfirm.value) return false;
+  if (
+    !chekEmail(emailInputElem.value) ||
+    !chekPassword(passwordInputElem.value) ||
+    !checkPasswordConfirm(passwordInputElemConfirm.value)
+  )
+    return false;
 
   modalWindow.style.display = "block";
   mainForm.style.display = "none";
@@ -79,9 +109,9 @@ const onSubmit = (event) => {
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
-  console.log(newFormData);
-  newFormData.isLogine = true;
-  console.log(newFormData.isLogine);
+  // console.log(newFormData);
+  // newFormData.isLogine = true;
+  // console.log(newFormData.isLogine);
 
   const users = JSON.parse(localStorage.getItem("users"));
   console.log(users);
@@ -94,46 +124,44 @@ const onSubmit = (event) => {
     users[newFormData.email] = newFormData;
     localStorage.setItem("users", JSON.stringify(users));
   }
+  updateTable();
 };
 
 formElem.addEventListener("submit", onSubmit);
+
 function getUsersformLocalStorage() {
   return JSON.parse(localStorage.getItem("users"));
 }
 
-const userData = getUsersformLocalStorage();
-console.log(userData);
-const userExist = Object.keys(userData);
-console.log(userExist);
+function updateTable() {
+  const userData = getUsersformLocalStorage();
+  console.log(userData);
+  const userExist = Object.keys(userData);
+  console.log(userExist);
+  const list = document.querySelector(".list-container");
 
-const html = userExist
-  .map(
-    (item) => `<div>${item}</div><button class="button-delete">delete</button><button class="button-edit">edite</button>`
-  )
-  .join("");
+  for (let item of userExist) {
+    list.innerHTML += `<div>${item}</div>
+       <button class="button-delete">delete</button>
+       <button class="button-edit">edit</button>`;
+  }
 
-  
-const list = document.querySelector(".list-container");
-list.innerHTML = html;
+const deleteUsersBtns = document.querySelectorAll(".button-delete");
+for (const btn of deleteUsersBtns) {
+  btn.addEventListener("click", handleDelete);
+  }
+}
+const modal = document.querySelector(".modal-delete");
 
-
-const deleteUser = document.querySelector(".button-delete");
-const modal = document.querySelector(".modal-delete")
-
-function handleDelete(event){
-  event.preventDefault()
- modal.style.display = "block";
+function handleDelete(event) {
+  event.preventDefault();
+  modal.style.display = "block";
 }
 
 function handleClose(e) {
-  
-    if(e.target == modal) {
-    modal.style.display = "none"
+  if (e.target == modal) {
+    modal.style.display = "none";
   }
 }
 
-window.addEventListener('click', handleClose)
-
-deleteUser.addEventListener('click', handleDelete)
-
-
+window.addEventListener("click", handleClose);
