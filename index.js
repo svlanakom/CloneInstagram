@@ -112,21 +112,28 @@ const html = userExist
   )
   .join("");
 
+  
 const list = document.querySelector(".list-container");
 list.innerHTML = html;
 
 
-// const deleteUser = document.querySelector(".delete.button");
-// const editUser = document.querySelector(".edit.button");
+const deleteUser = document.querySelector(".button-delete");
+const modal = document.querySelector(".modal-delete")
 
-// function handleDelete(e){
-//   e.preventDefault();
-//   modalWindow()
-// }
+function handleDelete(event){
+  event.preventDefault()
+ modal.style.display = "block";
+}
 
-// deleteUser.addEventListener('click', handleDelete)
+function handleClose(e) {
+  
+    if(e.target == modal) {
+    modal.style.display = "none"
+  }
+}
+
+window.addEventListener('click', handleClose)
+
+deleteUser.addEventListener('click', handleDelete)
 
 
-//  function modalWindow(){
-   
-//  }
