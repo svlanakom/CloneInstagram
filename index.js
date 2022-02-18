@@ -79,12 +79,12 @@ const onSubmit = (event) => {
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
-
+  console.log(newFormData);
   newFormData.isLogine = true;
   console.log(newFormData.isLogine);
 
   const users = JSON.parse(localStorage.getItem("users"));
-
+  console.log(users);
   if (!users) {
     localStorage.setItem(
       "users",
@@ -96,26 +96,21 @@ const onSubmit = (event) => {
   }
 };
 
-
 formElem.addEventListener("submit", onSubmit);
-
-
-// сабмит формы входа по емейлу и паролю(если такой емейл есть в локал сторадж(зарегистрированный пользователь), 
-// то залогиненый пользователь видит список всех зарегистрированных с кнопками delete и edite)
-const onSClickLogin = (event) => {
-  event.preventDefault();
-
- if (isLogine) {
-  modalWindow.style.display = "block";
-  mainForm.style.display = "none";
-  mainLogin.style.display = "none";
- } else {
- 
-  modalWindow.style.display = "none";
-  mainForm.style.display = "none";
-  mainLogin.style.display = "none";
-  
- }
+function getUsersformLocalStorage() {
+  return JSON.parse(localStorage.getItem("users"));
 }
 
-submitLogin.addEventListener("submit", onSClickLogin);
+const userData = getUsersformLocalStorage();
+console.log(userData);
+const userExist = Object.keys(userData);
+console.log(userExist);
+
+const html = userExist
+  .map(
+    (item) => `<div>${item}</div><button>delete</button><button>edite</button>`
+  )
+  .join("");
+
+const list = document.querySelector(".list-container");
+list.innerHTML = html;
