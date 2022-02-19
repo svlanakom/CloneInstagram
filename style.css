@@ -155,3 +155,18 @@ body {
   padding: 20px;
   margin: 100px auto;
 }
+.form-input-login-email, .form-input-login-password{
+  width: 100%;
+  height: 32px;
+  border-radius: 4px;
+  padding: 4px;
+  border: 1px solid grey;
+  outline: none
+}
+.error-text-login_email{
+  color: red
+}
+
+.error-text-login_passwordP{
+  color: red
+}
