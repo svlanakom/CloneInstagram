@@ -30,7 +30,23 @@ function toggbuttonlogin(){
   mainLogin.style.display = "block";
  }
 
-buttonLogin.addEventListener("click", toggbuttonlogin)
+ buttonLogin.addEventListener("click", toggbuttonlogin)
+
+function onSubmitLogin(e){
+  
+  if (emailInputElem.value !== document.querySelector(".form-input-login-email")
+   && passwordInputElem.value !== document.querySelector(".form-input-login-password")) {
+     modalWindow.style.display = "block"
+   mainLogin.style.display = "none"
+   mainForm.style.display = "none"
+   }
+   return false
+   
+   
+  
+}
+
+submitLogin.addEventListener('submit', onSubmitLogin)
 
 const isRequired = (value) => (value ? undefined : "Requared");
 
@@ -183,3 +199,5 @@ function handleClose(e) {
 }
 
 window.addEventListener("click", handleClose);
+
+
