@@ -14,6 +14,24 @@ const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
 const submitLogin = document.querySelector(".submit-button-login");
 
+const buttonRegistration = document.querySelector(".button-registration")
+const buttonLogin = document.querySelector(".button-login")
+
+function toggbuttonleRegistration(){
+  mainForm.style.display = "block";
+  mainLogin.style.display = "none";
+}
+
+buttonRegistration.addEventListener("click", toggbuttonleRegistration)
+
+
+function toggbuttonlogin(){
+  mainForm.style.display = "none";
+  mainLogin.style.display = "block";
+ }
+
+buttonLogin.addEventListener("click", toggbuttonlogin)
+
 const isRequired = (value) => (value ? undefined : "Requared");
 
 const isEmail = (value) =>
