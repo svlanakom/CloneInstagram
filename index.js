@@ -14,39 +14,57 @@ const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
 const submitLogin = document.querySelector(".submit-button-login");
 
-const buttonRegistration = document.querySelector(".button-registration")
-const buttonLogin = document.querySelector(".button-login")
+const buttonRegistration = document.querySelector(".button-registration");
+const buttonLogin = document.querySelector(".button-login");
 
-function toggbuttonleRegistration(){
+function toggbuttonleRegistration() {
   mainForm.style.display = "block";
   mainLogin.style.display = "none";
+  modalWindow.style.display = "none";
 }
 
-buttonRegistration.addEventListener("click", toggbuttonleRegistration)
+buttonRegistration.addEventListener("click", toggbuttonleRegistration);
+
+function toggbuttonleLogin(){
+  mainForm.style.display = "none";
+  mainLogin.style.display = "none";
+  modalWindow.style.display = "none";
+
+}
 
 
-function toggbuttonlogin(){
+buttonLogin.addEventListener("click", toggbuttonleLogin)
+
+function toggbuttonlogin() {
   mainForm.style.display = "none";
   mainLogin.style.display = "block";
- }
+  // if(modalWindow.style.display = "block"){
+  //   mainForm.style.display = "none";
+  // mainLogin.style.display = "none";
+  // }
+}
 
- buttonLogin.addEventListener("click", toggbuttonlogin)
+buttonLogin.addEventListener("click", toggbuttonlogin);
 
-function onSubmitLogin(e){
-  
-  if (emailInputElem.value !== document.querySelector(".form-input-login-email")
-   && passwordInputElem.value !== document.querySelector(".form-input-login-password")) {
-     modalWindow.style.display = "block"
-   mainLogin.style.display = "none"
-   mainForm.style.display = "none"
-   }
-   return false
-   
-   
+function onSubmitLogin(e) {
+  e.preventDefault();
+  if (
+    emailInputElem.value !==
+      document.querySelector(".form-input-login-email") &&
+    passwordInputElem.value !==
+      document.querySelector(".form-input-login-password")
+  ) {
+    modalWindow.style.display = "block";
+    mainLogin.style.display = "none";
+    mainForm.style.display = "none";
+  }
+  return false;
   
 }
 
-submitLogin.addEventListener('submit', onSubmitLogin)
+document
+  .querySelector(".login-form-login")
+  .addEventListener("submit", onSubmitLogin);
 
 const isRequired = (value) => (value ? undefined : "Requared");
 
@@ -122,8 +140,6 @@ emailInputElem.addEventListener("input", onEmailChange);
 passwordInputElem.addEventListener("input", onPasswordChange);
 passwordInputElemConfirm.addEventListener("input", onPasswordSubmitChange);
 
-
-
 const onSubmit = (event) => {
   event.preventDefault();
 
@@ -134,8 +150,10 @@ const onSubmit = (event) => {
   )
     return false;
 
-  modalWindow.style.display = "block";
+  modalWindow.style.display = "none";
   mainForm.style.display = "none";
+  mainLogin.style.display = "block";
+
 
   const formData = [...new FormData(formElem)];
   console.log(formData);
@@ -180,9 +198,9 @@ function updateTable() {
        <button class="button-edit">edit</button>`;
   }
 
-const deleteUsersBtns = document.querySelectorAll(".button-delete");
-for (const btn of deleteUsersBtns) {
-  btn.addEventListener("click", handleDelete);
+  const deleteUsersBtns = document.querySelectorAll(".button-delete");
+  for (const btn of deleteUsersBtns) {
+    btn.addEventListener("click", handleDelete);
   }
 }
 const modal = document.querySelector(".modal-delete");
@@ -199,5 +217,3 @@ function handleClose(e) {
 }
 
 window.addEventListener("click", handleClose);
-
-

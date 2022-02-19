@@ -149,3 +149,9 @@ body {
   
 }
 
+.login-form-login{
+  width: 300px;
+  background-color: rgb(231, 236, 236);
+  padding: 20px;
+  margin: 100px auto;
+}
