@@ -14,57 +14,7 @@ const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
 const submitLogin = document.querySelector(".submit-button-login");
 
-const buttonRegistration = document.querySelector(".button-registration");
-const buttonLogin = document.querySelector(".button-login");
 
-function toggbuttonleRegistration() {
-  mainForm.style.display = "block";
-  mainLogin.style.display = "none";
-  modalWindow.style.display = "none";
-}
-
-buttonRegistration.addEventListener("click", toggbuttonleRegistration);
-
-function toggbuttonleLogin(){
-  mainForm.style.display = "none";
-  mainLogin.style.display = "none";
-  modalWindow.style.display = "none";
-
-}
-
-
-buttonLogin.addEventListener("click", toggbuttonleLogin)
-
-function toggbuttonlogin() {
-  mainForm.style.display = "none";
-  mainLogin.style.display = "block";
-  // if(modalWindow.style.display = "block"){
-  //   mainForm.style.display = "none";
-  // mainLogin.style.display = "none";
-  // }
-}
-
-buttonLogin.addEventListener("click", toggbuttonlogin);
-
-function onSubmitLogin(e) {
-  e.preventDefault();
-  if (
-    emailInputElem.value !==
-      document.querySelector(".form-input-login-email") &&
-    passwordInputElem.value !==
-      document.querySelector(".form-input-login-password")
-  ) {
-    modalWindow.style.display = "block";
-    mainLogin.style.display = "none";
-    mainForm.style.display = "none";
-  }
-  return false;
-  
-}
-
-document
-  .querySelector(".login-form-login")
-  .addEventListener("submit", onSubmitLogin);
 
 const isRequired = (value) => (value ? undefined : "Requared");
 
@@ -154,16 +104,20 @@ const onSubmit = (event) => {
   mainForm.style.display = "none";
   mainLogin.style.display = "block";
 
-
   const formData = [...new FormData(formElem)];
   console.log(formData);
   const newFormData = formData.reduce(
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
+
   // console.log(newFormData);
-  // newFormData.isLogine = true;
+  newFormData.isLogine = true;
+
   // console.log(newFormData.isLogine);
+  // if(!isLogine){
+
+  // }
 
   const users = JSON.parse(localStorage.getItem("users"));
   console.log(users);
@@ -183,11 +137,12 @@ formElem.addEventListener("submit", onSubmit);
 
 function getUsersformLocalStorage() {
   return JSON.parse(localStorage.getItem("users"));
+  
 }
 
 function updateTable() {
   const userData = getUsersformLocalStorage();
-  console.log(userData);
+  console.log(getUsersformLocalStorage(isLogine));
   const userExist = Object.keys(userData);
   console.log(userExist);
   const list = document.querySelector(".list-container");
@@ -217,3 +172,57 @@ function handleClose(e) {
 }
 
 window.addEventListener("click", handleClose);
+
+
+
+const buttonRegistration = document.querySelector(".button-registration");
+const buttonLogin = document.querySelector(".button-login");
+
+function toggbuttonleRegistration() {
+  mainForm.style.display = "block";
+  mainLogin.style.display = "none";
+  modalWindow.style.display = "none";
+}
+
+buttonRegistration.addEventListener("click", toggbuttonleRegistration);
+
+function toggbuttonleLogin() {
+  mainForm.style.display = "none";
+  mainLogin.style.display = "none";
+  modalWindow.style.display = "none";
+}
+
+buttonLogin.addEventListener("click", toggbuttonleLogin);
+
+function toggbuttonlogin() {
+  mainForm.style.display = "none";
+  mainLogin.style.display = "block";
+  // if(modalWindow.style.display = "block"){
+  //   mainForm.style.display = "none";
+  // mainLogin.style.display = "none";
+  // }
+}
+
+buttonLogin.addEventListener("click", toggbuttonlogin);
+
+function onSubmitLogin(e) {
+  e.preventDefault();
+    if (emailInputElem.value !==
+  document.querySelector(".form-input-login-email").value &&
+passwordInputElem.value !==
+  document.querySelector(".form-input-login-password").value) {
+    modalWindow.style.display = "none";
+    mainLogin.style.display = "none";
+    mainForm.style.display = "block";
+
+  } else {
+     modalWindow.style.display = "block";
+    mainLogin.style.display = "none";
+    mainForm.style.display = "none"
+  // }
+}
+}
+
+document
+  .querySelector(".login-form-login")
+  .addEventListener("submit", onSubmitLogin);
