@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="header">Шапка
+    <header class="header">
      <button class="button-registration">registration</button>
      <button class="button-login">login</button>
     </header>
     <div class="conteiner">
-      <nav class="navigation">Навигация</nav>
+      <nav class="navigation"></nav>
       <main class="content">
         <div class="modal">
           <h2>List of users</h2>
@@ -22,7 +22,7 @@
 
         <div class="modal-delete">
           <div class="modal-content">
-            <span>Are you sure? <button>Yes</button></span>
+            <span>Are you sure? <button class="delete-confirmation-btn">Yes</button></span>
           </div>
         </div>
 
@@ -65,7 +65,7 @@
               <span class="error-text error-text_password"></span>
             </div>
             <div class="form-control">
-              <label class="form-label" for="password1">Сonfirm password</label>
+              <label class="form-label" for="password1">confirm password</label>
               <input
                 class="form-input"
                 type="password"
@@ -93,7 +93,7 @@
                 placeholder="name@example.com"
                 required
               />
-              <span class="error-text error-text-login_email"></span>
+              <span class="error-text error-text-login-email"></span>
             </div>
             <div class="form-control">
               <label class="form-label" for="password2">Password</label>
@@ -104,15 +104,16 @@
                 id="password2"
                 required
               />
-              <span class="error-text error-text-login_password"></span>
+              <span class="error-text error-text-login-password"></span>
             </div>
             <input class="submit-button-login" type="submit" value="Send" />
           </form>
         </div>
       </main>
-      <aside class="sidebar">Боковая панель</aside>
+      <aside class="sidebar"></aside>
     </div>
-    <footer class="footer">Подвал</footer>
+    <footer class="footer"></footer>
     <script type="text/javascript" src="index.js"></script>
   </body>
 </html>
+
