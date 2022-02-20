@@ -102,8 +102,8 @@ const onSubmit = (event) => {
   )
     return false;
 
-  modalWindow.style.display = "block";
-  mainForm.style.display = "none";
+  modalWindow.style.display = "none";
+  mainForm.style.display = "block";
   mainLogin.style.display = "none";
 
   const formData = [...new FormData(formElem)];
@@ -244,7 +244,7 @@ function onSubmitLogin(e) {
     mainLogin.style.display = "none";
     mainForm.style.display = "none"
   } else {
-    document.querySelector(".error-text-login-password").textContent = "Incorrect email or password";
+    document.querySelector(".error-text-login-email").textContent = "Incorrect email or password";
   }
 }
 
