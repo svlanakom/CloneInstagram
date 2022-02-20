@@ -1,3 +1,5 @@
+
+
 const emailInputElem = document.querySelector("#email");
 const passwordInputElem = document.querySelector("#password");
 const passwordInputElemConfirm = document.querySelector("#password1");
@@ -13,7 +15,7 @@ const mainForm = document.querySelector(".main-form");
 const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
 const submitLogin = document.querySelector(".submit-button-login");
-
+let userToDelete;
 
 
 const isRequired = (value) => (value ? undefined : "Requared");
@@ -22,7 +24,7 @@ const isEmail = (value) =>
   value.includes("@") ? undefined : "Should be an email";
 
 const isEmailUsed = (value) => {
-  const users = JSON.parse(localStorage.getItem("users"));
+  const users = getUsersformLocalStorage();
   return !users || !Object.keys(users).includes(value)
     ? undefined
     : "This email used";
@@ -100,9 +102,9 @@ const onSubmit = (event) => {
   )
     return false;
 
-  modalWindow.style.display = "none";
+  modalWindow.style.display = "block";
   mainForm.style.display = "none";
-  mainLogin.style.display = "block";
+  mainLogin.style.display = "none";
 
   const formData = [...new FormData(formElem)];
   console.log(formData);
@@ -111,15 +113,9 @@ const onSubmit = (event) => {
     {}
   );
 
-  // console.log(newFormData);
   newFormData.isLogine = true;
 
-  // console.log(newFormData.isLogine);
-  // if(!isLogine){
-
-  // }
-
-  const users = JSON.parse(localStorage.getItem("users"));
+  const users = getUsersformLocalStorage();
   console.log(users);
   if (!users) {
     localStorage.setItem(
@@ -130,6 +126,7 @@ const onSubmit = (event) => {
     users[newFormData.email] = newFormData;
     localStorage.setItem("users", JSON.stringify(users));
   }
+  clearInput();
   updateTable();
 };
 
@@ -137,19 +134,17 @@ formElem.addEventListener("submit", onSubmit);
 
 function getUsersformLocalStorage() {
   return JSON.parse(localStorage.getItem("users"));
-  
 }
 
 function updateTable() {
   const userData = getUsersformLocalStorage();
-  console.log(getUsersformLocalStorage(isLogine));
   const userExist = Object.keys(userData);
   console.log(userExist);
   const list = document.querySelector(".list-container");
-
+  list.innerHTML = "";
   for (let item of userExist) {
     list.innerHTML += `<div>${item}</div>
-       <button class="button-delete">delete</button>
+       <button class="button-delete" id="${item}">delete</button>
        <button class="button-edit">edit</button>`;
   }
 
@@ -158,22 +153,59 @@ function updateTable() {
     btn.addEventListener("click", handleDelete);
   }
 }
+
+function clearInput() {
+  emailInputElem.value = "";
+  passwordInputElem.value = "";
+  passwordInputElemConfirm.value = "";
+  userNameEl.value = "";
+  emailErrorElem.textContent = "";
+  passwordErrorEllem.textContent = "";
+  passwordErrorConfirm.textContent = "";
+  nameErrorEl.textContent = "";
+  document.querySelector(".form-input-login-email").value = "";
+  document.querySelector(".form-input-login-password").value = "";
+  document.querySelector(".error-text-login-password").textContent = "";
+  document.querySelector(".error-text-login-email").textContent = "";
+}
+
 const modal = document.querySelector(".modal-delete");
 
 function handleDelete(event) {
-  event.preventDefault();
+  userToDelete = event.target.id;
   modal.style.display = "block";
 }
 
 function handleClose(e) {
   if (e.target == modal) {
+    userToDelete = undefined;
     modal.style.display = "none";
   }
 }
 
+function deleteUser() {
+  if (userToDelete) {
+    let users = getUsersformLocalStorage();
+    if (users && Object.keys(users).includes(userToDelete)) {
+      let newUsers = {};
+      for (const key in users) {
+        if (key !== userToDelete) {
+          newUsers[key] = users[key];
+        }
+      }
+      localStorage.setItem("users", JSON.stringify(newUsers));
+      updateTable();
+      userToDelete = undefined;
+      modal.style.display = "none";
+    }
+  }
+}
+
+const delButton = document.querySelector(".delete-confirmation-btn");
+
+delButton.addEventListener("click", deleteUser);
+
 window.addEventListener("click", handleClose);
-
-
 
 const buttonRegistration = document.querySelector(".button-registration");
 const buttonLogin = document.querySelector(".button-login");
@@ -182,47 +214,42 @@ function toggbuttonleRegistration() {
   mainForm.style.display = "block";
   mainLogin.style.display = "none";
   modalWindow.style.display = "none";
+  clearInput();
 }
 
 buttonRegistration.addEventListener("click", toggbuttonleRegistration);
 
 function toggbuttonleLogin() {
   mainForm.style.display = "none";
-  mainLogin.style.display = "none";
+  mainLogin.style.display = "block";
   modalWindow.style.display = "none";
+  clearInput();
 }
 
 buttonLogin.addEventListener("click", toggbuttonleLogin);
 
-function toggbuttonlogin() {
-  mainForm.style.display = "none";
-  mainLogin.style.display = "block";
-  // if(modalWindow.style.display = "block"){
-  //   mainForm.style.display = "none";
-  // mainLogin.style.display = "none";
-  // }
-}
-
-buttonLogin.addEventListener("click", toggbuttonlogin);
-
 function onSubmitLogin(e) {
   e.preventDefault();
-    if (emailInputElem.value !==
-  document.querySelector(".form-input-login-email").value &&
-passwordInputElem.value !==
-  document.querySelector(".form-input-login-password").value) {
-    modalWindow.style.display = "none";
-    mainLogin.style.display = "none";
-    mainForm.style.display = "block";
 
-  } else {
-     modalWindow.style.display = "block";
+  let loginEmail = document.querySelector(".form-input-login-email").value;
+  let loginPassword = document.querySelector(".form-input-login-password").value;
+
+  let users = getUsersformLocalStorage();
+  console.log(users[loginEmail]['password'])
+  console.log(loginPassword)
+  if (users && Object.keys(users).includes(loginEmail) && users[loginEmail]['password'] === loginPassword) {
+    updateTable();
+    clearInput();
+    modalWindow.style.display = "block";
     mainLogin.style.display = "none";
     mainForm.style.display = "none"
-  // }
-}
+  } else {
+    document.querySelector(".error-text-login-password").textContent = "Incorrect email or password";
+  }
 }
 
 document
   .querySelector(".login-form-login")
   .addEventListener("submit", onSubmitLogin);
+
+
