@@ -111,7 +111,7 @@ const onSubmit = (event) => {
     {}
   );
 
-  newFormData.isLogine = true;
+
 
   const users = getUsersformLocalStorage();
   console.log(users);
@@ -188,11 +188,12 @@ function deleteUser() {
       console.log(userToDelete)
       let newUsers = {};
       for (const key in users) {
+        console.log(key)
         if (key !== userToDelete) {
           
           newUsers[key] = users[key];
           console.log(newUsers[key])
-          
+          console.log(users[key])
         }
       }
       localStorage.setItem("users", JSON.stringify(newUsers));
@@ -239,9 +240,10 @@ function onSubmitLogin(e) {
 
   let users = getUsersformLocalStorage();
   
- 
+ console.log(users[loginEmail]['password'])
 
   if (users && Object.keys(users).includes(loginEmail) && users[loginEmail]['password'] === loginPassword) {
+    
     updateTable();
     clearInput();
     modalWindow.style.display = "block";
