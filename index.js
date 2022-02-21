@@ -10,7 +10,7 @@ const passwordErrorConfirm = document.querySelector(".error-text_password1");
 const nameErrorEl = document.querySelector(".error-text_name");
 const formElem = document.querySelector(".login-form");
 const submitEl = document.querySelector(".submit-button");
-const modalWindow = document.querySelector(".modal");
+const modalWindow = document.querySelector(".list-of-usrs");
 const mainForm = document.querySelector(".main-form");
 const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
@@ -102,8 +102,8 @@ const onSubmit = (event) => {
   )
     return false;
 
-  modalWindow.style.display = "block";
-  mainForm.style.display = "none";
+  modalWindow.style.display = "none";
+  mainForm.style.display = "block";
   mainLogin.style.display = "none";
 
   const formData = [...new FormData(formElem)];
@@ -187,13 +187,18 @@ function deleteUser() {
   if (userToDelete) {
     let users = getUsersformLocalStorage();
     if (users && Object.keys(users).includes(userToDelete)) {
+      console.log(userToDelete)
       let newUsers = {};
       for (const key in users) {
         if (key !== userToDelete) {
+          
           newUsers[key] = users[key];
+          console.log(newUsers[key])
+          
         }
       }
       localStorage.setItem("users", JSON.stringify(newUsers));
+      console.log(newUsers)
       updateTable();
       userToDelete = undefined;
       modal.style.display = "none";
@@ -235,8 +240,9 @@ function onSubmitLogin(e) {
   let loginPassword = document.querySelector(".form-input-login-password").value;
 
   let users = getUsersformLocalStorage();
-  console.log(users[loginEmail]['password'])
-  console.log(loginPassword)
+  
+ 
+
   if (users && Object.keys(users).includes(loginEmail) && users[loginEmail]['password'] === loginPassword) {
     updateTable();
     clearInput();
