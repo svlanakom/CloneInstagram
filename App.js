@@ -14,6 +14,7 @@ const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
 const submitLogin = document.querySelector(".submit-button-login");
 let userToDelete;
+let userToEdit;
 
 
 const isRequired = (value) => (value ? undefined : "Requared");
@@ -143,7 +144,7 @@ function updateTable() {
   for (let item of userExist) {
     list.innerHTML += `<div>${item}</div>
        <button class="button-delete" id="${item}">delete</button>
-       <button class="button-edit">edit</button>`;
+       <button class="button-edit" id="${item}">edit</button>`;
   }
 
   const deleteUsersBtns = document.querySelectorAll(".button-delete");
@@ -166,6 +167,28 @@ function clearInput() {
   document.querySelector(".error-text-login-password").textContent = "";
   document.querySelector(".error-text-login-email").textContent = "";
 }
+
+
+
+  const modalEdite = document.querySelector(".modal-edit") 
+
+function handleEdit (event){
+  userToEdit = event.target.id;
+  modalEdite.style.display = "block";
+}
+
+function handleClose(e) {
+  if (e.target == modalEdite) {
+    userToEdit = undefined;
+    modalEdite.style.display = "none";
+  }
+
+}
+  const editeUsers = document.querySelectorAll(".button-edit")
+  for (const btn of editeUsers ) {
+    btn.addEventListener("click", handleEdit);
+  }
+
 
 const modal = document.querySelector(".modal-delete");
 
