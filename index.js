@@ -1,3 +1,5 @@
+import  Datalayer  from "./Datalayer.js";
+
 const emailInputElem = document.querySelector("#email");
 const passwordInputElem = document.querySelector("#password");
 const passwordInputElemConfirm = document.querySelector("#password1");
@@ -13,9 +15,13 @@ const mainForm = document.querySelector(".main-form");
 const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
 const submitLogin = document.querySelector(".submit-button-login");
+
+const Users = new Datalayer("users");
+
+console.log(Users)
+
 let userToDelete;
 let userToEdit;
-
 
 const isRequired = (value) => (value ? undefined : "Requared");
 
@@ -23,8 +29,7 @@ const isEmail = (value) =>
   value.includes("@") ? undefined : "Should be an email";
 
 const isEmailUsed = (value) => {
-  const users = getUsersformLocalStorage();
-  return !users || !Object.keys(users).includes(value)
+  return Object.keys(Users.get(value)).length === 0
     ? undefined
     : "This email used";
 };
@@ -112,39 +117,39 @@ const onSubmit = (event) => {
     {}
   );
 
+  Users.add(newFormData["email"], newFormData);
 
-
-  const users = getUsersformLocalStorage();
-  console.log(users);
-  if (!users) {
-    localStorage.setItem(
-      "users",
-      JSON.stringify({ [newFormData.email]: newFormData })
-    );
-  } else {
-    users[newFormData.email] = newFormData;
-    localStorage.setItem("users", JSON.stringify(users));
-  }
+  // const users = getUsersformLocalStorage();
+  // console.log(users);
+  // if (!users) {
+  //   localStorage.setItem(
+  //     "users",
+  //     JSON.stringify({ [newFormData.email]: newFormData })
+  //   );
+  // } else {
+  //   users[newFormData.email] = newFormData;
+  //   localStorage.setItem("users", JSON.stringify(users));
+  // }
   clearInput();
   updateTable();
 };
 
 formElem.addEventListener("submit", onSubmit);
 
-function getUsersformLocalStorage() {
-  return JSON.parse(localStorage.getItem("users"));
-}
+// function getUsersformLocalStorage() {
+//   return JSON.parse(localStorage.getItem("users"));
+// }
 
 function updateTable() {
-  const userData = getUsersformLocalStorage();
-  const userExist = Object.keys(userData);
-  console.log(userExist);
+  // const userData = getUsersformLocalStorage();
+  // const userExist = Object.keys(userData);
+  // console.log(userExist);
   const list = document.querySelector(".list-container");
   list.innerHTML = "";
-  for (let item of userExist) {
-    list.innerHTML += `<div>${item}</div>
-       <button class="button-delete" id="${item}">delete</button>
-       <button class="button-edit" id="${item}">edit</button>`;
+  for (const email in Users.getAll()) {
+    list.innerHTML += `<div>${email}</div>
+<button class="button-delete" id="${email}">delete</button>
+<button class="button-edit" id="edit${email}">edit</button>`;
   }
 
   const deleteUsersBtns = document.querySelectorAll(".button-delete");
@@ -168,11 +173,9 @@ function clearInput() {
   document.querySelector(".error-text-login-email").textContent = "";
 }
 
+const modalEdite = document.querySelector(".modal-edit")
 
-
-  const modalEdite = document.querySelector(".modal-edit") 
-
-function handleEdit (event){
+function handleEdit(event) {
   userToEdit = event.target.id;
   modalEdite.style.display = "block";
 }
@@ -184,10 +187,10 @@ function handleClose(e) {
   }
 
 }
-  const editeUsers = document.querySelectorAll(".button-edit")
-  for (const btn of editeUsers ) {
-    btn.addEventListener("click", handleEdit);
-  }
+const editeUsers = document.querySelectorAll(".button-edit")
+for (const btn of editeUsers) {
+  btn.addEventListener("click", handleEdit);
+}
 
 
 const modal = document.querySelector(".modal-delete");
@@ -197,34 +200,30 @@ function handleDelete(event) {
   modal.style.display = "block";
 }
 
-function handleClose(e) {
-  if (e.target == modal) {
-    userToDelete = undefined;
-    modal.style.display = "none";
-  }
-}
+
 
 function deleteUser() {
   if (userToDelete) {
-    let users = getUsersformLocalStorage();
-    if (users && Object.keys(users).includes(userToDelete)) {
-      console.log(userToDelete)
-      let newUsers = {};
-      for (const key in users) {
-        console.log(key)
-        if (key !== userToDelete) {
-          
-          newUsers[key] = users[key];
-          console.log(newUsers[key])
-          console.log(users[key])
-        }
-      }
-      localStorage.setItem("users", JSON.stringify(newUsers));
-      console.log(newUsers)
+    // let users = getUsersformLocalStorage();
+    // if (users && Object.keys(users).includes(userToDelete)) {
+    //   console.log(userToDelete)
+    //   let newUsers = {};
+    //   for (const key in users) {
+    //     console.log(key)
+    //     if (key !== userToDelete) {
+
+    //       newUsers[key] = users[key];
+    //       console.log(newUsers[key])
+    //       console.log(users[key])
+    //     }
+    //   }
+    //   localStorage.setItem("users", JSON.stringify(newUsers));
+    //   console.log(newUsers)
+      Users.delete(userToDelete);
       updateTable();
       userToDelete = undefined;
       modal.style.display = "none";
-    }
+    // }
   }
 }
 
@@ -261,25 +260,17 @@ function onSubmitLogin(e) {
   let loginEmail = document.querySelector(".form-input-login-email").value;
   let loginPassword = document.querySelector(".form-input-login-password").value;
 
-  let users = getUsersformLocalStorage();
-  
- 
+  let user = Users.get(loginEmail);
 
-  if (users && Object.keys(users).includes(loginEmail) && users[loginEmail]['password'] === loginPassword) {
-    
+  if (user && user["password"] === loginPassword) {
     updateTable();
     clearInput();
     modalWindow.style.display = "block";
     mainLogin.style.display = "none";
     mainForm.style.display = "none"
   } else {
-    console.log("no")
     document.querySelector(".error-text-login-password").textContent = "Incorrect email or password";
   }
 }
 
-document
-  .querySelector(".login-form-login")
-  .addEventListener("submit", onSubmitLogin);
-
-
+document.querySelector(".login-form-login").addEventListener("submit", onSubmitLogin);
