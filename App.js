@@ -240,7 +240,7 @@ function onSubmitLogin(e) {
 
   let users = getUsersformLocalStorage();
   
- console.log(users[loginEmail]['password'])
+ 
 
   if (users && Object.keys(users).includes(loginEmail) && users[loginEmail]['password'] === loginPassword) {
     
@@ -250,6 +250,7 @@ function onSubmitLogin(e) {
     mainLogin.style.display = "none";
     mainForm.style.display = "none"
   } else {
+    console.log("no")
     document.querySelector(".error-text-login-password").textContent = "Incorrect email or password";
   }
 }
