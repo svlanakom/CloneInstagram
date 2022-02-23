@@ -119,6 +119,8 @@ const onSubmit = (event) => {
 
   Users.add(newFormData["email"], newFormData);
 
+  console.log(newFormData["email"])
+  console.log(newFormData)
   // const users = getUsersformLocalStorage();
   // console.log(users);
   // if (!users) {
