@@ -26,14 +26,43 @@
             <span>Are you sure? <button class="delete-confirmation-btn">Yes</button></span>
           </div>
         </div>
+
         <div class="modal-edit" style="display: none" >
           <div class="modal-content-edit">
-            <h1 class="total-edit">редактировать</h1>
+            <h1 class="total-edit">Редактировать</h1>
+            <div class="form-control">
+              <label class="form-label" for="edit-sex-male">Male</label>
+              <input type="radio" name="sex" id="edit-sex-male">
+              <label class="form-label" for="edit-sex-famale">Famale</label>
+              <input type="radio" name="sex" id="edit-sex-famale">
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="edit-hobby-sport">Sport</label>
+              <input type="checkbox" name="hobby-sport" id="edit-hobby-sport">
+              <label class="form-label" for="edit-hobby-films">Films</label>
+              <input type="checkbox" name="hobby-films" id="edit-hobby-films">
+              <label class="form-label" for="edit-hobby-drowing">Drowing</label>
+              <input type="checkbox" name="hobby-drowing" id="edit-hobby-drowing">
+            </div>
+            
+            <div class="form-control">
+              <label class="form-label" for="edit-country">Country</label>
+              <select name="country" id="edit-country">
+                <option value="Ukraine">Ukraine</option>
+                <option value="Poland">Poland</option>
+              </select>
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="edit-birthdate">Birthdate</label>
+              <input type="date" name="birthdate" id="edit-birthdate">
+            </div>
+
+            <button class="edit-confirmation-btn">Save changes</button>
+
           </div>
         </div>
-
-
-
 
         <div class="main-form" style="display: block">
           <form class="login-form" method="post">
