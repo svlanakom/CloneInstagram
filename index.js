@@ -1,4 +1,4 @@
-import  Datalayer  from "./Datalayer.js";
+import Datalayer from "./Datalayer.js";
 
 const emailInputElem = document.querySelector("#email");
 const passwordInputElem = document.querySelector("#password");
@@ -117,6 +117,9 @@ const onSubmit = (event) => {
     {}
   );
 
+  newFormData["birthdate"] = new Date("1-1-1990");
+  newFormData["sex"] = "Male";
+
   Users.add(newFormData["email"], newFormData);
 
   console.log(newFormData["email"])
@@ -150,13 +153,18 @@ function updateTable() {
   list.innerHTML = "";
   for (const email in Users.getAll()) {
     list.innerHTML += `<div>${email}</div>
-<button class="button-delete" id="${email}">delete</button>
-<button class="button-edit" id="edit${email}">edit</button>`;
+<button class="button-delete" id="delete-${email}">delete</button>
+<button class="button-edit" id="edit-${email}">edit</button>`;
   }
 
   const deleteUsersBtns = document.querySelectorAll(".button-delete");
   for (const btn of deleteUsersBtns) {
     btn.addEventListener("click", handleDelete);
+  }
+
+  const editeUsers = document.querySelectorAll(".button-edit")
+  for (const btn of editeUsers) {
+    btn.addEventListener("click", handleEdit);
   }
 }
 
@@ -175,34 +183,54 @@ function clearInput() {
   document.querySelector(".error-text-login-email").textContent = "";
 }
 
+const modal = document.querySelector(".modal-delete");
 const modalEdite = document.querySelector(".modal-edit")
 
-function handleEdit(event) {
-  userToEdit = event.target.id;
-  modalEdite.style.display = "block";
-}
-
-function handleClose(e) {
-  if (e.target == modalEdite) {
-    userToEdit = undefined;
-    modalEdite.style.display = "none";
-  }
-
-}
-const editeUsers = document.querySelectorAll(".button-edit")
-for (const btn of editeUsers) {
-  btn.addEventListener("click", handleEdit);
-}
-
-
-const modal = document.querySelector(".modal-delete");
-
 function handleDelete(event) {
-  userToDelete = event.target.id;
+  userToDelete = event.target.id.split("-")[1];
   modal.style.display = "block";
 }
 
+const delButton = document.querySelector(".delete-confirmation-btn");
+delButton.addEventListener("click", deleteUser);
 
+function handleEdit(event) {
+  userToEdit = event.target.id.split("-")[1];
+  let user = Users.get(userToEdit);
+  if (Object.keys(user).length === 0)
+    return;
+  
+  if (user["sex"]) {
+    if (user["sex"] === "Male") {
+      document.querySelector("#edit-sex-male").checked = true;
+      document.querySelector("#edit-sex-famale").checked = false;
+    } else {
+      document.querySelector("#edit-sex-male").checked = false;
+      document.querySelector("#edit-sex-famale").checked = true;
+    }
+  }
+
+  if (user["birthdate"]) {
+    document.querySelector("#edit-birthdate").value = new Date(user["birthdate"]).toISOString().substring(0,10);
+  }
+
+  modalEdite.style.display = "block";
+  modalWindow.style.display = "none";
+}
+
+function handleClose(e) {
+  if (e.target == modal) {
+    userToDelete = undefined;
+    modal.style.display = "none";
+  }
+  if (e.target == modalEdite) {
+    userToEdit = undefined;
+    modalEdite.style.display = "none";
+    modalWindow.style.display = "block";
+  }
+}
+
+window.addEventListener("click", handleClose);
 
 function deleteUser() {
   if (userToDelete) {
@@ -221,19 +249,13 @@ function deleteUser() {
     //   }
     //   localStorage.setItem("users", JSON.stringify(newUsers));
     //   console.log(newUsers)
-      Users.delete(userToDelete);
-      updateTable();
-      userToDelete = undefined;
-      modal.style.display = "none";
+    Users.delete(userToDelete);
+    updateTable();
+    userToDelete = undefined;
+    modal.style.display = "none";
     // }
   }
 }
-
-const delButton = document.querySelector(".delete-confirmation-btn");
-
-delButton.addEventListener("click", deleteUser);
-
-window.addEventListener("click", handleClose);
 
 const buttonRegistration = document.querySelector(".button-registration");
 const buttonLogin = document.querySelector(".button-login");
@@ -276,3 +298,4 @@ function onSubmitLogin(e) {
 }
 
 document.querySelector(".login-form-login").addEventListener("submit", onSubmitLogin);
+

@@ -1,18 +1,18 @@
 export default class Datalayer {
     constructor(tableName /* users */) {
         this.tableName = tableName;
-        console.log(tableName)
+        // console.log(tableName)
     }
     getAll() {
         return JSON.parse(localStorage.getItem(this.tableName)) || {};
     }
     add(key, obj) {
         let data = this.getAll(this.tableName);
-        console.log(data)
+        // console.log(data)
         data[key] = obj;
-        console.log(obj)
+        // console.log(obj)
         localStorage.setItem(this.tableName, JSON.stringify(data));
-        console.log( JSON.stringify(data))
+        // console.log( JSON.stringify(data))
     }
     
     
