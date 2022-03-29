@@ -189,3 +189,11 @@ body {
   z-index: 9;
   margin: 10px auto;
 }
+
+.form-control-male{
+  display:flex;
+  
+}
+.form-control-hobby{
+  display:flex;
+}
