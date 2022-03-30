@@ -116,25 +116,14 @@ const onSubmit = (event) => {
     (acc, [field, value]) => ({ ...acc, [field]: value }),
     {}
   );
-
-  newFormData["birthdate"] = new Date("1-1-1990");
-  newFormData["sex"] = "Male";
-
-  Users.add(newFormData["email"], newFormData);
-
-  console.log(newFormData["email"])
-  console.log(newFormData)
-  // const users = getUsersformLocalStorage();
-  // console.log(users);
-  // if (!users) {
-  //   localStorage.setItem(
-  //     "users",
-  //     JSON.stringify({ [newFormData.email]: newFormData })
-  //   );
-  // } else {
-  //   users[newFormData.email] = newFormData;
-  //   localStorage.setItem("users", JSON.stringify(users));
-  // }
+  // newFormData["sex"] = "Male";
+  // newFormData["hobby"] = [];
+  // newFormData["country"] = "Poland";
+  // newFormData["birthdate"] = new Date ("1 -1 - 1990");
+  Users.add(newFormData["email"]);
+  console.log(newFormData);
+  
+  
   clearInput();
   updateTable();
 };
@@ -146,10 +135,7 @@ formElem.addEventListener("submit", onSubmit);
 // }
 
 function updateTable() {
-  // const userData = getUsersformLocalStorage();
-  // const userExist = Object.keys(userData);
-  // console.log(userExist);
-  const list = document.querySelector(".list-container");
+   const list = document.querySelector(".list-container");
   list.innerHTML = "";
   for (const email in Users.getAll()) {
     list.innerHTML += `<div>${email}</div>
@@ -194,6 +180,9 @@ function handleDelete(event) {
 const delButton = document.querySelector(".delete-confirmation-btn");
 delButton.addEventListener("click", deleteUser);
 
+const editButton = document.querySelector(".edit-confirmation-btn");
+editButton.addEventListener("click", editUser);
+
 function handleEdit(event) {
   userToEdit = event.target.id.split("-")[1];
   let user = Users.get(userToEdit);
@@ -204,11 +193,24 @@ function handleEdit(event) {
     if (user["sex"] === "Male") {
       document.querySelector("#edit-sex-male").checked = true;
       document.querySelector("#edit-sex-famale").checked = false;
-    } else {
+    } else if (user["sex"] === "Famale") {
       document.querySelector("#edit-sex-male").checked = false;
       document.querySelector("#edit-sex-famale").checked = true;
     }
   }
+  if (user["hobby"]) {
+    if (user["hobby"].includes("sport")) document.querySelector("#edit-hobby-sport").checked = true;
+    else document.querySelector("#edit-hobby-sport").checked = false;
+    if (user["hobby"].includes("films")) document.querySelector("#edit-hobby-films").checked = false;
+    else document.querySelector("#edit-hobby-films").checked = false;
+    if (user["hobby"].includes("drowing")) document.querySelector("#edit-hobby-drowing").checked = true;
+    else document.querySelector("#edit-hobby-drowing").checked = false; 
+  }
+
+ if (user["country"]) {
+   document.querySelector("#edit-country").value = user["country"];
+ }
+
 
   if (user["birthdate"]) {
     document.querySelector("#edit-birthdate").value = new Date(user["birthdate"]).toISOString().substring(0,10);
@@ -234,26 +236,39 @@ window.addEventListener("click", handleClose);
 
 function deleteUser() {
   if (userToDelete) {
-    // let users = getUsersformLocalStorage();
-    // if (users && Object.keys(users).includes(userToDelete)) {
-    //   console.log(userToDelete)
-    //   let newUsers = {};
-    //   for (const key in users) {
-    //     console.log(key)
-    //     if (key !== userToDelete) {
-
-    //       newUsers[key] = users[key];
-    //       console.log(newUsers[key])
-    //       console.log(users[key])
-    //     }
-    //   }
-    //   localStorage.setItem("users", JSON.stringify(newUsers));
-    //   console.log(newUsers)
+    
     Users.delete(userToDelete);
     updateTable();
     userToDelete = undefined;
     modal.style.display = "none";
-    // }
+    
+  }
+}
+
+function editUser() {
+  if (userToEdit) {
+    let user = Users.get(userToEdit);
+    if (Object.keys(user).length === 0) return;
+    if (document.querySelector("#edit-sex-male").checked) user["sex"] = "Male";
+    else if (document.querySelector("#edit-sex-famale").checked) user["sex"] = "Famale";
+
+    let hobby = [];
+    if (document.querySelector("#edit-hobby-sport").checked)
+    hobby.push("sport");
+    if (document.querySelector("#edit-hobby-films").checked)
+    hobby.push("films");
+    if (document.querySelector("#edit-hobby-drowing").checked)
+    hobby.push("drowing");
+    if(hobby.length !== 0) user["hobby"] = hobby;
+
+    user["country"] = document.querySelector("#edit-country").value;
+
+    let bd = document.querySelector("#edit-birthdate").value;
+    if (bd === "") console.log("empty date");
+    else user["birthdate"] = new Date(bd);
+
+    Users.add(userToEdit, user);
+
   }
 }
 
