@@ -2,7 +2,6 @@
   box-sizing: border-box;
 }
 body {
-  height: 100%;
   margin: 0;
 }
 .conteiner {
@@ -15,7 +14,6 @@ body {
 .navigation {
   flex: 0 0 20vw;
   background: beige;
-  
 }
 .sidebar {
   flex: 0 0 20vw;
@@ -30,44 +28,35 @@ body {
   background: yellowgreen;
   height: 10vh;
 }
-.content{
+.content {
   background-color: blanchedalmond;
   height: 80vh;
   display: block;
- 
-  
-  
-  
 }
 
-.login-form{
+.login-form {
   width: 300px;
   background-color: rgb(231, 236, 236);
   padding: 20px;
   margin: 100px auto;
- 
-  
 }
-.form-title{
+.form-title {
   text-align: center;
   text-transform: uppercase;
 }
 
-.form-label{
+.form-label {
   display: block;
   margin-bottom: 4px;
-  
-
 }
 
-.form-input{
+.form-input {
   width: 100%;
   height: 32px;
   border-radius: 4px;
   padding: 4px;
   border: 1px solid grey;
-  outline: none
-
+  outline: none;
 }
 
 .form-input:invalid {
@@ -80,29 +69,26 @@ body {
   margin-top: 16px;
   background-color: coral;
   color: white;
-
 }
 
-
-.error-text{
-  color: red
+.error-text {
+  color: red;
 }
 
-.list-of-usrs{
+.list-of-usrs {
   text-align: center;
   display: none;
   padding-top: 200px;
-  
 }
-.list-group{
+.list-group {
   display: block;
 }
 
-.list-users{
+.list-users {
   text-align: center;
   padding-top: 200px;
 }
-.submit-button-login{
+.submit-button-login {
   width: 100%;
   height: 32px;
   border-radius: 4px;
@@ -116,7 +102,6 @@ body {
   
   
    
-
 }
 .list-item{
   width: 100px;
@@ -125,75 +110,42 @@ body {
   
 } */
 
-.modal-delete{
+.modal-delete {
   display: none;
-  position:fixed;
+  position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   width: 100%;
-  overflow:auto;
-  
-  
-
+  overflow: auto;
 }
 
-.modal-content{
+.modal-content {
   background-color: rgb(224, 210, 210);
   padding: 20px;
   width: 15%;
   z-index: 9;
   margin: 300px auto;
-  
-  
 }
 
-.login-form-login{
+.login-form-login {
   width: 300px;
   background-color: rgb(231, 236, 236);
   padding: 20px;
   margin: 100px auto;
 }
-.form-input-login-email, .form-input-login-password{
+.form-input-login-email,
+.form-input-login-password {
   width: 100%;
   height: 32px;
-   outline: none
+  outline: none;
 }
-.error-text-login_email{
-  color: red
-}
-
-.error-text-login-password{
-  color: red
+.error-text-login_email {
+  color: red;
 }
 
-.modal-edite{
-  display: none;
-  position:fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  width: 100%;
-  overflow:auto;
-
-}
-.modal-content-edit{
-  background-color: rgb(224, 210, 210);
-  padding: 20px;
-  width: 65%;
-  height: 60vh;
-  z-index: 9;
-  margin: 10px auto;
-}
-
-.form-control-male{
-  display:flex;
-  
-}
-.form-control-hobby{
-  display:flex;
+.error-text-login-password {
+  color: red;
 }
