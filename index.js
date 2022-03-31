@@ -11,7 +11,7 @@ const passwordErrorConfirm = document.querySelector(".error-text_password1");
 const nameErrorEl = document.querySelector(".error-text_name");
 const formElem = document.querySelector(".login-form");
 const submitEl = document.querySelector(".submit-button");
-const modalWindow = document.querySelector(".list-of-users");
+const modalWindow = document.querySelector(".list-of-usrs");
 const mainForm = document.querySelector(".main-form");
 const errorTextt = document.querySelector(".error-text");
 const mainLogin = document.querySelector(".main-form-login");
@@ -25,12 +25,12 @@ const registrationForm = new UserRegistrationForm(
     username: userNameEl,
     email: emailInputElem,
     password: passwordInputElem,
-    passwordConfirm: passwordInputElemConfirm,
+    passwordConfirm: passwordInputElemConfirm
   },
   {
     email: emailErrorElem,
     password: passwordErrorEllem,
-    passwordConfirm: passwordErrorConfirm,
+    passwordConfirm: passwordErrorConfirm
   },
   Users
 );
@@ -208,14 +208,11 @@ function handleEdit(event) {
   }
 
   if (user["hobby"]) {
-    if (user["hobby"].includes("sport"))
-      document.querySelector("#edit-hobby-sport").checked = true;
+    if (user["hobby"].includes("sport")) document.querySelector("#edit-hobby-sport").checked = true;
     else document.querySelector("#edit-hobby-sport").checked = false;
-    if (user["hobby"].includes("films"))
-      document.querySelector("#edit-hobby-films").checked = true;
+    if (user["hobby"].includes("films")) document.querySelector("#edit-hobby-films").checked = true;
     else document.querySelector("#edit-hobby-films").checked = false;
-    if (user["hobby"].includes("drowing"))
-      document.querySelector("#edit-hobby-drowing").checked = true;
+    if (user["hobby"].includes("drowing")) document.querySelector("#edit-hobby-drowing").checked = true;
     else document.querySelector("#edit-hobby-drowing").checked = false;
   }
 
@@ -264,8 +261,7 @@ function editUser() {
     if (Object.keys(user).length === 0) return;
 
     if (document.querySelector("#edit-sex-male").checked) user["sex"] = "Male";
-    else if (document.querySelector("#edit-sex-famale").checked)
-      user["sex"] = "Famale";
+    else if (document.querySelector("#edit-sex-famale").checked) user["sex"] = "Famale";
 
     let hobby = [];
     if (document.querySelector("#edit-hobby-sport").checked)
