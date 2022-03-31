@@ -66,6 +66,7 @@
               <div class="form-control">
                 <label class="form-label" for="edit-country">Country</label>
                 <select name="country" id="edit-country">
+                  <option value=""></option>
                   <option value="Ukraine">Ukraine</option>
                   <option value="Poland">Poland</option>
                 </select>
@@ -115,6 +116,7 @@
                   name="password"
                   id="password"
                   required
+                  pattern="[0-9]+"
                 />
                 <span class="error-text error-text_password"></span>
               </div>
@@ -128,6 +130,7 @@
                   name="password1"
                   id="password1"
                   required
+                  pattern="[0-9]+"
                 />
                 <span class="error-text error-text_password1"></span>
               </div>
