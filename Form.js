@@ -7,9 +7,12 @@ export default class Form {
 
   clearInput() {
     for (const name in this.fields) {
+      console.log(name)
       this.fields[name].value = "";
+      
     }
     for (const name in this.errorElements) {
+      console.log(name)
       this.errorElements[name].textContent = "";
     }
   }
