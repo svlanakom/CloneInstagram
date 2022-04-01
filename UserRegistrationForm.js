@@ -4,21 +4,32 @@ export default class UserRegistrationForm extends Form {
     constructor(elem, fields, errorElements, users) {
         super(elem, fields, errorElements);
         this.elem.addEventListener("submit", (event) => this.submit(event));
-        this.fields.email.addEventListener("input", (event) => this.isEmailUsed(event));
-        this.fields.password.addEventListener("input", (event) => this.digitsOnlyPassword(event));
-        this.fields.passwordConfirm.addEventListener("input", (event) => this.passwordMatching(event));
+        this.fields.email.addEventListener("input", () => this.isEmailUsed());
+        this.fields.password.addEventListener("input", () => this.digitsOnlyPassword());
+        this.fields.password.addEventListener("input", () => this.isPasswordEmpty());
+        this.fields.passwordConfirm.addEventListener("input", () => this.passwordMatching());
+       
         this.users = users;
     }
 
-    digitsOnlyPassword(event) {
+    digitsOnlyPassword() {
         this.errorElements.password.textContent = "";
         if (/^\d+$/.test(this.fields.password.value))
             return true;
         this.errorElements.password.textContent = "Password must be digits only!";
         return false;
     }
+    isPasswordEmpty(){
+        this.errorElements.password.textContent = "";
+        if (this.fields.password.value.length > 0)
+            return true;
+        this.errorElements.password.textContent = "Fields is empty! Enter is something!";
+        return false;
 
-    passwordMatching(event) {
+    }
+
+
+    passwordMatching() {
         this.errorElements.passwordConfirm.textContent = "";
         if (this.fields.password.value === this.fields.passwordConfirm.value)
             return true;
@@ -26,13 +37,15 @@ export default class UserRegistrationForm extends Form {
         return false;
     }
 
-    isEmailUsed(event) {
+    isEmailUsed() {
         this.errorElements.email.textContent = "";
         if (Object.keys(this.users.get(this.fields.email.value)).length === 0)
             return true;
         this.errorElements.email.textContent = "This email used!";
         return false;
     };
+
+    
 
     submit(event) {
         event.preventDefault();
