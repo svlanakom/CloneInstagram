@@ -1,5 +1,6 @@
 import Datalayer from "./Datalayer.js";
 import UserRegistrationForm from "./UserRegistrationForm.js";
+import UserLoginForm from "./UserLoginForm.js";
 
 const emailInputElem = document.querySelector("#email");
 const passwordInputElem = document.querySelector("#password");
@@ -25,123 +26,30 @@ const registrationForm = new UserRegistrationForm(
     username: userNameEl,
     email: emailInputElem,
     password: passwordInputElem,
-    passwordConfirm: passwordInputElemConfirm
+    passwordConfirm: passwordInputElemConfirm,
   },
   {
+    username: nameErrorEl,
     email: emailErrorElem,
     password: passwordErrorEllem,
-    passwordConfirm: passwordErrorConfirm
+    passwordConfirm: passwordErrorConfirm,
   },
   Users
 );
 
+const loginForm = new UserLoginForm(
+  document.querySelector(".login-form-login"),
+  {
+    email: document.querySelector(".form-input-login-email"),
+    password: document.querySelector(".form-input-login-password"),
+  },
+  {
+    emailPassword: document.querySelector(".error-text-login-password"),
+  },
+  Users
+);
 let userToDelete;
 let userToEdit;
-
-// const isRequired = (value) => (value ? undefined : "Requared");
-
-// const isEmail = (value) =>
-//   value.includes("@") ? undefined : "Should be an email";
-
-// const isEmailUsed = (value) => {
-//   return Object.keys(Users.get(value)).length === 0
-//     ? undefined
-//     : "This email used";
-// };
-
-// const isMatch = (value) =>
-//   passwordInputElem.value === passwordInputElemConfirm.value
-//     ? undefined
-//     : "Passwords do not match";
-
-// const isNumberPassword = (value) =>
-//   /^\d+$/.test(value) ? undefined : "Should be a number";
-
-// const chekEmail = (value) => {
-//   const errorText = [isEmailUsed]
-//     .map((validator) => validator(value))
-//     .filter((errorText) => errorText)
-//     .join(", ");
-//   emailErrorElem.textContent = errorText;
-//   return !errorText;
-// };
-
-// const chekPassword = (value) => {
-//   const errorText = []
-//     .map((validator) => validator(value))
-//     .filter((errorText) => errorText)
-//     .join(", ");
-//   passwordErrorEllem.textContent = errorText;
-//   return !errorText;
-// };
-
-// const checkPasswordConfirm = (value) => {
-//   const errorText = [isMatch]
-//     .map((validator) => validator(value))
-//     .filter((errorText) => errorText)
-//     .join(", ");
-
-//   passwordErrorConfirm.textContent = errorText;
-//   return !errorText;
-// };
-
-// const onNameChange = (event) => {
-//   const errorText = []
-//     .map((validator) => validator(event.target.value))
-//     .filter((errorText) => errorText)
-//     .join(", ");
-//   nameErrorEl.textContent = errorText;
-//   return !errorText;
-// };
-
-// const onEmailChange = (event) => {
-//   chekEmail(event.target.value);
-// };
-
-// const onPasswordChange = (event) => {
-//   chekPassword(event.target.value);
-// };
-
-// const onPasswordSubmitChange = (event) => {
-//   checkPasswordConfirm(event.target.value);
-// };
-
-// userNameEl.addEventListener("input", onNameChange);
-// emailInputElem.addEventListener("input", onEmailChange);
-// passwordInputElem.addEventListener("input", onPasswordChange);
-// passwordInputElemConfirm.addEventListener("input", onPasswordSubmitChange);
-
-// const onSubmit = (event) => {
-//   event.preventDefault();
-
-//   if (
-//     !chekEmail(emailInputElem.value) ||
-//     !checkPasswordConfirm(passwordInputElemConfirm.value)
-//   )
-//     return false;
-
-//   modalWindow.style.display = "none";
-//   mainForm.style.display = "block";
-//   mainLogin.style.display = "none";
-
-//   const formData = [...new FormData(formElem)];
-
-//   const newFormData = formData.reduce(
-//     (acc, [field, value]) => ({ ...acc, [field]: value }),
-//     {}
-//   );
-
-//   Users.add(newFormData["email"], newFormData);
-
-//   clearInput();
-//   updateTable();
-// };
-
-// formElem.addEventListener("submit", onSubmit);
-
-// function getUsersformLocalStorage() {
-//   return JSON.parse(localStorage.getItem("users"));
-// }
 
 function updateTable() {
   const list = document.querySelector(".list-container");
@@ -161,21 +69,6 @@ function updateTable() {
   for (const btn of editeUsers) {
     btn.addEventListener("click", handleEdit);
   }
-}
-
-function clearInput() {
-  emailInputElem.value = "";
-  passwordInputElem.value = "";
-  passwordInputElemConfirm.value = "";
-  userNameEl.value = "";
-  emailErrorElem.textContent = "";
-  // passwordErrorEllem.textContent = "";
-  passwordErrorConfirm.textContent = "";
-  // nameErrorEl.textContent = "";
-  document.querySelector(".form-input-login-email").value = "";
-  document.querySelector(".form-input-login-password").value = "";
-  document.querySelector(".error-text-login-password").textContent = "";
-  document.querySelector(".error-text-login-email").textContent = "";
 }
 
 const modal = document.querySelector(".modal-delete");
@@ -208,11 +101,14 @@ function handleEdit(event) {
   }
 
   if (user["hobby"]) {
-    if (user["hobby"].includes("sport")) document.querySelector("#edit-hobby-sport").checked = true;
+    if (user["hobby"].includes("sport"))
+      document.querySelector("#edit-hobby-sport").checked = true;
     else document.querySelector("#edit-hobby-sport").checked = false;
-    if (user["hobby"].includes("films")) document.querySelector("#edit-hobby-films").checked = true;
+    if (user["hobby"].includes("films"))
+      document.querySelector("#edit-hobby-films").checked = true;
     else document.querySelector("#edit-hobby-films").checked = false;
-    if (user["hobby"].includes("drowing")) document.querySelector("#edit-hobby-drowing").checked = true;
+    if (user["hobby"].includes("drowing"))
+      document.querySelector("#edit-hobby-drowing").checked = true;
     else document.querySelector("#edit-hobby-drowing").checked = false;
   }
 
@@ -261,7 +157,8 @@ function editUser() {
     if (Object.keys(user).length === 0) return;
 
     if (document.querySelector("#edit-sex-male").checked) user["sex"] = "Male";
-    else if (document.querySelector("#edit-sex-famale").checked) user["sex"] = "Famale";
+    else if (document.querySelector("#edit-sex-famale").checked)
+      user["sex"] = "Famale";
 
     let hobby = [];
     if (document.querySelector("#edit-hobby-sport").checked)
@@ -289,7 +186,6 @@ function toggbuttonleRegistration() {
   mainForm.style.display = "block";
   mainLogin.style.display = "none";
   modalWindow.style.display = "none";
-  clearInput();
 }
 
 buttonRegistration.addEventListener("click", toggbuttonleRegistration);
@@ -298,33 +194,16 @@ function toggbuttonleLogin() {
   mainForm.style.display = "none";
   mainLogin.style.display = "block";
   modalWindow.style.display = "none";
-  clearInput();
 }
 
 buttonLogin.addEventListener("click", toggbuttonleLogin);
 
-function onSubmitLogin(e) {
-  e.preventDefault();
-
-  let loginEmail = document.querySelector(".form-input-login-email").value;
-  let loginPassword = document.querySelector(
-    ".form-input-login-password"
-  ).value;
-
-  let user = Users.get(loginEmail);
-
-  if (user && user["password"] === loginPassword) {
+const btnSubmitLogin = document.querySelector(".submit-button-login");
+buttonLogin.addEventListener("click", () => {
+  if (loginForm.submit()) {
     updateTable();
-    clearInput();
-    modalWindow.style.display = "block";
-    mainLogin.style.display = "none";
     mainForm.style.display = "none";
-  } else {
-    document.querySelector(".error-text-login-password").textContent =
-      "Incorrect email or password";
+    mainLogin.style.style = "none";
+    modalWindow.style.display = "block";
   }
-}
-
-document
-  .querySelector(".login-form-login")
-  .addEventListener("submit", onSubmitLogin);
+});
