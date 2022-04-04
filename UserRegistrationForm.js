@@ -4,44 +4,56 @@ export default class UserRegistrationForm extends Form {
     constructor(elem, fields, errorElements, users) {
         super(elem, fields, errorElements);
         this.elem.addEventListener("submit", (event) => this.submit(event));
-        this.fields.email.addEventListener("input", () => this.isEmailUsed());
-        this.fields.password.addEventListener("input", () => this.digitsOnlyPassword());
-        this.fields.password.addEventListener("input", () => this.isPasswordEmpty());
-        this.fields.passwordConfirm.addEventListener("input", () => this.passwordMatching());
+        this.fields.email.addEventListener("input", () => {
+
+            this.errorElements.email.textContent = "";
+            this.isEmailUsed()
+        });
+        this.fields.password.addEventListener("input", () => {
+            this.errorElements.password.textContent = "";
+            this.digitsOnlyPassword();
+            this.minmaxLengthPassword();
+        });
        
+        this.fields.passwordConfirm.addEventListener("input", () => {
+            this.errorElements.passwordConfirm.textContent = "";
+            this.passwordMatching()
+        }); 
         this.users = users;
     }
 
     digitsOnlyPassword() {
-        this.errorElements.password.textContent = "";
+       
         if (/^\d+$/.test(this.fields.password.value))
             return true;
-        this.errorElements.password.textContent = "Password must be digits only!";
+        this.errorElements.password.textContent += "Password must be digits only!";
         return false;
     }
-    isPasswordEmpty(){
-        this.errorElements.password.textContent = "";
-        if (this.fields.password.value.length > 0)
+    minmaxLengthPassword(){
+       
+      
+        if (this.fields.password.value.length >= 3 && this.fields.password.value.length <= 10)
             return true;
-        this.errorElements.password.textContent = "Fields is empty! Enter is something!";
+        this.errorElements.password.textContent += "Password must be 3- 10 symbol!";
         return false;
+        
 
     }
 
 
     passwordMatching() {
-        this.errorElements.passwordConfirm.textContent = "";
+       
         if (this.fields.password.value === this.fields.passwordConfirm.value)
             return true;
-        this.errorElements.passwordConfirm.textContent = "Passwords do not match!";
+        this.errorElements.passwordConfirm.textContent += "Passwords do not match!";
         return false;
     }
 
     isEmailUsed() {
-        this.errorElements.email.textContent = "";
+        
         if (Object.keys(this.users.get(this.fields.email.value)).length === 0)
             return true;
-        this.errorElements.email.textContent = "This email used!";
+        this.errorElements.email.textContent += "This email used!";
         return false;
     };
 
