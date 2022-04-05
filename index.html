@@ -1,179 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="wraper">
-      <header class="header">
-        <button class="button-registration">registration</button>
-        <button class="button-login">login</button>
-      </header>
-      <div class="conteiner">
-        <nav class="navigation"></nav>
-        <main class="content">
-          <div class="list-of-usrs">
-            <h2>List of users</h2>
-            <div class="list-container"></div>
-          </div>
 
-          <div class="modal-delete">
-            <div class="modal-content">
-              <span
-                >Are you sure?
-                <button class="delete-confirmation-btn">Yes</button></span
-              >
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="wraper">
+    <header class="header">
+      <button class="button-registration">Registration</button>
+      <button class="button-login">Login</button>
+    </header>
+
+    <div class="conteiner">
+      <nav class="navigation"></nav>
+
+      <main class="content">
+        <div class="modal-delete">
+          <div class="modal-content">
+            <span>Are you sure?
+              <button class="delete-confirmation-btn">Yes</button>
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-edit">
+          <div class="modal-content">
+            <h1>Редактирование</h1>
+            <div class="form-control">
+              <label class="form-label" for="edit-sex-male">Male</label>
+              <input type="radio" name="sex" id="edit-sex-male" />
+              <label class="form-label" for="edit-sex-famale">Famale</label>
+              <input type="radio" name="sex" id="edit-sex-famale" />
             </div>
-          </div>
 
-          <div class="modal-edit" style="display: none">
-            <div class="modal-content-edit">
-              <h1 class="total-edit">Редактирование</h1>
-              <div class="form-control">
-                <label class="form-label" for="edit-sex-male">Male</label>
-                <input type="radio" name="sex" id="edit-sex-male" />
-                <label class="form-label" for="edit-sex-famale">Famale</label>
-                <input type="radio" name="sex" id="edit-sex-famale" />
-              </div>
-
-              <div class="form-control">
-                <label class="form-label" for="edit-hobby-sport">Sport</label>
-                <input
-                  type="checkbox"
-                  name="hobby-sport"
-                  id="edit-hobby-sport"
-                />
-                <label class="form-label" for="edit-hobby-films">Films</label>
-                <input
-                  type="checkbox"
-                  name="hobby-films"
-                  id="edit-hobby-films"
-                />
-                <label class="form-label" for="edit-hobby-drowing"
-                  >Drowing</label
-                >
-                <input
-                  type="checkbox"
-                  name="hobby-drowing"
-                  id="edit-hobby-drowing"
-                />
-              </div>
-
-              <div class="form-control">
-                <label class="form-label" for="edit-country">Country</label>
-                <select name="country" id="edit-country">
-                  <option value=""></option>
-                  <option value="Ukraine">Ukraine</option>
-                  <option value="Poland">Poland</option>
-                </select>
-              </div>
-
-              <div class="form-control">
-                <label class="form-label" for="edit-birthdate">Birthdate</label>
-                <input type="date" name="birthdate" id="edit-birthdate" />
-              </div>
-
-              <button class="edit-confirmation-btn">Save changes</button>
+            <div class="form-control">
+              <label class="form-label" for="edit-hobby-sport">Sport</label>
+              <input type="checkbox" name="hobby-sport" id="edit-hobby-sport" />
+              <label class="form-label" for="edit-hobby-films">Films</label>
+              <input type="checkbox" name="hobby-films" id="edit-hobby-films" />
+              <label class="form-label" for="edit-hobby-drowing">Drowing</label>
+              <input type="checkbox" name="hobby-drowing" id="edit-hobby-drowing" />
             </div>
+
+            <div class="form-control">
+              <label class="form-label" for="edit-country">Country</label>
+              <select name="country" id="edit-country">
+                <option value=""></option>
+                <option value="Ukraine">Ukraine</option>
+                <option value="Poland">Poland</option>
+              </select>
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="edit-birthdate">Birthdate</label>
+              <input type="date" name="birthdate" id="edit-birthdate" />
+            </div>
+
+            <button class="edit-confirmation-btn">Save changes</button>
           </div>
+        </div>
 
-          <div class="main-form" style="display: block">
-            <form class="login-form" method="post">
-              <h3 class="form-title">registration</h3>
+        <div class="list-of-users">
+          <h2>List of users</h2>
+          <div class="list-container"></div>
+        </div>
 
-              <div class="form-control">
-                <label class="form-label" for="userName">Name</label>
-                <input
-                  class="form-input"
-                  type="userName"
-                  name="name"
-                  id="userName"
-                  required
-                />
-                <span class="error-text error-text_name"></span>
-              </div>
-              <div class="form-control">
-                <label class="form-label" for="email">Email</label>
-                <input
-                  class="form-input"
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="name@example.com"
-                  required
-                />
-                <span class="error-text error-text_email"></span>
-              </div>
-              <div class="form-control">
-                <label class="form-label" for="password">Password</label>
-                <input
-                  class="form-input"
-                  type="password"
-                  name="password"
-                  id="password"
-                  required
-                  pattern="[0-9]+"
-                />
-                <span class="error-text error-text_password"></span>
-              </div>
-              <div class="form-control">
-                <label class="form-label" for="password1"
-                  >confirm password</label
-                >
-                <input
-                  class="form-input"
-                  type="password"
-                  name="password1"
-                  id="password1"
-                  required
-                  pattern="[0-9]+"
-                />
-                <span class="error-text error-text_password1"></span>
-              </div>
+        <div class="registration">
+          <form class="registration-form" method="post">
+            <h3 class="form-title">Registration</h3>
 
-              <input class="submit-button" type="submit" value="Send" />
-            </form>
-          </div>
+            <div class="form-control">
+              <label class="form-label" for="username">Name</label>
+              <input class="form-input" type="text" name="username" id="username" required />
+              <span class="error-text error-text-name"></span>
+            </div>
 
-          <div class="main-form-login" style="display: none">
-            <form class="login-form-login" method="post">
-              <h1 class="form-title">Login</h1>
-              <div class="form-control">
-                <label class="form-label" for="email1">Email</label>
-                <input
-                  class="form-input-login-email"
-                  type="text"
-                  id="email1"
-                  name="email1"
-                  placeholder="name@example.com"
-                  required
-                />
-                <span class="error-text error-text-login-email"></span>
-              </div>
-              <div class="form-control">
-                <label class="form-label" for="password2">Password</label>
-                <input
-                  class="form-input-login-password"
-                  type="password"
-                  name="password2"
-                  id="password2"
-                  required
-                />
-                <span class="error-text error-text-login-password"></span>
-              </div>
-              <input class="submit-button-login" type="submit" value="Send" />
-            </form>
-          </div>
-        </main>
-        <aside class="sidebar"></aside>
-      </div>
-      <footer class="footer"></footer>
+            <div class="form-control">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="name@example.com" required />
+              <span class="error-text error-text-email"></span>
+            </div>
 
-      <script type="module" src="index.js"></script>
+            <div class="form-control">
+              <label class="form-label" for="password">Password</label>
+              <input class="form-input" type="password" name="password" id="password" required pattern="[0-9]+" />
+              <span class="error-text error-text-password"></span>
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="password1">Confirm password</label>
+              <input class="form-input" type="password" name="password1" id="password1" required pattern="[0-9]+" />
+              <span class="error-text error-text-password1"></span>
+            </div>
+
+            <input class="submit-button registration-submit-button" type="submit" value="Send" />
+          </form>
+        </div>
+
+        <div class="login">
+          <form class="login-form" method="post">
+            <h1 class="form-title">Login</h1>
+
+            <div class="form-control">
+              <label class="form-label" for="email-login">Email</label>
+              <input class="form-input" type="email" id="email-login" name="email1"
+                placeholder="name@example.com" required />
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="password-login">Password</label>
+              <input class="form-input" type="password" name="password-login" id="password-login" required />
+            </div>
+
+            <span class="error-text error-text-login"></span>
+
+            <input class="submit-button login-submit-button" type="submit" value="Send" />
+          </form>
+        </div>
+      </main>
+
+      <aside class="sidebar"></aside>
     </div>
-  </body>
+
+    <footer class="footer"></footer>
+
+    <script type="module" src="index.js"></script>
+  </div>
+</body>
+
 </html>
+Написать в Михаил Комлев

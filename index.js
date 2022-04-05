@@ -1,55 +1,57 @@
 import Datalayer from "./Datalayer.js";
-import UserRegistrationForm from "./UserRegistrationForm.js";
 import UserLoginForm from "./UserLoginForm.js";
+import UserRegistrationForm from "./UserRegistrationForm.js";
 
-const emailInputElem = document.querySelector("#email");
-const passwordInputElem = document.querySelector("#password");
-const passwordInputElemConfirm = document.querySelector("#password1");
-const userNameEl = document.querySelector("#userName");
-const emailErrorElem = document.querySelector(".error-text_email");
-const passwordErrorEllem = document.querySelector(".error-text_password");
-const passwordErrorConfirm = document.querySelector(".error-text_password1");
-const nameErrorEl = document.querySelector(".error-text_name");
-const formElem = document.querySelector(".login-form");
-const submitEl = document.querySelector(".submit-button");
-const modalWindow = document.querySelector(".list-of-usrs");
-const mainForm = document.querySelector(".main-form");
-const errorTextt = document.querySelector(".error-text");
-const mainLogin = document.querySelector(".main-form-login");
-const submitLogin = document.querySelector(".submit-button-login");
+// --- variables ---
+
+const listOfUsersElem = document.querySelector(".list-of-users");
+
+const modalDelete = document.querySelector(".modal-delete");
+const modalEdite = document.querySelector(".modal-edit");
+
+const btnSubmitLogin = document.querySelector(".login-submit-button");
+
+const delButton = document.querySelector(".delete-confirmation-btn");
+const editButton = document.querySelector(".edit-confirmation-btn");
+
+const buttonRegistration = document.querySelector(".button-registration");
+const buttonLogin = document.querySelector(".button-login");
 
 const Users = new Datalayer("users");
 
 const registrationForm = new UserRegistrationForm(
-  formElem,
+  document.querySelector(".registration-form"),
   {
-    username: userNameEl,
-    email: emailInputElem,
-    password: passwordInputElem,
-    passwordConfirm: passwordInputElemConfirm,
+    username: document.querySelector("#username"),
+    email: document.querySelector("#email"),
+    password: document.querySelector("#password"),
+    passwordConfirm: document.querySelector("#password1")
   },
   {
-    username: nameErrorEl,
-    email: emailErrorElem,
-    password: passwordErrorEllem,
-    passwordConfirm: passwordErrorConfirm,
+    username: document.querySelector(".error-text-name"),
+    email: document.querySelector(".error-text-email"),
+    password: document.querySelector(".error-text-password"),
+    passwordConfirm: document.querySelector(".error-text-password1")
   },
   Users
 );
 
 const loginForm = new UserLoginForm(
-  document.querySelector(".login-form-login"),
+  document.querySelector(".login-form"),
   {
-    email: document.querySelector(".form-input-login-email"),
-    password: document.querySelector(".form-input-login-password"),
+    email: document.querySelector("#email-login"),
+    password: document.querySelector("#password-login")
   },
   {
-    emailPassword: document.querySelector(".error-text-login-password"),
+    emailPassword: document.querySelector(".error-text-login")
   },
   Users
 );
+
 let userToDelete;
 let userToEdit;
+
+// --- /variables ---
 
 function updateTable() {
   const list = document.querySelector(".list-container");
@@ -71,19 +73,10 @@ function updateTable() {
   }
 }
 
-const modal = document.querySelector(".modal-delete");
-const modalEdite = document.querySelector(".modal-edit");
-
 function handleDelete(event) {
   userToDelete = event.target.id.split("-")[1];
-  modal.style.display = "block";
+  modalDelete.style.display = "block";
 }
-
-const delButton = document.querySelector(".delete-confirmation-btn");
-delButton.addEventListener("click", deleteUser);
-
-const editButton = document.querySelector(".edit-confirmation-btn");
-editButton.addEventListener("click", editUser);
 
 function handleEdit(event) {
   userToEdit = event.target.id.split("-")[1];
@@ -98,22 +91,28 @@ function handleEdit(event) {
       document.querySelector("#edit-sex-male").checked = false;
       document.querySelector("#edit-sex-famale").checked = true;
     }
+  } else {
+    document.querySelector("#edit-sex-male").checked = false;
+    document.querySelector("#edit-sex-famale").checked = false;
   }
 
   if (user["hobby"]) {
-    if (user["hobby"].includes("sport"))
-      document.querySelector("#edit-hobby-sport").checked = true;
+    if (user["hobby"].includes("sport")) document.querySelector("#edit-hobby-sport").checked = true;
     else document.querySelector("#edit-hobby-sport").checked = false;
-    if (user["hobby"].includes("films"))
-      document.querySelector("#edit-hobby-films").checked = true;
+    if (user["hobby"].includes("films")) document.querySelector("#edit-hobby-films").checked = true;
     else document.querySelector("#edit-hobby-films").checked = false;
-    if (user["hobby"].includes("drowing"))
-      document.querySelector("#edit-hobby-drowing").checked = true;
+    if (user["hobby"].includes("drowing")) document.querySelector("#edit-hobby-drowing").checked = true;
     else document.querySelector("#edit-hobby-drowing").checked = false;
+  } else {
+    document.querySelector("#edit-hobby-sport").checked = false;
+    document.querySelector("#edit-hobby-films").checked = false;
+    document.querySelector("#edit-hobby-drowing").checked = false;
   }
 
   if (user["country"]) {
     document.querySelector("#edit-country").value = user["country"];
+  } else {
+    document.querySelector("#edit-country").value = "";
   }
 
   if (user["birthdate"]) {
@@ -122,43 +121,42 @@ function handleEdit(event) {
     )
       .toISOString()
       .substring(0, 10);
+  } else {
+    document.querySelector("#edit-birthdate").value = "";
   }
 
   modalEdite.style.display = "block";
-  modalWindow.style.display = "none";
 }
 
-function handleClose(e) {
-  if (e.target == modal) {
+function handleClose(event) {
+  if (event.target == modalDelete) {
     userToDelete = undefined;
-    modal.style.display = "none";
+    modalDelete.style.display = "none";
+    listOfUsersElem.style.display = "block";
   }
-  if (e.target == modalEdite) {
+  if (event.target == modalEdite) {
     userToEdit = undefined;
     modalEdite.style.display = "none";
-    modalWindow.style.display = "block";
+    listOfUsersElem.style.display = "block";
   }
 }
 
-window.addEventListener("click", handleClose);
-
-function deleteUser() {
+function deleteUser(event) {
   if (userToDelete) {
     Users.delete(userToDelete);
     updateTable();
     userToDelete = undefined;
-    modal.style.display = "none";
+    modalDelete.style.display = "none";
   }
 }
 
-function editUser() {
+function editUser(event) {
   if (userToEdit) {
     let user = Users.get(userToEdit);
     if (Object.keys(user).length === 0) return;
 
     if (document.querySelector("#edit-sex-male").checked) user["sex"] = "Male";
-    else if (document.querySelector("#edit-sex-famale").checked)
-      user["sex"] = "Famale";
+    else if (document.querySelector("#edit-sex-famale").checked) user["sex"] = "Famale";
 
     let hobby = [];
     if (document.querySelector("#edit-hobby-sport").checked)
@@ -176,34 +174,47 @@ function editUser() {
     else user["birthdate"] = new Date(bd);
 
     Users.add(userToEdit, user);
+
+    modalEdite.style.display = "none";
   }
 }
 
-const buttonRegistration = document.querySelector(".button-registration");
-const buttonLogin = document.querySelector(".button-login");
+window.addEventListener("click", handleClose);
 
-function toggbuttonleRegistration() {
-  mainForm.style.display = "block";
-  mainLogin.style.display = "none";
-  modalWindow.style.display = "none";
-}
+delButton.addEventListener("click", deleteUser);
+editButton.addEventListener("click", editUser);
 
-buttonRegistration.addEventListener("click", toggbuttonleRegistration);
+// --- submit button login
 
-function toggbuttonleLogin() {
-  mainForm.style.display = "none";
-  mainLogin.style.display = "block";
-  modalWindow.style.display = "none";
-}
-
-buttonLogin.addEventListener("click", toggbuttonleLogin);
-
-const btnSubmitLogin = document.querySelector(".submit-button-login");
-buttonLogin.addEventListener("click", () => {
+function btnSubmitLoginClick(event) {
   if (loginForm.submit()) {
     updateTable();
-    mainForm.style.display = "none";
-    mainLogin.style.style = "none";
-    modalWindow.style.display = "block";
+    loginForm.clearInput();
+    registrationForm.elem.parentElement.style.display = "none";
+    loginForm.elem.parentElement.style.display = "none";
+    listOfUsersElem.style.display = "block";
   }
-});
+}
+
+btnSubmitLogin.addEventListener("click", btnSubmitLoginClick);
+
+// --- /submit button login
+
+// --- hedder ---
+
+function toggleButtonRegistration(event) {
+  registrationForm.elem.parentElement.style.display = "block";
+  loginForm.elem.parentElement.style.display = "none";
+  listOfUsersElem.style.display = "none";
+}
+
+function toggleButtonLogin(event) {
+  registrationForm.elem.parentElement.style.display = "none";
+  loginForm.elem.parentElement.style.display = "block";
+  listOfUsersElem.style.display = "none";
+}
+
+buttonRegistration.addEventListener("click", toggleButtonRegistration);
+buttonLogin.addEventListener("click", toggleButtonLogin);
+
+// --- /hedder ---

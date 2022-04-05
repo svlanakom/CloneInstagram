@@ -31,6 +31,4 @@ export default class Datalayer {
         localStorage.setItem(this.tableName, JSON.stringify(newData));
       }
     }
-    // update() {
-    // }
   }
