@@ -38,6 +38,8 @@ const VALIDATOR = {
 }
 
 
+
+
 function createInputValidators($input){
   const validators = []
   $input.dataset.validators.split(', ').map((validator) => {
@@ -69,7 +71,7 @@ function checkInputValid($input) {
       if (VALIDATOR[validator.name](value, validator.param)) {
         
         inputMessage = `error-${validator.name}`;
-        console.log(inputMessage)
+       
       }
     });
 
