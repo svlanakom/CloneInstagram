@@ -11,13 +11,13 @@ export default class UserRegistrationForm extends Form {
     let isValid = true;
     this.fields.email.nextElementSibling.textContent = "";
     if (Object.keys(this.users.get(this.fields.email.value)).length !== 0) {
-      this.fields.email.nextElementSibling.textContent += "This email used!";
+      this.fields.email.nextElementSibling.textContent = "This email used!";
       isValid = false;
     }
-    if (this.fields.email.value[0] !== this.fields.email.value[0].toUpperCase()) {
-      this.fields.email.nextElementSibling.textContent += "Email must be start with uppercase!";
-      isValid = false;
-    }
+    // if (this.fields.email.value[0] !== this.fields.email.value[0].toUpperCase()) {
+    //   this.fields.email.nextElementSibling.textContent += "Email must be start with uppercase!";
+    //   isValid = false;
+    // }
     return isValid;
   }
 
