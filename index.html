@@ -76,25 +76,57 @@
 
             <div class="form-control">
               <label class="form-label" for="username">Name</label>
-              <input class="form-input" type="text" name="username" id="username" required />
+              <input
+                class="form-input"
+                type="text"
+                name="username"
+                id="username"
+                required
+                data-error-message="Name is not correct!" />
               <span class="error-text error-text-name"></span>
             </div>
 
             <div class="form-control">
               <label class="form-label" for="email">Email</label>
-              <input class="form-input" type="email" id="email" name="email" placeholder="name@example.com" required />
+              <input
+                class="form-input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+                required
+                pattern="[A-z]+[A-z0-9._%+-]*@[A-z0-9.-]+\.[A-z]{2,4}$"
+                data-error-message="Email is not correct!" />
               <span class="error-text error-text-email"></span>
             </div>
 
             <div class="form-control">
               <label class="form-label" for="password">Password</label>
-              <input class="form-input" type="password" name="password" id="password" required pattern="[0-9]+" />
+              <input
+                class="form-input"
+                type="password"
+                name="password"
+                id="password"
+                required
+                pattern="[0-9]+"
+                minlength="6"
+                maxlength="10"
+                data-error-message="Password is not correct!" />
               <span class="error-text error-text-password"></span>
             </div>
 
             <div class="form-control">
               <label class="form-label" for="password1">Confirm password</label>
-              <input class="form-input" type="password" name="password1" id="password1" required pattern="[0-9]+" />
+              <input
+                class="form-input"
+                type="password"
+                name="password1"
+                id="password1"
+                required
+                pattern="[0-9]+"
+                minlength="6"
+                maxlength="10"
+                data-error-message="Password is not correct!" />
               <span class="error-text error-text-password1"></span>
             </div>
 
@@ -108,16 +140,29 @@
 
             <div class="form-control">
               <label class="form-label" for="email-login">Email</label>
-              <input class="form-input" type="email" id="email-login" name="email1"
-                placeholder="name@example.com" required />
+              <input
+                class="form-input"
+                type="email"
+                id="email-login"
+                name="email1"
+                placeholder="name@example.com"
+                required
+                data-error-message="Email or password is not correct!" />
+                <span class="error-text error-text-login"></span>
             </div>
 
             <div class="form-control">
               <label class="form-label" for="password-login">Password</label>
-              <input class="form-input" type="password" name="password-login" id="password-login" required />
+              <input
+                class="form-input"
+                type="password"
+                name="password-login"
+                id="password-login"
+                required
+                data-error-message="Email or password is not correct!" />
+                <span class="error-text error-text-login"></span>
             </div>
 
-            <span class="error-text error-text-login"></span>
 
             <input class="submit-button login-submit-button" type="submit" value="Send" />
           </form>
@@ -134,4 +179,3 @@
 </body>
 
 </html>
-Написать в Михаил Комлев

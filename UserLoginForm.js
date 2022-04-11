@@ -1,8 +1,8 @@
 import Form from "./Form.js";
 
 export default class UserLoginForm extends Form {
-  constructor(elem, fields, errorElements, users) {
-    super(elem, fields, errorElements);
+  constructor(elem, fields, users) {
+    super(elem, fields);
     this.elem.addEventListener("submit", (event) => {
       this.submit(event);
     });
@@ -16,11 +16,9 @@ export default class UserLoginForm extends Form {
 
     if (
       Object.keys(user).length === 0 ||
-      user["password"] !== this.fields.password.value
-    ) {
+      user["password"] !== this.fields.password.value) {
     
-      this.errorElements.emailPassword.textContent =
-        "Incorrect email or password";
+      this.fields.password.nextElementSibling.textContent = "Incorrect email or password";
       return false;
     } 
       return true;
