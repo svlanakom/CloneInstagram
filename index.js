@@ -27,13 +27,7 @@ const registrationForm = new UserRegistrationForm(
     password: document.querySelector("#password"),
     passwordConfirm: document.querySelector("#password1")
   },
-  {
-    username: document.querySelector(".error-text-name"),
-    email: document.querySelector(".error-text-email"),
-    password: document.querySelector(".error-text-password"),
-    passwordConfirm: document.querySelector(".error-text-password1")
-  },
-  Users
+   Users
 );
 
 const loginForm = new UserLoginForm(
@@ -42,10 +36,7 @@ const loginForm = new UserLoginForm(
     email: document.querySelector("#email-login"),
     password: document.querySelector("#password-login")
   },
-  {
-    emailPassword: document.querySelector(".error-text-login")
-  },
-  Users
+   Users
 );
 
 let userToDelete;
