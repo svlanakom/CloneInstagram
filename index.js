@@ -1,6 +1,7 @@
 import Datalayer from "./Datalayer.js";
 import UserLoginForm from "./UserLoginForm.js";
 import UserRegistrationForm from "./UserRegistrationForm.js";
+import UserEditForm from "./UserEditForm.js";
 
 // --- variables ---
 
@@ -38,6 +39,25 @@ const loginForm = new UserLoginForm(
   },
    Users
 );
+
+const editForm = new UserEditForm (
+  document.querySelector(".edit-form"),
+  {
+    sex: {
+      Male: document.querySelector("#edit-sex-male"),
+      Famele: document.querySelector("#edit-sex-famale")
+    },
+    hobby: {
+      Sport: document.querySelector("#edit-hobby-sport"),
+      Films: document.querySelector("#edit-hobby-films"),
+      Drowing: document.querySelector("#edit-hobby-drowing")
+    },
+    country: document.querySelector("#edit-country-country"),
+    birthdate: document.querySelector("#edit-birthdate")
+    
+  },
+  Users
+)
 
 let userToDelete;
 let userToEdit;
@@ -142,32 +162,11 @@ function deleteUser(event) {
 }
 
 function editUser(event) {
-  if (userToEdit) {
-    let user = Users.get(userToEdit);
-    if (Object.keys(user).length === 0) return;
-
-    if (document.querySelector("#edit-sex-male").checked) user["sex"] = "Male";
-    else if (document.querySelector("#edit-sex-famale").checked) user["sex"] = "Famale";
-
-    let hobby = [];
-    if (document.querySelector("#edit-hobby-sport").checked)
-      hobby.push("sport");
-    if (document.querySelector("#edit-hobby-films").checked)
-      hobby.push("films");
-    if (document.querySelector("#edit-hobby-drowing").checked)
-      hobby.push("drowing");
-    if (hobby.length !== 0) user["hobby"] = hobby;
-
-    user["country"] = document.querySelector("#edit-country").value;
-
-    let bd = document.querySelector("#edit-birthdate").value;
-    if (bd === "") console.log("empty date");
-    else user["birthdate"] = new Date(bd);
-
-    Users.add(userToEdit, user);
-
+  if(userToEdit) {
     modalEdite.style.display = "none";
+
   }
+  
 }
 
 window.addEventListener("click", handleClose);
@@ -209,3 +208,11 @@ buttonRegistration.addEventListener("click", toggleButtonRegistration);
 buttonLogin.addEventListener("click", toggleButtonLogin);
 
 // --- /hedder ---
+document.getElementById("edit-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+const data = new FormData(event.target);
+const formJSON = Object.fromEntries(data.entries());
+formJSON.hobby = data.getAll("hobby");
+return false
+})
+
