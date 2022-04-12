@@ -30,21 +30,21 @@
 
         <div class="modal-edit">
           <div class="modal-content">
-            <h1>Редактирование</h1>
+            <form id="form-edit" method="post">
             <div class="form-control">
               <label class="form-label" for="edit-sex-male">Male</label>
-              <input type="radio" name="sex" id="edit-sex-male" />
+              <input type="radio" name="sex" id="edit-sex-male" value="Male" />
               <label class="form-label" for="edit-sex-famale">Famale</label>
-              <input type="radio" name="sex" id="edit-sex-famale" />
+              <input type="radio" name="sex" id="edit-sex-famale" value="Famele" />
             </div>
 
             <div class="form-control">
               <label class="form-label" for="edit-hobby-sport">Sport</label>
-              <input type="checkbox" name="hobby-sport" id="edit-hobby-sport" />
+              <input type="checkbox" name="hobby-sport" id="edit-hobby-sport" value="Sport"/>
               <label class="form-label" for="edit-hobby-films">Films</label>
-              <input type="checkbox" name="hobby-films" id="edit-hobby-films" />
+              <input type="checkbox" name="hobby-films" id="edit-hobby-films" value="Films" />
               <label class="form-label" for="edit-hobby-drowing">Drowing</label>
-              <input type="checkbox" name="hobby-drowing" id="edit-hobby-drowing" />
+              <input type="checkbox" name="hobby-drowing" id="edit-hobby-drowing" value="Drowing" />
             </div>
 
             <div class="form-control">
@@ -61,7 +61,8 @@
               <input type="date" name="birthdate" id="edit-birthdate" />
             </div>
 
-            <button class="edit-confirmation-btn">Save changes</button>
+            <button type="submit" class="edit-confirmation-btn">Save changes</button>
+           </form>
           </div>
         </div>
 

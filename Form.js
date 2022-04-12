@@ -16,9 +16,5 @@ export default class Form {
     for (const name in this.fields) {
       this.fields[name].value = "";
     }
-    for (const name in this.errorElements) {
-      console.log(name);
-      this.errorElements[name].textContent = "";
-    }
   }
 }

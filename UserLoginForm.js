@@ -3,9 +3,7 @@ import Form from "./Form.js";
 export default class UserLoginForm extends Form {
   constructor(elem, fields, users) {
     super(elem, fields);
-    this.elem.addEventListener("submit", (event) => {
-      this.submit(event);
-    });
+    this.elem.addEventListener("submit", (event) => this.submit(event));
     this.users = users;
   }
 
