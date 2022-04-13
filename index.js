@@ -1,7 +1,7 @@
 import Datalayer from "./Datalayer.js";
+import UserEditForm from "./UserEditForm.js";
 import UserLoginForm from "./UserLoginForm.js";
 import UserRegistrationForm from "./UserRegistrationForm.js";
-import UserEditForm from "./UserEditForm.js";
 
 // --- variables ---
 
@@ -28,7 +28,7 @@ const registrationForm = new UserRegistrationForm(
     password: document.querySelector("#password"),
     passwordConfirm: document.querySelector("#password1")
   },
-   Users
+  Users
 );
 
 const loginForm = new UserLoginForm(
@@ -37,11 +37,11 @@ const loginForm = new UserLoginForm(
     email: document.querySelector("#email-login"),
     password: document.querySelector("#password-login")
   },
-   Users
+  Users
 );
 
-const editForm = new UserEditForm (
-  document.querySelector(".edit-form"),
+const editForm = new UserEditForm(
+  document.getElementById("edit-form"),
   {
     sex: {
       Male: document.querySelector("#edit-sex-male"),
@@ -52,12 +52,11 @@ const editForm = new UserEditForm (
       Films: document.querySelector("#edit-hobby-films"),
       Drowing: document.querySelector("#edit-hobby-drowing")
     },
-    country: document.querySelector("#edit-country-country"),
+    country: document.querySelector("#edit-country"),
     birthdate: document.querySelector("#edit-birthdate")
-    
   },
   Users
-)
+);
 
 let userToDelete;
 let userToEdit;
@@ -94,47 +93,8 @@ function handleEdit(event) {
   let user = Users.get(userToEdit);
   if (Object.keys(user).length === 0) return;
 
-  if (user["sex"]) {
-    if (user["sex"] === "Male") {
-      document.querySelector("#edit-sex-male").checked = true;
-      document.querySelector("#edit-sex-famale").checked = false;
-    } else if (user["sex"] === "Famale") {
-      document.querySelector("#edit-sex-male").checked = false;
-      document.querySelector("#edit-sex-famale").checked = true;
-    }
-  } else {
-    document.querySelector("#edit-sex-male").checked = false;
-    document.querySelector("#edit-sex-famale").checked = false;
-  }
-
-  if (user["hobby"]) {
-    if (user["hobby"].includes("sport")) document.querySelector("#edit-hobby-sport").checked = true;
-    else document.querySelector("#edit-hobby-sport").checked = false;
-    if (user["hobby"].includes("films")) document.querySelector("#edit-hobby-films").checked = true;
-    else document.querySelector("#edit-hobby-films").checked = false;
-    if (user["hobby"].includes("drowing")) document.querySelector("#edit-hobby-drowing").checked = true;
-    else document.querySelector("#edit-hobby-drowing").checked = false;
-  } else {
-    document.querySelector("#edit-hobby-sport").checked = false;
-    document.querySelector("#edit-hobby-films").checked = false;
-    document.querySelector("#edit-hobby-drowing").checked = false;
-  }
-
-  if (user["country"]) {
-    document.querySelector("#edit-country").value = user["country"];
-  } else {
-    document.querySelector("#edit-country").value = "";
-  }
-
-  if (user["birthdate"]) {
-    document.querySelector("#edit-birthdate").value = new Date(
-      user["birthdate"]
-    )
-      .toISOString()
-      .substring(0, 10);
-  } else {
-    document.querySelector("#edit-birthdate").value = "";
-  }
+  editForm.user = user;
+  editForm.fill();
 
   modalEdite.style.display = "block";
 }
@@ -162,11 +122,9 @@ function deleteUser(event) {
 }
 
 function editUser(event) {
-  if(userToEdit) {
+  if (userToEdit) {
     modalEdite.style.display = "none";
-
   }
-  
 }
 
 window.addEventListener("click", handleClose);
@@ -208,11 +166,14 @@ buttonRegistration.addEventListener("click", toggleButtonRegistration);
 buttonLogin.addEventListener("click", toggleButtonLogin);
 
 // --- /hedder ---
+
 document.getElementById("edit-form").addEventListener("submit", (event) => {
   event.preventDefault();
-const data = new FormData(event.target);
-const formJSON = Object.fromEntries(data.entries());
-formJSON.hobby = data.getAll("hobby");
-return false
-})
 
+  const data = new FormData(event.target);
+  const formJSON = Object.fromEntries(data.entries());
+  formJSON.hobby = data.getAll('hobby');
+
+  console.log(formJSON);
+  return false;
+});
