@@ -166,14 +166,3 @@ buttonRegistration.addEventListener("click", toggleButtonRegistration);
 buttonLogin.addEventListener("click", toggleButtonLogin);
 
 // --- /hedder ---
-
-document.getElementById("edit-form").addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  const data = new FormData(event.target);
-  const formJSON = Object.fromEntries(data.entries());
-  formJSON.hobby = data.getAll('hobby');
-
-  console.log(formJSON);
-  return false;
-});
