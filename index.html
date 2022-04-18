@@ -12,8 +12,8 @@
 <body>
   <div class="wraper">
     <header class="header">
-      <button class="button-registration">Registration</button>
-      <button class="button-login">Login</button>
+      <button data-modal-btn="my_modal1" class="button-registration">Registration</button>
+      <button data-modal-btn="my_modal2" class="button-login">Login</button>
     </header>
 
     <div class="conteiner">
@@ -72,7 +72,7 @@
           <div class="list-container"></div>
         </div>
 
-        <div class="registration">
+        <div data-modal-window="my_modal1" class="registration">
           <form class="registration-form" method="post">
             <h3 class="form-title">Registration</h3>
 
@@ -108,7 +108,7 @@
           </form>
         </div>
 
-        <div class="login">
+        <div data-modal-window="my_modal2" class="login">
           <form class="login-form" method="post">
             <h1 class="form-title">Login</h1>
 
