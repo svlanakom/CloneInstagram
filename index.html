@@ -20,18 +20,19 @@
         <main class="content">
           <div class="modal-delete" data-modal-window="modal-delete">
             <div class="modal-content">
-              <span
-                >Are you sure?
-                <button class="delete-confirmation-btn">Yes</button>
-              </span>
+              <span><b>Are you sure?</b></span>
+              <button class="delete-confirmation-btn"><b>Yes</b></button>
             </div>
           </div>
 
           <div class="modal-edit" data-modal-window="modal-edit">
             <div class="modal-content">
               <form id="edit-form" method="post">
-                <h1>Редактирование</h1>
+                <h1>Edit</h1>
+                <h4>Sex</h4>
+
                 <div class="form-control form-control-edit">
+                  
                   <label class="form-label" for="edit-sex-male">Male</label>
                   <input
                     type="radio"
@@ -47,8 +48,10 @@
                     value="Famele"
                   />
                 </div>
+                <h4>Hobby</h4>
 
                 <div class="form-control form-control-edit">
+                  
                   <label class="form-label" for="edit-hobby-sport">Sport</label>
                   <input
                     type="checkbox"
@@ -75,7 +78,10 @@
                 </div>
 
                 <div class="form-control form-control-edit">
-                  <label class="form-label" for="edit-country">Country</label>
+                
+                 
+
+                  <label class="form-label" for="edit-country"><b>Country</b></label>
                   <select name="country" id="edit-country">
                     <option value=""></option>
                     <option value="Ukraine">Ukraine</option>
@@ -85,7 +91,7 @@
 
                 <div class="form-control form-control-edit">
                   <label class="form-label" for="edit-birthdate"
-                    >Birthdate</label
+                    ><b>Birthdate</b></label
                   >
                   <input type="date" name="birthdate" id="edit-birthdate" />
                 </div>

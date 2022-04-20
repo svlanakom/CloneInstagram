@@ -76,10 +76,10 @@ export default class App {
     updateTable() {
         listOfUsersContainer.innerHTML = "";
         for (const email in this.Users.getAll()) {
-            listOfUsersContainer.innerHTML += `<div class="m-3">${email}</div>
+            listOfUsersContainer.innerHTML += ` <div class="m-2"><div class="m-3">${email}</div>
             
                 <button class="button-delete" id="delete-${email}">delete</button>
-                <button class="button-edit" id="edit-${email}">edit</button>`;
+                <button class="button-edit" id="edit-${email}">edit</button></div>`;
         }
 
         const deleteUsersBtns = document.querySelectorAll(".button-delete");
