@@ -2,8 +2,9 @@ import Datalayer from "./Datalayer.js";
 import UserEditForm from "./UserEditForm.js";
 import UserLoginForm from "./UserLoginForm.js";
 import UserRegistrationForm from "./UserRegistrationForm.js";
+import modalWindow from "./ModalWindow.js";
 import {
-    listOfUsersElem,
+    // listOfUsersElem,
     listOfUsersContainer,
     modalDelete,
     modalEdite,
@@ -11,7 +12,9 @@ import {
     delButton,
     editButton,
     buttonRegistration,
-    buttonLogin
+    buttonLogin,
+    modalLogin,
+    modalRegistration
 } from "./constants.js";
 
 export default class App {
@@ -62,18 +65,19 @@ export default class App {
         window.addEventListener("click", (event) => this.handleClose(event));
         
         delButton.addEventListener("click", () => this.deleteUser());
-        editButton.addEventListener("click", () => { modalEdite.style.display = "none"; });
+        editButton.addEventListener("click", () => modalWindow.close());
         
         btnSubmitLogin.addEventListener("click", () => this.btnSubmitLoginClick());
 
-        buttonRegistration.addEventListener("click", () => this.toggleButtonRegistration());
-        buttonLogin.addEventListener("click", () => this.toggleButtonLogin());
+        buttonRegistration.addEventListener("click", () => modalWindow.setConfig(modalRegistration));
+        buttonLogin.addEventListener("click", () => modalWindow.setConfig(modalLogin));
     }
 
     updateTable() {
         listOfUsersContainer.innerHTML = "";
         for (const email in this.Users.getAll()) {
-            listOfUsersContainer.innerHTML += `<div>${email}</div>
+            listOfUsersContainer.innerHTML += `<div class="m-3">${email}</div>
+            
                 <button class="button-delete" id="delete-${email}">delete</button>
                 <button class="button-edit" id="edit-${email}">edit</button>`;
         }
@@ -91,31 +95,28 @@ export default class App {
 
     handleDelete(event) {
         this.userToDelete = event.target.id.split("-")[1];
-        modalDelete.style.display = "block";
+
+        let user = this.Users.get(this.userToDelete);
+        if (Object.keys(user).length === 0) return;
+
+        modalWindow.setConfig(modalDelete);
     }
 
     handleEdit(event) {
         this.userToEdit = event.target.id.split("-")[1];
-        let user = this.Users.get(this.userToEdit);
 
+        let user = this.Users.get(this.userToEdit);
         if (Object.keys(user).length === 0) return;
 
         this.editForm.user = user;
         this.editForm.fill();
 
-        modalEdite.style.display = "block";
+        modalWindow.setConfig(modalEdite);
     }
 
     handleClose(event) {
-        if (event.target == modalDelete) {
-            this.userToDelete = undefined;
-            modalDelete.style.display = "none";
-            listOfUsersElem.style.display = "block";
-        }
-        if (event.target == modalEdite) {
-            this.userToEdit = undefined;
-            modalEdite.style.display = "none";
-            listOfUsersElem.style.display = "block";
+        if (event.target.dataset.modalWindow) {
+            modalWindow.close();
         }
     }
 
@@ -124,7 +125,7 @@ export default class App {
             this.Users.delete(this.userToDelete);
             this.updateTable();
             this.userToDelete = undefined;
-            modalDelete.style.display = "none";
+            modalWindow.close();
         }
     }
 
@@ -132,21 +133,7 @@ export default class App {
         if (this.loginForm.submit()) {
             this.updateTable();
             this.loginForm.clearInput();
-            this.registrationForm.elem.parentElement.style.display = "none";
-            this.loginForm.elem.parentElement.style.display = "none";
-            listOfUsersElem.style.display = "block";
+            modalWindow.close();
         }
-    }
-
-    toggleButtonRegistration() {
-        this.registrationForm.elem.parentElement.style.display = "block";
-        this.loginForm.elem.parentElement.style.display = "none";
-        listOfUsersElem.style.display = "none";
-    }
-
-    toggleButtonLogin() {
-        this.registrationForm.elem.parentElement.style.display = "none";
-        this.loginForm.elem.parentElement.style.display = "block";
-        listOfUsersElem.style.display = "none";
     }
 }
