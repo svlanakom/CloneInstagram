@@ -2,9 +2,9 @@ import Datalayer from "./Datalayer.js";
 import UserEditForm from "./UserEditForm.js";
 import UserLoginForm from "./UserLoginForm.js";
 import UserRegistrationForm from "./UserRegistrationForm.js";
-import modalWindow from "./ModalWindow.js";
+import ModalWindow from "./ModalWindow.js";
 import {
-    // listOfUsersElem,
+   
     listOfUsersContainer,
     modalDelete,
     modalEdite,
@@ -58,19 +58,16 @@ export default class App {
             },
             this.Users
         );
+        this.modalWindow = new ModalWindow();
+
+
 
         this.userToDelete = undefined;
         this.userToEdit = undefined;
 
-       let btnsClose = document.querySelectorAll(".close")
-       for(let i = 0; i < btnsClose.length; i++)
+     
 
-       btnsClose[i].addEventListener ("click", () => {
-        modalWindow.close()
-
-       });
-
-        editButton.addEventListener("click", () => modalWindow.close());
+        editButton.addEventListener("click", () => this.modalWindow.close());
 
 
         window.addEventListener("click", (event) => this.handleClose(event));
@@ -81,8 +78,8 @@ export default class App {
         
         btnSubmitLogin.addEventListener("click", () => this.btnSubmitLoginClick());
 
-        buttonRegistration.addEventListener("click", () => modalWindow.setConfig(modalRegistration));
-        buttonLogin.addEventListener("click", () => modalWindow.setConfig(modalLogin));
+        buttonRegistration.addEventListener("click", () => this.modalWindow.show(modalRegistration));
+        buttonLogin.addEventListener("click", () => this.modalWindow.show(modalLogin));
     }
 
     updateTable() {
@@ -111,7 +108,7 @@ export default class App {
         let user = this.Users.get(this.userToDelete);
         if (Object.keys(user).length === 0) return;
 
-        modalWindow.setConfig(modalDelete);
+        this.modalWindow.show(modalDelete);
     }
 
     handleEdit(event) {
@@ -123,13 +120,13 @@ export default class App {
         this.editForm.user = user;
         this.editForm.fill();
 
-        modalWindow.setConfig(modalEdite);
+        this.modalWindow.show(modalEdite);
     }
 
     handleClose(event) {
         
         if (event.target.dataset.modalWindow) {
-             modalWindow.close()
+             this.modalWindow.close()
         }
     }
 
@@ -140,7 +137,7 @@ export default class App {
             this.Users.delete(this.userToDelete);
             this.updateTable();
             this.userToDelete = undefined;
-            modalWindow.close();
+            this.modalWindow.close();
         }
     }
 
@@ -148,7 +145,7 @@ export default class App {
         if (this.loginForm.submit()) {
             this.updateTable();
             this.loginForm.clearInput();
-            modalWindow.close();
+            this.modalWindow.close();
         }
     }
 }
