@@ -62,10 +62,22 @@ export default class App {
         this.userToDelete = undefined;
         this.userToEdit = undefined;
 
+       let btnsClose = document.querySelectorAll(".close")
+       for(let i = 0; i < btnsClose.length; i++)
+
+       btnsClose[i].addEventListener ("click", () => {
+        modalWindow.close()
+
+       });
+
+        editButton.addEventListener("click", () => modalWindow.close());
+
+
         window.addEventListener("click", (event) => this.handleClose(event));
         
+        
         delButton.addEventListener("click", () => this.deleteUser());
-        editButton.addEventListener("click", () => modalWindow.close());
+
         
         btnSubmitLogin.addEventListener("click", () => this.btnSubmitLoginClick());
 
@@ -115,10 +127,13 @@ export default class App {
     }
 
     handleClose(event) {
+        
         if (event.target.dataset.modalWindow) {
-            modalWindow.close();
+             modalWindow.close()
         }
     }
+
+
 
     deleteUser() {
         if (this.userToDelete) {

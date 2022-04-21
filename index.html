@@ -20,7 +20,10 @@
         <main class="content">
           <div class="modal-delete" data-modal-window="modal-delete">
             <div class="modal-content">
-              <span><b>Are you sure?</b></span>
+              <div class="modal-inner">
+                <span><b>Are you sure?</b></span>
+                <span class="close" title="Close Modal">&times;</span>
+              </div>
               <button class="delete-confirmation-btn"><b>Yes</b></button>
             </div>
           </div>
@@ -28,11 +31,16 @@
           <div class="modal-edit" data-modal-window="modal-edit">
             <div class="modal-content">
               <form id="edit-form" method="post">
-                <h1>Edit</h1>
+
+
+                <div class="modal-inner">
+
+                  <h2>Edit</h2>
+                <span class="close" title="Close Modal">&times;</span>
+                </div>
                 <h4>Sex</h4>
 
                 <div class="form-control form-control-edit">
-                  
                   <label class="form-label" for="edit-sex-male">Male</label>
                   <input
                     type="radio"
@@ -51,7 +59,6 @@
                 <h4>Hobby</h4>
 
                 <div class="form-control form-control-edit">
-                  
                   <label class="form-label" for="edit-hobby-sport">Sport</label>
                   <input
                     type="checkbox"
@@ -78,10 +85,9 @@
                 </div>
 
                 <div class="form-control form-control-edit">
-                
-                 
-
-                  <label class="form-label" for="edit-country"><b>Country</b></label>
+                  <label class="form-label" for="edit-country"
+                    ><b>Country</b></label
+                  >
                   <select name="country" id="edit-country">
                     <option value=""></option>
                     <option value="Ukraine">Ukraine</option>
@@ -113,7 +119,10 @@
             data-modal-window="modal-registration"
           >
             <form class="registration-form" method="post">
-              <h3 class="form-title">Registration</h3>
+              <div class="modal-inner">
+                <h3 class="form-title">Registration</h3>
+                <span class="close" title="Close Modal">&times;</span>
+              </div>
 
               <div class="form-control">
                 <label class="form-label" for="username">Name</label>
@@ -187,7 +196,10 @@
 
           <div class="modal-login login" data-modal-window="modal-login">
             <form class="login-form" method="post">
-              <h1 class="form-title">Login</h1>
+              <div class="modal-inner">
+                <h1 class="form-title">Login</h1>
+                <span class="close" title="Close Modal">&times;</span>
+              </div>
 
               <div class="form-control">
                 <label class="form-label" for="email-login">Email</label>
