@@ -129,6 +129,16 @@ body {
   overflow: auto;
   
 }
+.close{
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 
 .modal-content {
@@ -137,6 +147,8 @@ body {
   width: 25%;
   z-index: 9;
   margin: 300px auto;
+  border-radius: 30px;
+
 }
 
 .button-delete,
