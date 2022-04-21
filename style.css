@@ -133,11 +133,12 @@ body {
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
+  float: right;
 }
 .modal-inner{
   display: flex;
   align-items: center;
-  justify-content:space-between;
+  justify-content:center;
  margin-top: -20px;
 }
 
