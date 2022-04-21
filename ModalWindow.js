@@ -18,7 +18,7 @@ export default modalWindow;
 
 
 
-//  class Modal {
+//  export default class Modal {
 //     constructor() {
 
 //     }
