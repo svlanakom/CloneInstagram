@@ -1,31 +1,31 @@
- const urlPageTitle = "JS SPA Routing"
+ const pageTitle = "JS SPA Routing"
 
-document.addEventListener("click",(e)=>{
-    const{target} = e;
-    if(target.matches("nav a")){
-        return;
-    }
-    e.preventDefault();
-    urlRoute();
-})
+// document.addEventListener("click",(e)=>{
+//     const{target} = e;
+//     if(target.matches("nav a")){
+//         return;
+//     }
+//     e.preventDefault();
+//     urlRoute();
+// })
 
 
-const urlRoutes = {
+const routes = {
     404: {
         template: "/templates/404.html",
-        title: "404 | " + urlPageTitle,
+        title: "404 | " + pageTitle,
         description: "Page not found",
 
     },
     "/": {
         template: "/templates/index.html",
-        title: "Home | " + urlPageTitle,
+        title: "Home | " + pageTitle,
         description: "This is homepage",
 
     },
-    "/about": {
+    about: {
         template: "/templates/about.html",
-        title: "About us | " + urlPageTitle,
+        title: "About us | " + pageTitle,
         description: "This is about us page",
 
     }
@@ -38,14 +38,14 @@ const urlRoute = (event) => {
     urlLocationHandler();
 }
 
-const urlLocationHandler = async () => {
-    const location = window.location.pathname;
+const locationHandler = async () => {
+    let location = window.location.hash.replace("#", "");
     if(location.length === 0) {
         location = "/";
     }
     
 
-    const  route = urlRoutes[location] || urlRoutes[404];
+    const  route = routes[location] || routes[404];
     const html = await fetch(route.template).then((response) => 
      response.text());
      document.getElementById("content").innerHTML = html;
@@ -55,6 +55,9 @@ const urlLocationHandler = async () => {
      .setAttribute("content", route.description);
 };
 
-window.onpopstate = urlLocationHandler;
-window.route = urlRoute;
-urlLocationHandler()
+// window.onpopstate = urlLocationHandler;
+// window.route = urlRoute;
+// urlLocationHandler()
+
+window.addEventListener("hashchange", locationHandler)
+locationHandler();
