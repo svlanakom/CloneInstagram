@@ -4,7 +4,9 @@ import UserLoginForm from "./UserLoginForm.js";
 import UserRegistrationForm from "./UserRegistrationForm.js";
 import ModalWindow from "./ModalWindow.js";
 import {
-  listOfUsersContainer,
+  routes,
+  pageContent,
+ 
   modalDelete,
   modalEdite,
   btnSubmitLogin,
@@ -15,6 +17,8 @@ import {
   modalLogin,
   modalRegistration,
 } from "./constants.js";
+
+import Router from "./Router.js";
 
 export default class App {
   constructor() {
@@ -57,6 +61,10 @@ export default class App {
       },
       this.Users
     );
+
+    this.router = new Router(routes);
+    this.router.locationHandler();
+
     this.modalWindow = new ModalWindow();
 
     this.userToDelete = undefined;
@@ -79,19 +87,15 @@ export default class App {
   }
 
   updateTable() {
-   
-    listOfUsersContainer.innerHTML = "";
-    const titlelist = document.querySelector(".title-list-user")
-
-   
-      titlelist.innerText = "list of users"
-   
-
-
-    for (const email in this.Users.getAll()) {
+    let users = this.Users.getAll()
+    if(Object.keys(users).length === 0){
+      listOfUsersContainer.innerHTML = "<h2>List is empty<h2>";
+      return;
+    }
+    listOfUsersContainer.innerHTML = "<h2>List of users<h2>";
+     for (const email in this.Users.getAll()) {
       
       listOfUsersContainer.innerHTML += `<div class="m-2"><div class="m-3">${email}</div>
-            
                 <button class="button-delete" id="delete-${email}">delete</button>
                 <button class="button-edit" id="edit-${email}">edit</button></div>`;
     }
