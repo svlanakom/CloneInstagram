@@ -17,6 +17,6 @@ export default class UserLoginForm extends Form {
             this.fields.password.nextElementSibling.textContent = "Incorrect email or password";
             return false;
         }
-        return true;
+        return user;
     }
 }
