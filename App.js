@@ -14,9 +14,9 @@ import {
     buttonLogin,
     modalLogin,
     modalRegistration,
-    routes
+    // routes
 } from "./constants.js";
-import Router from "./Roter.js";
+// import Router from "./Roter.js";
 
 export default class App {
     constructor() {
@@ -60,8 +60,8 @@ export default class App {
             this.Users
         );
 
-        this.router = new Router(routes);
-        this.router.locationHandler();
+        // this.router = new Router(routes);
+        // this.router.locationHandler();
 
         this.modalWindow = new ModalWindow();
 
@@ -82,7 +82,7 @@ export default class App {
 
     updateTable() {
         let listOfUsersContainer = pageContent.querySelector(".list-container");
-        if (!listOfUsersContainer) return;
+        if (!listOfUsersContainer || !sessionStorage.getItem("lognedUser")) return;
 
         let users = this.Users.getAll();
         if (Object.keys(users).length === 0) {
@@ -146,8 +146,8 @@ export default class App {
 
     btnSubmitLoginClick() {
         if (this.loginForm.submit()) {
-            // let user = this.loginForm.submit();
-            // sessionStorage.setItem("lognedUser", user["email"]);
+            let user = this.loginForm.submit();
+            sessionStorage.setItem("lognedUser", user["email"]);
             this.updateTable();
             this.loginForm.clearInput();
             this.modalWindow.close();

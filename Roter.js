@@ -14,6 +14,6 @@ export default class Router {
         const html = await fetch(route.template).then((response) => response.text());
         document.querySelector(".page-content").innerHTML = html;
         document.title = route.title;
-       
+        route.controller();
     };
 }
