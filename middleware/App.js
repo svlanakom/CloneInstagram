@@ -1,10 +1,10 @@
 import Datalayer from "./Datalayer.js";
-import UserEditForm from "./UserEditForm.js";
-import UserLoginForm from "./UserLoginForm.js";
-import UserRegistrationForm from "./UserRegistrationForm.js";
+import UserEditForm from "../forms/UserEditForm.js";
+import UserLoginForm from "../forms/UserLoginForm.js";
+import UserRegistrationForm from "../forms/UserRegistrationForm.js";
 import ModalWindow from "./ModalWindow.js";
 import {
-    pageContent,
+   
     modalDelete,
     modalEdite,
     btnSubmitLogin,
@@ -14,9 +14,8 @@ import {
     buttonLogin,
     modalLogin,
     modalRegistration,
-    // routes
-} from "./constants.js";
-// import Router from "./Roter.js";
+    } from "../config/constants.js";
+
 
 export default class App {
     constructor() {
@@ -60,15 +59,17 @@ export default class App {
             this.Users
         );
 
-        // this.router = new Router(routes);
-        // this.router.locationHandler();
+       
 
         this.modalWindow = new ModalWindow();
 
         this.userToDelete = undefined;
         this.userToEdit = undefined;
 
-        editButton.addEventListener("click", () => this.modalWindow.close());
+        editButton.addEventListener("click", () => {
+            this.modalWindow.close();
+           history.back();
+        }),
 
         window.addEventListener("click", (event) => this.handleClose(event));
 
@@ -80,34 +81,7 @@ export default class App {
         buttonLogin.addEventListener("click", () => this.modalWindow.show(modalLogin));
     }
 
-    updateTable() {
-        let listOfUsersContainer = pageContent.querySelector(".list-container");
-        if (!listOfUsersContainer || !sessionStorage.getItem("lognedUser")) return;
-
-        let users = this.Users.getAll();
-        if (Object.keys(users).length === 0) {
-            listOfUsersContainer.innerHTML = "<h2>List is empty</h2>";
-            return;
-        }
-
-        listOfUsersContainer.innerHTML = "<h2>List of users</h2>";
-        for (const email in this.Users.getAll()) {
-            listOfUsersContainer.innerHTML += `<div class="m-2"><div class="m-3">${email}</div>
-                <button class="button-delete" id="delete-${email}">delete</button>
-                <button class="button-edit" id="edit-${email}">edit</button></div>`;
-        }
-
-        const deleteUsersBtns = document.querySelectorAll(".button-delete");
-        for (const btn of deleteUsersBtns) {
-            btn.addEventListener("click", (event) => this.handleDelete(event));
-        }
-
-        const editeUsers = document.querySelectorAll(".button-edit");
-        for (const btn of editeUsers) {
-            btn.addEventListener("click", (event) => this.handleEdit(event));
-        }
-    }
-
+    
     handleDelete(event) {
         this.userToDelete = event.target.id.split("-")[1];
 
@@ -132,25 +106,26 @@ export default class App {
     handleClose(event) {
         if (event.target.dataset.modalWindow) {
             this.modalWindow.close();
+            history.back();
         }
     }
 
     deleteUser() {
         if (this.userToDelete) {
             this.Users.delete(this.userToDelete);
-            this.updateTable();
-            this.userToDelete = undefined;
+             this.userToDelete = undefined;
             this.modalWindow.close();
+            history.back();
         }
     }
 
     btnSubmitLoginClick() {
         if (this.loginForm.submit()) {
             let user = this.loginForm.submit();
-            sessionStorage.setItem("lognedUser", user["email"]);
-            this.updateTable();
+            localStorage.setItem("lognedUser", user["email"]);
             this.loginForm.clearInput();
             this.modalWindow.close();
+            history.back();
         }
     }
 }
