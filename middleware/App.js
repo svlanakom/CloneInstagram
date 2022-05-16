@@ -12,6 +12,7 @@ import {
     editButton,
     buttonRegistration,
     buttonLogin,
+    buttonLogout,
     modalLogin,
     modalRegistration,
     } from "../config/constants.js";
@@ -77,8 +78,17 @@ export default class App {
 
         btnSubmitLogin.addEventListener("click", () => this.btnSubmitLoginClick());
 
+
+
         buttonRegistration.addEventListener("click", () => this.modalWindow.show(modalRegistration));
+
+
         buttonLogin.addEventListener("click", () => this.modalWindow.show(modalLogin));
+
+        buttonLogout.addEventListener("click", () => {
+            localStorage.removeItem("token");
+            window.location = "/";
+        });
     }
 
     
@@ -122,7 +132,7 @@ export default class App {
     btnSubmitLoginClick() {
         if (this.loginForm.submit()) {
             let user = this.loginForm.submit();
-            localStorage.setItem("lognedUser", user["email"]);
+            localStorage.setItem("token", user["email"]);
             this.loginForm.clearInput();
             this.modalWindow.close();
             history.back();

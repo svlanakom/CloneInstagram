@@ -89,7 +89,7 @@ body {
 }
 
 .list-of-users {
-  
+  margin-top: -150px;
   text-align: center;
   padding-top: 200px;
   margin-top: 10px;
