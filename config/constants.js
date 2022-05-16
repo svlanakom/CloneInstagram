@@ -12,6 +12,7 @@ const editButton = document.querySelector(".edit-confirmation-btn");
 
 const buttonRegistration = document.querySelector(".button-registration");
 const buttonLogin = document.querySelector(".button-login");
+const buttonLogout = document.querySelector(".button-logout")
 
 const phone = "+980999999998";
 
@@ -24,6 +25,7 @@ export {
     editButton,
     buttonRegistration,
     buttonLogin,
+    buttonLogout,
     modalLogin,
     modalRegistration,
     phone,
