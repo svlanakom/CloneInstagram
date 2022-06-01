@@ -22,7 +22,7 @@ body {
 }
 
 .header {
-  background: rgb(117, 50, 205);
+  background: rgb(206, 202, 210);
   height: 10vh;
 }
 
@@ -96,6 +96,7 @@ body {
 }
 
 .list-container {
+  margin-top: -150px;
   display: flex;
   flex-direction: column;
   align-items: center;
