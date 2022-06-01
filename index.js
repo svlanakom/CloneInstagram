@@ -1,6 +1,6 @@
 import App from "./middleware/App.js";
 import Router from "./middleware/Roter.js";
-import { homeController, aboutController, contactController } from "./controllers/mainController.js"
+import { homeController, aboutController, contactController, addImageController } from "./controllers/mainController.js"
 
 
 
@@ -20,6 +20,11 @@ const routes = {
         title: "Contact",
         controller: contactController,
     },
+    addImage: {
+        template: "/templates/add-image.html",
+        title: "Add image",
+        controller: addImageController,
+    }
 };
 
 

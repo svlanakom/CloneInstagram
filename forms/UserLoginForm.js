@@ -7,10 +7,10 @@ export default class UserLoginForm extends Form {
         this.users = users;
     }
 
-    submit(event) {
+     async submit(event) {
         if (event) event.preventDefault();
 
-        let user = this.users.get(this.fields.email.value);
+        let user = await this.users.get(this.fields.email.value);
 
         if (Object.keys(user).length === 0 ||
             user["password"] !== this.fields.password.value) {

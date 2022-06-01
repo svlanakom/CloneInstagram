@@ -7,10 +7,12 @@ export default class UserRegistrationForm extends Form {
         this.users = users;
     }
 
-    isValidEmail() {
+   async isValidEmail() {
         let isValid = true;
         this.fields.email.nextElementSibling.textContent = "";
-        if (Object.keys(this.users.get(this.fields.email.value)).length !== 0) {
+        const user = await this.users.get(this.fields.email.value)
+        
+        if (Object.keys(user).length !== 0) {
             this.fields.email.nextElementSibling.textContent += "This email used!";
             isValid = false;
         }
@@ -25,21 +27,23 @@ export default class UserRegistrationForm extends Form {
         return false;
     }
 
-    submit(event) {
+    async submit(event) {
         event.preventDefault();
 
-        if (!this.isValidEmail() || !this.isValidPassword())
+        if (!(await this.isValidEmail()) || !this.isValidPassword())
             return false;
-
-        const formData = [...new FormData(this.elem)];
-
-        const newFormData = formData.reduce(
+       const formData = new FormData(this.elem);
+        const newFormData = [...formData];
+        const objFormData = newFormData.reduce(
             (acc, [field, value]) => ({ ...acc, [field]: value }),
             {}
         );
+       
 
-        this.users.add(newFormData["email"], newFormData);
+        // this.users.add(newFormData["email"], newFormData);
+         this.users.add(objFormData);
 
         this.clearInput();
     }
 }
+

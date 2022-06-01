@@ -92,10 +92,10 @@ export default class App {
     }
 
     
-    handleDelete(event) {
+    async handleDelete(event) {
         this.userToDelete = event.target.id.split("-")[1];
 
-        let user = this.Users.get(this.userToDelete);
+        let user =  await this.Users.get(this.userToDelete);
         if (Object.keys(user).length === 0) return;
 
         this.modalWindow.show(modalDelete);
@@ -113,25 +113,25 @@ export default class App {
         this.modalWindow.show(modalEdite);
     }
 
-    handleClose(event) {
+      handleClose(event) {
         if (event.target.dataset.modalWindow) {
             this.modalWindow.close();
             history.back();
         }
     }
 
-    deleteUser() {
+     async deleteUser() {
         if (this.userToDelete) {
-            this.Users.delete(this.userToDelete);
+           await this.Users.delete(this.userToDelete);
              this.userToDelete = undefined;
             this.modalWindow.close();
             history.back();
         }
     }
 
-    btnSubmitLoginClick() {
+     async btnSubmitLoginClick() {
         if (this.loginForm.submit()) {
-            let user = this.loginForm.submit();
+            let user = await this.loginForm.submit();
             localStorage.setItem("token", user["email"]);
             this.loginForm.clearInput();
             this.modalWindow.close();
