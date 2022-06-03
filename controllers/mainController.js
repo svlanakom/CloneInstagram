@@ -4,8 +4,8 @@ import { app } from "../index.js";
 const homeController = async () => {
     let token = localStorage.getItem("token");
     if (!token) return;
-    let user = await app.Users.get(token);
-    if (Object.keys(user).length === 0) return;
+    // let user = await app.Users.get(token);
+    // if (Object.keys(user).length === 0) return;
 
 
     let listOfUsersContainer = pageContent.querySelector(".list-container");

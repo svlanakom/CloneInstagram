@@ -18,6 +18,13 @@ export default class UserEditForm extends Form {
                     else element.checked = false;
                 }
             }
+        } else {
+            for (const key in this.fields.sex) {
+                if (Object.hasOwnProperty.call(this.fields.sex, key)) {
+                    const element = this.fields.sex[key];
+                   element.checked = false;
+                }
+            }
         }
 
         if (this.user["hobby"]) {
@@ -43,14 +50,14 @@ export default class UserEditForm extends Form {
             this.fields.birthdate.value = "";
     }
 
-    submit(event) {
+    async submit(event) {
         event.preventDefault();
 
         const data = new FormData(event.target);
         const formJSON = Object.fromEntries(data.entries());
         formJSON.hobby = data.getAll('hobby');
 
-        this.users.add(this.user["email"], { ...this.user, ...formJSON });
+       await this.users.update({ ...this.user, ...formJSON });
 
         this.clearInput();
     }

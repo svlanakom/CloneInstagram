@@ -1,4 +1,5 @@
 import Form from "./Form.js";
+import { host } from "../config/constants.js"
 
 export default class UserLoginForm extends Form {
     constructor(elem, fields, users) {
@@ -9,14 +10,27 @@ export default class UserLoginForm extends Form {
 
      async submit(event) {
         if (event) event.preventDefault();
+        
+        const formData = new FormData(this.elem);
+        const newFormData = [...formData]
+        const objFormData = newFormData.reduce(
+            (acc, [field, value]) => ({ ...acc, [field]: value }),
+            {}
+        );
+        let response = await fetch(`${host}/users/login`, {
+            method: "post",
+            body: JSON.stringify(objFormData),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        let token = await response.text();
 
-        let user = await this.users.get(this.fields.email.value);
+     
 
-        if (Object.keys(user).length === 0 ||
-            user["password"] !== this.fields.password.value) {
+        if (!token)
             this.fields.password.nextElementSibling.textContent = "Incorrect email or password";
-            return false;
-        }
-        return user;
+            return token;
+       
     }
 }
