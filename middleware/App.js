@@ -101,10 +101,10 @@ export default class App {
         this.modalWindow.show(modalDelete);
     }
 
-    handleEdit(event) {
+    async handleEdit(event) {
         this.userToEdit = event.target.id.split("-")[1];
 
-        let user = this.Users.get(this.userToEdit);
+        let user = await this.Users.get(this.userToEdit);
         if (Object.keys(user).length === 0) return;
 
         this.editForm.user = user;
@@ -113,7 +113,7 @@ export default class App {
         this.modalWindow.show(modalEdite);
     }
 
-      handleClose(event) {
+        handleClose(event) {
         if (event.target.dataset.modalWindow) {
             this.modalWindow.close();
             history.back();
@@ -130,9 +130,10 @@ export default class App {
     }
 
      async btnSubmitLoginClick() {
-        if (this.loginForm.submit()) {
-            let user = await this.loginForm.submit();
-            localStorage.setItem("token", user["email"]);
+         let token = await this.loginForm.submit();
+        if(token) {
+           
+            localStorage.setItem("token", token);
             this.loginForm.clearInput();
             this.modalWindow.close();
             history.back();

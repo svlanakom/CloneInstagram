@@ -40,6 +40,17 @@ export default class Datalayer {
     return data;
   }
 
+
+  async update(obj) {
+    await fetch(`${host}/${this.tableName}/update`, {
+      method: "post",
+      body: JSON.stringify(obj),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  }
+
   async delete(key) {
     // let data = this.getAll(this.tableName);
     // if (data && Object.keys(data).includes(key)) {

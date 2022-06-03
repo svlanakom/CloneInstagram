@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   
    const upload = multer({ storage, limits: { fileSize: 25 * 1024 * 1024 } });
 
-const User = require('../models/user');
+// const User = require('../models/user');
 
 router.post('/image', upload.any('image'), (req, res) => {
     console.log(req.files);
