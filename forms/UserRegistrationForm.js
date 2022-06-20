@@ -7,17 +7,16 @@ export default class UserRegistrationForm extends Form {
         this.users = users;
     }
 
-   async isValidEmail() {
-        let isValid = true;
-        this.fields.email.nextElementSibling.textContent = "";
-        const user = await this.users.get(this.fields.email.value)
-        
-        if (Object.keys(user).length !== 0) {
-            this.fields.email.nextElementSibling.textContent += "This email used!";
-            isValid = false;
-        }
-        return isValid;
-    }
+    // async isValidEmail() {
+    //     let isValid = true;
+    //     this.fields.email.nextElementSibling.textContent = "";
+    //     const user = await this.users.get(this.fields.email.value);
+    //     if (Object.keys(user).length !== 0) {
+    //         this.fields.email.nextElementSibling.textContent += "This email used!";
+    //         isValid = false;
+    //     }
+    //     return isValid;
+    // }
 
     isValidPassword() {
         this.fields.passwordConfirm.nextElementSibling.textContent = "";
@@ -30,20 +29,24 @@ export default class UserRegistrationForm extends Form {
     async submit(event) {
         event.preventDefault();
 
-        if (!(await this.isValidEmail()) || !this.isValidPassword())
+        if (!this.isValidPassword())
             return false;
-       const formData = new FormData(this.elem);
+
+        const formData = new FormData(this.elem);
         const newFormData = [...formData];
         const objFormData = newFormData.reduce(
             (acc, [field, value]) => ({ ...acc, [field]: value }),
             {}
         );
-       
+        
+        const user = await this.users.add(objFormData);
 
-        // this.users.add(newFormData["email"], newFormData);
-         this.users.add(objFormData);
+        this.fields.email.nextElementSibling.textContent = "";
+        if (Object.keys(user).length === 0) {
+            this.fields.email.nextElementSibling.textContent += "This email used!";
+            return false;
+        }
 
         this.clearInput();
     }
 }
-

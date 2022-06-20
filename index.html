@@ -1,242 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./styles/style.css" />
-    <link rel="icon" href="http://localhost:3000/image/ikon.png">
-  </head>
-  <body>
-    <div class="wraper">
-      <header class="header">
-        <a href="#registration" class="button-registration">Registration</a>
-        <a href="#login" class="button-login">Login</a>
-        <a href="#logout" class="button-logout">Logout</a>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <a href="#addImage">Add image</a>
-      </header>
 
-      <div class="conteiner">
-        <nav class="navigation"></nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="./styles/style.css" />
+  <link rel="icon" href="http://localhost:3000/image/ikon.png">
+</head>
 
-        <main class="content">
-          <div class="page-content"></div>
+<body>
+  <div class="wraper">
+    <header class="header">
+      <div style="display: flex;">
+        <!-- <div style="display: flex; justify-content: flex-end;" > -->
+        <a style="margin-right: 5px;" href="#registration" class="button-registration">Registration</a>
+        <a style="margin-right: 5px;" href="#login" class="button-login">Login</a>
+        <a style="margin-right: 5px;" href="#logout" class="button-logout">Logout</a>
 
-          <div class="modal-delete" data-modal-window="modal-delete">
-            <div class="modal-content">
-              <span class="close" title="Close Modal">&times;</span>
-              <span><b>Are you sure?</b></span>
-
-              <button class="delete-confirmation-btn"><b>Yes</b></button>
-            </div>
-          </div>
-
-          <div class="modal-edit" data-modal-window="modal-edit">
-            <div class="modal-content">
-              <span class="close" title="Close Modal">&times;</span>
-
-              <form id="edit-form" method="post">
-                <h2>Edit</h2>
-
-                <h4>Sex</h4>
-
-                <div class="form-control form-control-edit">
-                  <label class="form-label" for="edit-sex-male">Male</label>
-                  <input
-                    type="radio"
-                    name="sex"
-                    id="edit-sex-male"
-                    value="Male"
-                  />
-                  <label class="form-label" for="edit-sex-famale">Famale</label>
-                  <input
-                    type="radio"
-                    name="sex"
-                    id="edit-sex-famale"
-                    value="Famele"
-                  />
-                </div>
-                <h4>Hobby</h4>
-
-                <div class="form-control form-control-edit">
-                  <label class="form-label" for="edit-hobby-sport">Sport</label>
-                  <input
-                    type="checkbox"
-                    name="hobby"
-                    id="edit-hobby-sport"
-                    value="Sport"
-                  />
-                  <label class="form-label" for="edit-hobby-films">Films</label>
-                  <input
-                    type="checkbox"
-                    name="hobby"
-                    id="edit-hobby-films"
-                    value="Films"
-                  />
-                  <label class="form-label" for="edit-hobby-drowing"
-                    >Drowing</label
-                  >
-                  <input
-                    type="checkbox"
-                    name="hobby"
-                    id="edit-hobby-drowing"
-                    value="Drowing"
-                  />
-                </div>
-
-                <div class="form-control form-control-edit">
-                  <label class="form-label" for="edit-country"
-                    ><b>Country</b></label
-                  >
-                  <select name="country" id="edit-country">
-                    <option value=""></option>
-                    <option value="Ukraine">Ukraine</option>
-                    <option value="Poland">Poland</option>
-                  </select>
-                </div>
-
-                <div class="form-control form-control-edit">
-                  <label class="form-label" for="edit-birthdate"
-                    ><b>Birthdate</b></label
-                  >
-                  <input type="date" name="birthdate" id="edit-birthdate" />
-                </div>
-
-                <button type="submit" class="edit-confirmation-btn">
-                  Save changes
-                </button>
-              </form>
-            </div>
-          </div>
-
-          <div class="modal-registration registration" data-modal-window="modal-registration"
-          >
-            <form class="registration-form" method="post">
-              <span class="close" title="Close Modal">&times;</span>
-
-              <h3 class="form-title">Registration</h3>
-
-              <div class="form-control">
-                <label class="form-label" for="username">Name</label>
-                <input
-                  class="form-input"
-                  type="text"
-                  name="username"
-                  id="username"
-                  required
-                  data-error-message="Name is not correct!"
-                />
-                <span class="error-text error-text-name"></span>
-              </div>
-
-              <div class="form-control">
-                <label class="form-label" for="email">Email</label>
-                <input
-                  class="form-input"
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="name@example.com"
-                  required
-                  pattern="[A-z]+[A-z0-9._%+-]*@[A-z0-9.-]+\.[A-z]{2,4}$"
-                  data-error-message="Email is not correct!"
-                />
-                <span class="error-text error-text-email"></span>
-              </div>
-
-              <div class="form-control">
-                <label class="form-label" for="password">Password</label>
-                <input
-                  class="form-input"
-                  type="password"
-                  name="password"
-                  id="password"
-                  required
-                  pattern="[0-9]+"
-                  minlength="6"
-                  maxlength="10"
-                  data-error-message="Password is not correct!"
-                />
-                <span class="error-text error-text-password"></span>
-              </div>
-
-              <div class="form-control">
-                <label class="form-label" for="password1"
-                  >Confirm password</label
-                >
-                <input
-                  class="form-input"
-                  type="password"
-                  name="password1"
-                  id="password1"
-                  required
-                  pattern="[0-9]+"
-                  minlength="6"
-                  maxlength="10"
-                  data-error-message="Password is not correct!"
-                />
-                <span class="error-text error-text-password1"></span>
-              </div>
-
-              <input
-                class="submit-button registration-submit-button"
-                type="submit"
-                value="Send"
-              />
-            </form>
-          </div>
-
-          <div class="modal-login login" data-modal-window="modal-login">
-            <form class="login-form" method="post">
-              <span class="close" title="Close Modal">&times;</span>
-              <h1 class="form-title">Login</h1>
-
-              <div class="form-control">
-                <label class="form-label" for="email-login">Email</label>
-                <input
-                  class="form-input"
-                  type="email"
-                  id="email-login"
-                  name="email"
-                  placeholder="name@example.com"
-                  required
-                  data-error-message="Email or password is not correct!"
-                />
-                <span class="error-text error-text-login"></span>
-              </div>
-
-              <div class="form-control">
-                <label class="form-label" for="password-login">Password</label>
-                <input
-                  class="form-input"
-                  type="password"
-                  name="password"
-                  id="password-login"
-                  required
-                  data-error-message="Email or password is not correct!"
-                />
-                <span class="error-text error-text-login"></span>
-              </div>
-
-              <input
-                class="submit-button login-submit-button"
-                type="submit"
-                value="Send"
-              />
-            </form>
-          </div>
-        </main>
-
-        <aside class="sidebar"></aside>
+        <a style="margin-left: auto; margin-right: 5px" href="#home">Home</a>
+        <a style="margin-right: 5px;" href="#about">About</a>
+        <a style="margin-right: 5px;" href="#contact">Contact</a>
+        <a style="margin-right: 5px;" href="#addPosts">Add posts</a>
       </div>
 
-      <footer class="footer"></footer>
+    </header>
 
-      <script type="module" src="index.js"></script>
+    <div class="conteiner">
+      <nav class="navigation"></nav>
+
+      <main class="content">
+        <div class="page-content"></div>
+
+        <div class="modal-delete" data-modal-window="modal-delete">
+          <div class="modal-content">
+            <span class="close" title="Close Modal">&times;</span>
+            <span><b>Are you sure?</b></span>
+
+            <button class="delete-confirmation-btn"><b>Yes</b></button>
+          </div>
+        </div>
+
+        <div class="modal-edit" data-modal-window="modal-edit">
+          <div class="modal-content">
+            <span class="close" title="Close Modal">&times;</span>
+
+            <form id="edit-form" method="post">
+              <h2>Edit</h2>
+
+              <h4>Sex</h4>
+
+              <div class="form-control form-control-edit">
+                <label class="form-label" for="edit-sex-male">Male</label>
+                <input type="radio" name="sex" id="edit-sex-male" value="Male" />
+                <label class="form-label" for="edit-sex-famale">Famale</label>
+                <input type="radio" name="sex" id="edit-sex-famale" value="Famele" />
+              </div>
+              <h4>Hobby</h4>
+
+              <div class="form-control form-control-edit">
+                <label class="form-label" for="edit-hobby-sport">Sport</label>
+                <input type="checkbox" name="hobby" id="edit-hobby-sport" value="Sport" />
+                <label class="form-label" for="edit-hobby-films">Films</label>
+                <input type="checkbox" name="hobby" id="edit-hobby-films" value="Films" />
+                <label class="form-label" for="edit-hobby-drowing">Drowing</label>
+                <input type="checkbox" name="hobby" id="edit-hobby-drowing" value="Drowing" />
+              </div>
+
+              <div class="form-control form-control-edit">
+                <label class="form-label" for="edit-country"><b>Country</b></label>
+                <select name="country" id="edit-country">
+                  <option value=""></option>
+                  <option value="Ukraine">Ukraine</option>
+                  <option value="Poland">Poland</option>
+                </select>
+              </div>
+
+              <div class="form-control form-control-edit">
+                <label class="form-label" for="edit-birthdate"><b>Birthdate</b></label>
+                <input type="date" name="birthdate" id="edit-birthdate" />
+              </div>
+
+              <button type="submit" class="edit-confirmation-btn">
+                Save changes
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="modal-registration registration" data-modal-window="modal-registration">
+          <form class="registration-form" method="post">
+            <span class="close" title="Close Modal">&times;</span>
+
+            <h3 class="form-title">Registration</h3>
+
+            <div class="form-control">
+              <label class="form-label" for="username">Name</label>
+              <input class="form-input" type="text" name="username" id="username" required
+                data-error-message="Name is not correct!" />
+              <span class="error-text error-text-name"></span>
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="name@example.com" required
+                pattern="[A-z]+[A-z0-9._%+-]*@[A-z0-9.-]+\.[A-z]{2,4}$" data-error-message="Email is not correct!" />
+              <span class="error-text error-text-email"></span>
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="password">Password</label>
+              <input class="form-input" type="password" name="password" id="password" required pattern="[0-9]+"
+                minlength="6" maxlength="10" data-error-message="Password is not correct!" />
+              <span class="error-text error-text-password"></span>
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="password1">Confirm password</label>
+              <input class="form-input" type="password" name="password1" id="password1" required pattern="[0-9]+"
+                minlength="6" maxlength="10" data-error-message="Password is not correct!" />
+              <span class="error-text error-text-password1"></span>
+            </div>
+
+            <input class="submit-button registration-submit-button" type="submit" value="Send" />
+          </form>
+        </div>
+
+        <div class="modal-login login" data-modal-window="modal-login">
+          <form class="login-form" method="post">
+            <span class="close" title="Close Modal">&times;</span>
+            <h1 class="form-title">Login</h1>
+
+            <div class="form-control">
+              <label class="form-label" for="email-login">Email</label>
+              <input class="form-input" type="email" id="email-login" name="email" placeholder="name@example.com"
+                required data-error-message="Email or password is not correct!" />
+              <span class="error-text error-text-login"></span>
+            </div>
+
+            <div class="form-control">
+              <label class="form-label" for="password-login">Password</label>
+              <input class="form-input" type="password" name="password" id="password-login" required
+                data-error-message="Email or password is not correct!" />
+              <span class="error-text error-text-login"></span>
+            </div>
+
+            <input class="submit-button login-submit-button" type="submit" value="Send" />
+          </form>
+        </div>
+      </main>
+
+      <aside class="sidebar"></aside>
     </div>
-  </body>
+
+    <footer class="footer"></footer>
+
+    <script type="module" src="index.js"></script>
+  </div>
+</body>
+
 </html>

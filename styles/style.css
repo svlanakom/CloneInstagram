@@ -9,6 +9,7 @@ body {
 .conteiner {
   display: flex;
   min-height: calc(100vh - 20vh);
+  
 }
 
 .navigation {
@@ -29,6 +30,7 @@ body {
 .footer {
   background: yellowgreen;
   height: 10vh;
+ 
 }
 
 .content {
@@ -49,6 +51,17 @@ body {
 }
 
 .form-input {
+  width: 100%;
+  height: 32px;
+  border-radius: 4px;
+  padding: 4px;
+  border: 1px solid grey;
+  outline: none;
+}
+
+.form-input-card{
+ margin-bottom: 15px;
+
   width: 100%;
   height: 32px;
   border-radius: 4px;
@@ -82,6 +95,16 @@ body {
   margin-top: 16px;
   background-color: coral;
   color: white;
+}
+.button-card {
+  margin-bottom: 20px;
+  width: 20%;
+  height: 22px;
+  border-radius: 4px;
+  margin-top: 16px;
+  background-color: coral;
+  color: white;
+
 }
 
 .error-text {

@@ -4,7 +4,6 @@ import UserLoginForm from "../forms/UserLoginForm.js";
 import UserRegistrationForm from "../forms/UserRegistrationForm.js";
 import ModalWindow from "./ModalWindow.js";
 import {
-   
     modalDelete,
     modalEdite,
     btnSubmitLogin,
@@ -15,8 +14,7 @@ import {
     buttonLogout,
     modalLogin,
     modalRegistration,
-    } from "../config/constants.js";
-
+} from "../config/constants.js";
 
 export default class App {
     constructor() {
@@ -60,7 +58,7 @@ export default class App {
             this.Users
         );
 
-       
+        this.userButtons();
 
         this.modalWindow = new ModalWindow();
 
@@ -69,8 +67,8 @@ export default class App {
 
         editButton.addEventListener("click", () => {
             this.modalWindow.close();
-           history.back();
-        }),
+            history.back();
+        });
 
         window.addEventListener("click", (event) => this.handleClose(event));
 
@@ -78,24 +76,18 @@ export default class App {
 
         btnSubmitLogin.addEventListener("click", () => this.btnSubmitLoginClick());
 
-
-
         buttonRegistration.addEventListener("click", () => this.modalWindow.show(modalRegistration));
-
-
         buttonLogin.addEventListener("click", () => this.modalWindow.show(modalLogin));
-
         buttonLogout.addEventListener("click", () => {
             localStorage.removeItem("token");
             window.location = "/";
         });
     }
 
-    
     async handleDelete(event) {
         this.userToDelete = event.target.id.split("-")[1];
 
-        let user =  await this.Users.get(this.userToDelete);
+        let user = await this.Users.get(this.userToDelete);
         if (Object.keys(user).length === 0) return;
 
         this.modalWindow.show(modalDelete);
@@ -113,30 +105,43 @@ export default class App {
         this.modalWindow.show(modalEdite);
     }
 
-        handleClose(event) {
+    handleClose(event) {
         if (event.target.dataset.modalWindow) {
+            console.log("close");
             this.modalWindow.close();
             history.back();
         }
     }
 
-     async deleteUser() {
+    async deleteUser() {
         if (this.userToDelete) {
-           await this.Users.delete(this.userToDelete);
-             this.userToDelete = undefined;
+            await this.Users.delete(this.userToDelete);
+            this.userToDelete = undefined;
             this.modalWindow.close();
             history.back();
         }
     }
 
-     async btnSubmitLoginClick() {
-         let token = await this.loginForm.submit();
-        if(token) {
-           
-            localStorage.setItem("token", token);
+    async btnSubmitLoginClick() {
+        let token = JSON.parse(await this.loginForm.submit());
+        if (token) {
+            localStorage.setItem('token', `Bearer ${token.token}`);
+            this.userButtons();
             this.loginForm.clearInput();
             this.modalWindow.close();
             history.back();
+        }
+    }
+
+    userButtons() {
+        if (localStorage.getItem('token')) {
+            buttonRegistration.style["display"] = "none";
+            buttonLogin.style["display"] = "none";
+            buttonLogout.style["display"] = "inline";
+        } else {
+            buttonRegistration.style["display"] = "inline";
+            buttonLogin.style["display"] = "inline";
+            buttonLogout.style["display"] = "none";
         }
     }
 }

@@ -22,7 +22,7 @@ export default class UserEditForm extends Form {
             for (const key in this.fields.sex) {
                 if (Object.hasOwnProperty.call(this.fields.sex, key)) {
                     const element = this.fields.sex[key];
-                   element.checked = false;
+                    element.checked = false;
                 }
             }
         }
@@ -57,7 +57,7 @@ export default class UserEditForm extends Form {
         const formJSON = Object.fromEntries(data.entries());
         formJSON.hobby = data.getAll('hobby');
 
-       await this.users.update({ ...this.user, ...formJSON });
+        await this.users.update({ ...this.user, ...formJSON });
 
         this.clearInput();
     }
