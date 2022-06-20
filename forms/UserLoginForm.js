@@ -1,5 +1,5 @@
 import Form from "./Form.js";
-import { host } from "../config/constants.js"
+import { host } from "../config/constants.js";
 
 export default class UserLoginForm extends Form {
     constructor(elem, fields, users) {
@@ -8,15 +8,16 @@ export default class UserLoginForm extends Form {
         this.users = users;
     }
 
-     async submit(event) {
+    async submit(event) {
         if (event) event.preventDefault();
-        
+
         const formData = new FormData(this.elem);
-        const newFormData = [...formData]
+        const newFormData = [...formData];
         const objFormData = newFormData.reduce(
             (acc, [field, value]) => ({ ...acc, [field]: value }),
             {}
         );
+
         let response = await fetch(`${host}/users/login`, {
             method: "post",
             body: JSON.stringify(objFormData),
@@ -26,11 +27,8 @@ export default class UserLoginForm extends Form {
         });
         let token = await response.text();
 
-     
-
         if (!token)
             this.fields.password.nextElementSibling.textContent = "Incorrect email or password";
-            return token;
-       
+        return token;
     }
 }

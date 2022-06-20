@@ -1,49 +1,70 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
-const User = require('../models/user')
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
-router.post('/add', async(req, res) => {
-  delete req.body.password1;
-     console.log(req.body)
-    await User.create(req.body)
+const User = require('../models/user');
+
+router.post('/add', async (req, res) => {
+    // delete req.body.password1;
+    // console.log(req.body);
+    const checkUser = await User.findOne({email: req.body.email});
+    if (checkUser) {
+        res.send({});
+    }
+    else {
+        const user = await User.create(req.body);
+        
+        res.send(user);
+    }
+});
+
+router.post('/update', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await User.updateOne({ _id: req.body._id }, req.body);
+    // console.log(req.body);
     res.sendStatus(200);
-  });
-
-router.post('/update', async(req, res) =>{
-  await User.updateOne({_id: req.body._id}, req.body)
-   res.sendStatus(200);
-})
-
-router.get('/get', async (req, res) => {
-  let users = await User.find();
-  console.log(users)
-  res.status(200).send(users);
 });
 
-
-router.get('/get/:email', async (req, res) => {
-  let user = await User.findOne({email: req.params.email});
-  console.log(user)
-  res.status(200).send(user || {});
+router.get('/get', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const users = await User.find();
+    console.log(users);
+    res.status(200).send(users);
 });
 
-router.post('/login', async (req, res) => {
-  const user = await User.findOne({email: req.body.email});
-
-  if(user && user.password === req.body.password){
-    let token = `email:${user.email};password:${user.password}`;
-    res.status(200).send(token)
-  } else {
-    res.status(401).send(null)
-  }
-     
+router.get('/get/:email', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const user = await User.findOne({ email: req.params.email });
+    console.log(user);
+    res.status(200).send(user || {});
 });
 
-router.delete('/delete/:email', async (req , res) => {
-  await User.findOneAndDelete({email: req.params.email});
-  res.sendStatus(200);
+router.delete('/delete/:email', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await User.findOneAndDelete({ email: req.params.email });
+    res.sendStatus(200);
 });
 
-
+router.post('/login', async (req, res, next) => {
+    passport.authenticate(
+        'login',
+        async (err, user, info) => {
+            try {
+                if (err || !user) {
+                    const error = new Error('An error occurred.');
+                    return next(error);
+                }
+                req.login(
+                    user,
+                    { session: false },
+                    async (error) => {
+                        if (error) return next(error);
+                        const body = { _id: user._id, email: user.email };
+                        const token = jwt.sign({ user: body }, 'TOP_SECRET');
+                        return res.json({ token });
+                    }
+                );
+            } catch (error) {
+                return next(error);
+            }
+        })(req, res, next);
+});
 
 module.exports = router;

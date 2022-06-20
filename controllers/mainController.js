@@ -4,9 +4,9 @@ import { app } from "../index.js";
 const homeController = async () => {
     let token = localStorage.getItem("token");
     if (!token) return;
-    // let user = await app.Users.get(token);
+    // let email = token.split(';')[0].split(':')[1];
+    // let user = await app.Users.get(email);
     // if (Object.keys(user).length === 0) return;
-
 
     let listOfUsersContainer = pageContent.querySelector(".list-container");
     if (!listOfUsersContainer) return;
@@ -21,8 +21,8 @@ const homeController = async () => {
     listOfUsersContainer.innerHTML = "<h2>List of users</h2>";
     for (const email in users) {
         listOfUsersContainer.innerHTML += `<div class="m-2"><div class="m-3">${email}</div>
-           <a href="#delete"><button class="button-delete" id="delete-${email}">delete</button></a>
-           <a href="#edit"><button class="button-edit" id="edit-${email}">edit</button></div></a>`;
+            <a href="#delete"><button class="button-delete" id="delete-${email}">delete</button></a>
+            <a href="#edit"><button class="button-edit" id="edit-${email}">edit</button></div></a>`;
     }
 
     const deleteUsersBtns = document.querySelectorAll(".button-delete");
@@ -34,7 +34,6 @@ const homeController = async () => {
     for (const btn of editeUsers) {
         btn.addEventListener("click", (event) => app.handleEdit(event));
     }
-
 }
 
 const aboutController = () => {
@@ -45,35 +44,70 @@ const contactController = () => {
     document.querySelector("#phone").innerHTML += phone;
 }
 
-const addImageController = () => {
-    let sendImageForm = document.querySelector("#sendImage");
-    let imageContainer = document.querySelector("#imageContainer")
-    sendImageForm.addEventListener("submit", async (event) => {
+const addPostController = () => {
+    const postsContainer = document.getElementById("postContainer");
+    const sendPostForm = document.getElementById("sendPost");
+    
+    
+    sendPostForm.addEventListener("submit", (event) => {
         event.preventDefault()
-        const formData = new FormData(event.target)
-        // console.log(formData);
-        let name = formData.get("image").name;
-        // console.log(name)
-        await fetch("http://localhost:3000/image", {
-            
+        const formData = new FormData(event.target);
+        const token = localStorage.getItem('token');
+        fetch("http://localhost:3000/createpost", {
             method: "post",
-            body: formData
-        });
-        let response = await fetch(`http://localhost:3000/image/${name}`);
-        const imageBlob = await response.blob();
-        // console.log(imageBlob)
-        const reader = new FileReader();
-        reader.readAsDataURL(imageBlob);
-        reader.onloadend = () => {
-            const base64data = reader.result;
-            imageContainer.innerHTML =
-                `<img src="${base64data}" >`;
-            console.log(base64data)
-        }
+            body: formData,
+            headers: {
+                "Authorization": token
+            }
+        }).then(response => response.json())
+          .then( post => {
+            postsContainer.innerHTML += 
+            
 
+             `<div style="width: 250px;"height: 250px;">
+             <h4>${post.title}</h4>
+            
+             <img src="http://localhost:3000/${post.imagePath}" style = "height: 150px; width: 200px;"></br>
+            
+             <p>${post.description}</p>
+             </div>`;
+            
+          });
+       
+        // let response = await fetch(`http://localhost:3000/image/${name}`);
+        // const imageBlob = await response.blob();
+        // const reader = new FileReader();
+        // reader.readAsDataURL(imageBlob);
+        // reader.onloadend = () => {
+        //     const base64data = reader.result;
+        //     imageContainer.innerHTML = 
+        //         `<img src="${base64data}" witdh="200px">`;
+        // }
     });
 
+    loadPosts();
 
-
+    async function loadPosts() {
+        const token = localStorage.getItem('token');
+        let response = await fetch('http://localhost:3000/posts', {
+            headers: {
+                "Authorization": token
+            }
+        });
+        const posts = await response.json();
+        postsContainer.innerHTML = '';
+        posts.forEach(post => {
+            postsContainer.innerHTML += 
+            `<div style="width: 250px; "height: 250px;">
+            <h4>${post.title}</h4>
+           
+            <img src="http://localhost:3000/${post.imagePath}" style = "height: 150px; width: 200px;"></br>
+           
+            <p>${post.description}</p>
+            </div>`;
+           
+        })
+    }
 }
-export { homeController, aboutController, contactController, addImageController };
+
+export { homeController, aboutController, contactController, addPostController };

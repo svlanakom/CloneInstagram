@@ -12,10 +12,11 @@ const editButton = document.querySelector(".edit-confirmation-btn");
 
 const buttonRegistration = document.querySelector(".button-registration");
 const buttonLogin = document.querySelector(".button-login");
-const buttonLogout = document.querySelector(".button-logout")
+const buttonLogout = document.querySelector(".button-logout");
 
 const phone = "+980999999998";
-const host = "http://localhost:3000"
+
+const host = "http://localhost:3000";
 
 export {
     pageContent,
@@ -30,5 +31,5 @@ export {
     modalLogin,
     modalRegistration,
     phone,
-    host
+    host,
 }

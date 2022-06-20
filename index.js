@@ -1,15 +1,13 @@
 import App from "./middleware/App.js";
 import Router from "./middleware/Roter.js";
-import { homeController, aboutController, contactController, addImageController } from "./controllers/mainController.js"
-
-
+import { homeController, aboutController, contactController, addPostController } from "./controllers/mainController.js";
 
 const routes = {
     home: {
         template: "/templates/index.html",
         title: "Home",
         controller: homeController,
-},
+    },
     about: {
         template: "/templates/about.html",
         title: "About Us",
@@ -20,16 +18,14 @@ const routes = {
         title: "Contact",
         controller: contactController,
     },
-    addImage: {
-        template: "/templates/add-image.html",
-        title: "Add image",
-        controller: addImageController,
+    addPosts: {
+        template: "/templates/add-post.html",
+        title: "Add posts",
+        controller: addPostController,
     }
 };
 
-
 const app = new App();
-
 
 const router = new Router(routes);
 router.locationHandler();
