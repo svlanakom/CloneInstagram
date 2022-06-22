@@ -4,15 +4,20 @@ import { app } from "../index.js";
 const homeController = async () => {
     let token = localStorage.getItem("token");
     if (!token) return;
-    // let email = token.split(';')[0].split(':')[1];
-    // let user = await app.Users.get(email);
-    // if (Object.keys(user).length === 0) return;
 
     let listOfUsersContainer = pageContent.querySelector(".list-container");
     if (!listOfUsersContainer) return;
 
-    let users = await app.Users.getAll();
-    console.log(users)
+    let users;
+    try {
+        users = await app.Users.getAll();
+    } catch (error) {
+        localStorage.removeItem('token');
+        console.log(error.message);
+        app.userButtons();
+        return;
+    }
+
     if (Object.keys(users).length === 0) {
         listOfUsersContainer.innerHTML = "<h2>List is empty</h2>";
         return;
@@ -44,69 +49,89 @@ const contactController = () => {
     document.querySelector("#phone").innerHTML += phone;
 }
 
-const addPostController = () => {
+const addPostController = async () => {
     const postsContainer = document.getElementById("postContainer");
     const sendPostForm = document.getElementById("sendPost");
+    const token = localStorage.getItem('token');
     
-    
-    sendPostForm.addEventListener("submit", (event) => {
-        event.preventDefault()
+    sendPostForm.addEventListener("submit", async function (event) {
+        event.stopPropagation();
+       
         const formData = new FormData(event.target);
-        const token = localStorage.getItem('token');
-        fetch("http://localhost:3000/createpost", {
+        const response = await fetch("http://localhost:3000/createpost", {
             method: "post",
             body: formData,
             headers: {
                 "Authorization": token
             }
-        }).then(response => response.json())
-          .then( post => {
-            postsContainer.innerHTML += 
-            
-
-             `<div style="width: 250px;"height: 250px;">
-             <h4>${post.title}</h4>
-            
-             <img src="http://localhost:3000/${post.imagePath}" style = "height: 150px; width: 200px;"></br>
-            
-             <p>${post.description}</p>
-             </div>`;
-            
-          });
-       
-        // let response = await fetch(`http://localhost:3000/image/${name}`);
-        // const imageBlob = await response.blob();
-        // const reader = new FileReader();
-        // reader.readAsDataURL(imageBlob);
-        // reader.onloadend = () => {
-        //     const base64data = reader.result;
-        //     imageContainer.innerHTML = 
-        //         `<img src="${base64data}" witdh="200px">`;
-        // }
+        });
+        let post;
+        try {
+            if (response.status === 401)
+                throw new Error('User unauthorized!');
+            post = await response.json();
+        }
+        catch (error) {
+            localStorage.removeItem('token');
+            console.log(error.message);
+            app.userButtons();
+            postsContainer.innerHTML = '';
+        }
+        if (post) postsContainer.innerHTML +=
+            `<div style="width: 250px; height: 275px;">
+                <h4>${post.title}</h4>
+                <img src="http://localhost:3000/${post.imagePath}" style = "height: 130px; width: 200px;"></br>
+                <p>${post.description}</p>
+                <button class="postDelete" data-post-id="${post._id}">del</button>
+            </div>`;
+        bindDelButtons();
     });
 
-    loadPosts();
+    try {
+        await loadPosts();
+    } catch (error) {
+        localStorage.removeItem('token');
+        console.log(error.message);
+        app.userButtons();
+    }
 
     async function loadPosts() {
-        const token = localStorage.getItem('token');
         let response = await fetch('http://localhost:3000/posts', {
             headers: {
                 "Authorization": token
             }
         });
-        const posts = await response.json();
         postsContainer.innerHTML = '';
+        if (response.status === 401)
+            throw new Error('User unauthorized!');
+        const posts = await response.json();
         posts.forEach(post => {
-            postsContainer.innerHTML += 
-            `<div style="width: 250px; "height: 250px;">
-            <h4>${post.title}</h4>
-           
-            <img src="http://localhost:3000/${post.imagePath}" style = "height: 150px; width: 200px;"></br>
-           
-            <p>${post.description}</p>
-            </div>`;
-           
-        })
+            postsContainer.innerHTML +=
+                `<div style="width: 250px; height: 275px;">
+                    <h4>${post.title}</h4>
+                    <img src="http://localhost:3000/${post.imagePath}" style = "height: 130px; width: 200px;"></br>
+                    <p>${post.description}</p>
+                   <button class="postDelete" data-post-id="${post._id}">del</button>
+                </div>`;
+        });
+        bindDelButtons();
+    }
+
+    function bindDelButtons() {
+        const btns = document.getElementsByClassName("postDelete");
+        Array.from(btns).forEach(btn => {
+            btn.addEventListener('click', (event) => {
+                const id = event.target.dataset.postId;
+                fetch(`http://localhost:3000/deletepost/${id}`, {
+                    method: "delete",
+                    headers: {
+                        "Authorization": token
+                    }
+                })
+                    .then(response => response.text())
+                    .then(async () => await loadPosts());
+            });
+        });
     }
 }
 
