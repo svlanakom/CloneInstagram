@@ -24,6 +24,8 @@ export default class Datalayer {
         "Authorization": token
       }
     });
+    if(response.status === 401)
+    throw new Error('User unauthorized')
     const data = await response.json();
     return data;
   }
@@ -35,6 +37,8 @@ export default class Datalayer {
         "Authorization": token
       }
     });
+    if(response.status === 401)
+    throw new Error('User unauthorized')
     let data = await response.json();
     data = data.reduce((total, item) => {
       total[item.email] = item;

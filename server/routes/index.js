@@ -38,4 +38,9 @@ router.get('/posts', passport.authenticate('jwt', { session: false }), async (re
     res.status(200).send(posts);
 });
 
+router.delete('/deletepost/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Post.findOneAndDelete({ _id: req.params.id });
+    res.sendStatus(200);
+});
+
 module.exports = router;
