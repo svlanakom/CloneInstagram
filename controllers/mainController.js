@@ -52,10 +52,14 @@ const contactController = () => {
 const addPostController = async () => {
     const postsContainer = document.getElementById("postContainer");
     const sendPostForm = document.getElementById("sendPost");
+    const editPostlForm = document.getElementById("editPost");
     const token = localStorage.getItem('token');
-    
+    sendPostForm.addEventListener("submit", (event) => { 
+        event.preventDefault();
+    });  
     sendPostForm.addEventListener("submit", async function (event) {
-        event.stopPropagation();
+        console.log("submit")
+        event.preventDefault();
        
         const formData = new FormData(event.target);
         const response = await fetch("http://localhost:3000/createpost", {
@@ -65,6 +69,7 @@ const addPostController = async () => {
                 "Authorization": token
             }
         });
+        
         let post;
         try {
             if (response.status === 401)
@@ -78,14 +83,17 @@ const addPostController = async () => {
             postsContainer.innerHTML = '';
         }
         if (post) postsContainer.innerHTML +=
-            `<div style="width: 250px; height: 275px;">
-                <h4>${post.title}</h4>
-                <img src="http://localhost:3000/${post.imagePath}" style = "height: 130px; width: 200px;"></br>
-                <p>${post.description}</p>
+            `<div style="box-shadow: 10px -15px 10px 5px rgba(0, 0, 0, .1); width: 300px; height: 310px;">
+                <h4 style="margin-left: 5px">${post.title}</h4>
+                <img src="http://localhost:3000/${post.imagePath}" style = "height: 160px; width: 250px;"></br>
+                <p style="margin-left: 5px">${post.description}</p>
                 <button class="postDelete" data-post-id="${post._id}">del</button>
+                <button class="postEdite" data-post-id="edit-${post._id}">edit</button>
             </div>`;
         bindDelButtons();
-    });
+        
+       
+    } );
 
     try {
         await loadPosts();
@@ -107,14 +115,16 @@ const addPostController = async () => {
         const posts = await response.json();
         posts.forEach(post => {
             postsContainer.innerHTML +=
-                `<div style="width: 250px; height: 275px;">
-                    <h4>${post.title}</h4>
-                    <img src="http://localhost:3000/${post.imagePath}" style = "height: 130px; width: 200px;"></br>
-                    <p>${post.description}</p>
+                `<div style="box-shadow: 10px -15px 10px 5px rgba(0, 0, 0, .1); width: 300px; height: 310px;">
+                    <h4 style="margin-left: 5px">${post.title}</h4>
+                    <img src="http://localhost:3000/${post.imagePath}" style = "height: 160px; width: 250px;"></br>
+                    <p style="margin-left: 5px">${post.description}</p>
                    <button class="postDelete" data-post-id="${post._id}">del</button>
+                   <button class="postEdite" data-post-id="edit-${post._id}">edit</button>
                 </div>`;
         });
         bindDelButtons();
+       
     }
 
     function bindDelButtons() {
@@ -133,6 +143,18 @@ const addPostController = async () => {
             });
         });
     }
-}
+    
+    function bindEditButtons(){
+        const btns = document.getElementsByClassName("postEdite");
+          for (const btn of btns) {
+                btn.addEventListener("click", (event) => event.target.id.postId.split("-")[1]);
+                
+            }
+            
+        }
+    }
+
+    
+
 
 export { homeController, aboutController, contactController, addPostController };

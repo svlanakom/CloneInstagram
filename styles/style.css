@@ -159,7 +159,7 @@ body {
   cursor: pointer;
   float: right;
 }
-.modal-inner{
+.modal-inner, .modal-iner-edit{
   display: flex;
   align-items: center;
   justify-content:center;
@@ -167,7 +167,7 @@ body {
 }
 
 
-.modal-content {
+.modal-content, .modal-post-edit {
   background-color: rgba(224, 210, 210);
   padding: 20px;
   width: 25%;
@@ -193,6 +193,16 @@ body {
   margin-left: 10px;
   width: 50%;
   height: 32px;
+  border-radius: 4px;
+  margin-top: 16px;
+  background-color: coral;
+  color: white;
+}
+.postDelete, .postEdite{
+  margin-left: 10px;
+  
+  width: 100px;
+  height: 20px;
   border-radius: 4px;
   margin-top: 16px;
   background-color: coral;
