@@ -1,5 +1,6 @@
 import { pageContent, phone } from "../config/constants.js";
 import { app } from "../index.js";
+import ModalWindow from "../middleware/ModalWindow.js";
 
 const homeController = async () => {
     let token = localStorage.getItem("token");
@@ -90,7 +91,11 @@ const addPostController = async () => {
                 <button class="postDelete" data-post-id="${post._id}">del</button>
                 <button class="postEdite" data-post-id="edit-${post._id}">edit</button>
             </div>`;
+        
         bindDelButtons();
+        bindEditButtons()
+       
+
         
        
     } );
@@ -124,6 +129,7 @@ const addPostController = async () => {
                 </div>`;
         });
         bindDelButtons();
+        bindEditButtons()
        
     }
 
@@ -143,18 +149,21 @@ const addPostController = async () => {
             });
         });
     }
+   
     
     function bindEditButtons(){
         const btns = document.getElementsByClassName("postEdite");
           for (const btn of btns) {
-                btn.addEventListener("click", (event) => event.target.id.postId.split("-")[1]);
+                btn.addEventListener("click", (event) => event.target.dataset.postId.split("-")[1]);
+                const showPostEdit = new ModalWindow()
                 
+                showPostEdit.show();
             }
             
         }
     }
 
-    
+  
 
 
 export { homeController, aboutController, contactController, addPostController };
