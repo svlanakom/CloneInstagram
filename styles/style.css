@@ -139,6 +139,7 @@ body {
 
 .modal-delete,
 .modal-edit,
+.modal-edit-post,
 .modal-login,
 .modal-registration {
   background-color: rgba(0, 0, 0, .4);

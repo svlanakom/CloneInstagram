@@ -1,23 +1,51 @@
 <div>
     <form id="sendPost" encrtype="multipart/form-data">
-       <div >
         <div>
-            <span>Title: </span> <input class="form-input-card" type="text" name="title" >
-            
+            <div>
+                <span>Title: </span> <input class="form-input-card" type="text" name="title">
+            </div>
+            <div>
+                <span>Description:</span> <input class="form-input-card" type="text" name="description">
+            </div>
+            <div>
+                <input class="button-card" type="file" name="image" accept=".gif,.jpg,.jpeg,.png">
+            </div>
         </div>
-        <div>
-            <span>Description:</span>   <input class="form-input-card" type="text" name="description" >
-    </div>
-        <div>
-            <input class="button-card" type="file" name="image" accept=".gif,.jpg,.jpeg,.png">
-        </div>
-        
-       </div>
-        
-        <button  class="button-card" type="submit">Send</button>
-    </form>
-    </div>
-    <div style="display: flex; flex-wrap: wrap;" id="postContainer"></div>
 
-        
-    
+        <button class="button-card" type="submit">Send</button>
+    </form>
+</div>
+
+<div style="display: flex; flex-wrap: wrap;" id="postContainer"></div>
+
+<div class="modal-edit-post" id="modalEditPost" data-modal-window="modal-edit-post" style="display: none;">
+    <div class="modal-content">
+        <span class="close" title="Close Modal">&times;</span>
+
+        <form id="edit-form-post" method="post" enctype="multipart/form-data">
+            <h2>Edit</h2>
+
+            <h4>Title</h4>
+            <div class="form-control form-control-edit">
+                <input type="text" name="title" id="edit-title" />
+            </div>
+
+            <h4>Description</h4>
+            <div class="form-control form-control-edit">
+                <input type="text" name="description" id="edit-description" />
+            </div>
+
+            <h4>Image</h4>
+            <div class="form-control form-control-edit">
+                <div>
+                    <input type="file" name="image" id="edit-image" accept=".gif,.jpg,.jpeg,.png" />
+                    <img src="..." alt="..." id="old-image" width="150px">
+                </div>
+            </div>
+
+            <button type="submit" id="btnSubmitEditForm" class="edit-post-confirmation-btn">
+                Save changes
+            </button>
+        </form>
+    </div>
+</div>
