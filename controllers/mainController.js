@@ -1,6 +1,6 @@
 import { pageContent, phone } from "../config/constants.js";
 import { app } from "../index.js";
-import ModalWindow from "../middleware/ModalWindow.js";
+import PostEditForm from "../forms/PostEditForm.js";
 
 const homeController = async () => {
     let token = localStorage.getItem("token");
@@ -53,15 +53,22 @@ const contactController = () => {
 const addPostController = async () => {
     const postsContainer = document.getElementById("postContainer");
     const sendPostForm = document.getElementById("sendPost");
-    const editPostlForm = document.getElementById("editPost");
+    // const btnSubmitEditForm = document.getElementById("btnSubmitEditForm");
+    const modalEditPost = document.getElementById("modalEditPost");
     const token = localStorage.getItem('token');
-    sendPostForm.addEventListener("submit", (event) => { 
-        event.preventDefault();
-    });  
+
+    const postEditForm = new PostEditForm(
+        modalEditPost,
+        {
+            title: document.getElementById("edit-title"),
+            description: document.getElementById("edit-description"),
+            image: document.getElementById("edit-image")
+        }
+    );
+
     sendPostForm.addEventListener("submit", async function (event) {
-        console.log("submit")
         event.preventDefault();
-       
+
         const formData = new FormData(event.target);
         const response = await fetch("http://localhost:3000/createpost", {
             method: "post",
@@ -70,7 +77,7 @@ const addPostController = async () => {
                 "Authorization": token
             }
         });
-        
+
         let post;
         try {
             if (response.status === 401)
@@ -83,28 +90,27 @@ const addPostController = async () => {
             app.userButtons();
             postsContainer.innerHTML = '';
         }
-        if (post) postsContainer.innerHTML +=
-            `<div style="box-shadow: 10px -15px 10px 5px rgba(0, 0, 0, .1); width: 300px; height: 310px;">
-                <h4 style="margin-left: 5px">${post.title}</h4>
-                <img src="http://localhost:3000/${post.imagePath}" style = "height: 160px; width: 250px;"></br>
-                <p style="margin-left: 5px">${post.description}</p>
-                <button class="postDelete" data-post-id="${post._id}">del</button>
-                <button class="postEdite" data-post-id="edit-${post._id}">edit</button>
-            </div>`;
-        
-        bindDelButtons();
-        bindEditButtons()
-       
 
-        
-       
-    } );
+        if (post) postsContainer.innerHTML +=
+            `<div style="box-shadow: 10px -15px 10px 5px rgba(0, 0, 0, .1); width: 300px; height: 310px; ">
+                <h4 style="margin-left: 15px">${post.title}</h4>
+                <img src="http://localhost:3000/${post.imagePath}" style = "height: 160px; width: 250px; margin-left: 15px"></br>
+                <p style="margin-left: 15px">${post.description}</p>
+                <button class="postDelete" data-post-id="${post._id}">del</button>
+                <a href="#editepost"><button class="postEdite" data-post-id="${post._id}">edit</button></a>
+            </div>`;
+
+        bindDelButtons();
+        bindEditButtons();
+    });
 
     try {
         await loadPosts();
     } catch (error) {
         localStorage.removeItem('token');
-        console.log(error.message);
+        alert(error.message);
+        alert(error.name);
+        alert(error.stack);
         app.userButtons();
     }
 
@@ -121,16 +127,15 @@ const addPostController = async () => {
         posts.forEach(post => {
             postsContainer.innerHTML +=
                 `<div style="box-shadow: 10px -15px 10px 5px rgba(0, 0, 0, .1); width: 300px; height: 310px;">
-                    <h4 style="margin-left: 5px">${post.title}</h4>
-                    <img src="http://localhost:3000/${post.imagePath}" style = "height: 160px; width: 250px;"></br>
-                    <p style="margin-left: 5px">${post.description}</p>
+                    <h4 style="margin-left: 15px">${post.title}</h4>
+                    <img src="http://localhost:3000/${post.imagePath}" style = "height: 160px; width: 250px; margin-left: 15px"></br>
+                    <p style="margin-left: 15px">${post.description}</p>
                    <button class="postDelete" data-post-id="${post._id}">del</button>
-                   <button class="postEdite" data-post-id="edit-${post._id}">edit</button>
+                   <a href="#editepost"><button class="postEdite" data-post-id="${post._id}">edit</button></a>
                 </div>`;
         });
         bindDelButtons();
-        bindEditButtons()
-       
+        bindEditButtons();
     }
 
     function bindDelButtons() {
@@ -149,21 +154,38 @@ const addPostController = async () => {
             });
         });
     }
-   
-    
-    function bindEditButtons(){
+
+    function bindEditButtons() {
         const btns = document.getElementsByClassName("postEdite");
-          for (const btn of btns) {
-                btn.addEventListener("click", (event) => event.target.dataset.postId.split("-")[1]);
-                const showPostEdit = new ModalWindow()
+        for (const btn of btns) {
+            btn.addEventListener("click", async (event) => {
+                const id = event.target.dataset.postId;
                 
-                showPostEdit.show();
-            }
-            
+                const response = await fetch(`http://localhost:3000/post/${id}`, {
+                    headers: {
+                        "Authorization": token
+                    }
+                });
+
+                let post;
+                try {
+                    if (response.status === 401)
+                        throw new Error('User unauthorized!');
+                    post = await response.json();
+                } catch (error) {
+                    localStorage.removeItem('token');
+                    console.log(error.message);
+                    app.userButtons();
+                    return;
+                }
+
+                postEditForm.post = post;
+                postEditForm.fill();
+                
+                app.modalWindow.show(modalEditPost);
+            });
         }
     }
-
-  
-
+}
 
 export { homeController, aboutController, contactController, addPostController };
