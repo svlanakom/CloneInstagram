@@ -2,11 +2,12 @@ import { host } from "../config/constants.js";
 import Form from "./Form.js";
 
 export default class PostEditForm extends Form {
-    constructor(elem, fields) {
+    constructor(elem, fields, post) {
         super(elem, {});
         this.fields = fields;
         this.elem.addEventListener("submit", (event) => this.submit(event));
-        this.post = {};
+        this.post = post;
+        this.fill();
     }
 
     fill() {
@@ -19,10 +20,7 @@ export default class PostEditForm extends Form {
         event.preventDefault();
 
         const data = new FormData(event.target);
-        const formJSON = Object.fromEntries(data.entries());
         const token = localStorage.getItem('token');
-
-        console.log(data);
 
         await fetch(`${host}/editpost/${this.post._id}`, {
             method: "post",

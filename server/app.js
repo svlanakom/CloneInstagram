@@ -24,9 +24,8 @@ app.use(cors());
 app.use('/images', express.static('images'))
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter)
-
+app.use('/users', usersRouter);
 
 app.listen(port, () => {
   console.log(`Exsample app listening on port ${port}`)
-})
+});
