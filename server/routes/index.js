@@ -43,7 +43,6 @@ router.get('/posts', passport.authenticate('jwt', { session: false }), async (re
 
 router.delete('/deletepost/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     const post = await Post.findOneAndDelete({ _id: req.params.id });
-    
     if (post) {
         fs.unlink(post.imagePath, (err) => {
             if (err) {
@@ -57,27 +56,17 @@ router.delete('/deletepost/:id', passport.authenticate('jwt', { session: false }
 
 router.post('/editpost/:id', passport.authenticate('jwt', { session: false }), upload.single('image'), async (req, res) => {
     const post = await Post.findByIdAndUpdate({ _id: req.params.id }, req.body);
-
     if (req.file) {
-        if(post) {
-            fs.unlink(post.imagePath, (err) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-            });
-        }
+        fs.unlink(post.imagePath, (err) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+        });
         post.imagePath = req.file.path;
     }
-     
-       
     await post.save();
-    
-       
-    
     res.sendStatus(200);
-    
-
 });
 
 module.exports = router;

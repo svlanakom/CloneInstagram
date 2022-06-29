@@ -1,27 +1,30 @@
 import App from "./middleware/App.js";
 import Router from "./middleware/Roter.js";
-import { homeController, aboutController, contactController, addPostController } from "./controllers/mainController.js";
+import HomeController from "./controllers/HomeController.js";
+import AboutController from "./controllers/AboutController.js";
+import ContactController from "./controllers/ContactController.js";
+import PostController from "./controllers/PostController.js";
 
 const routes = {
     home: {
         template: "/templates/index.html",
         title: "Home",
-        controller: homeController,
+        controller: HomeController,
     },
     about: {
         template: "/templates/about.html",
         title: "About Us",
-        controller: aboutController,
+        controller: AboutController,
     },
     contact: {
         template: "/templates/contact.html",
         title: "Contact",
-        controller: contactController,
+        controller: ContactController,
     },
     addPosts: {
         template: "/templates/add-post.html",
         title: "Add posts",
-        controller: addPostController,
+        controller: PostController,
     }
 };
 
