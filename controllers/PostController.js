@@ -12,6 +12,7 @@ export default class PostController {
         sendPostForm.addEventListener("submit", (e) => this.sendPost(e));
 
         try {
+            
             await this.loadPosts();
         } catch (error) {
             localStorage.removeItem('token');
@@ -36,6 +37,7 @@ export default class PostController {
 
         let post;
         try {
+          
             if (response.status === 401)
                 throw new Error('User unauthorized!');
             post = await response.json();
@@ -61,6 +63,7 @@ export default class PostController {
     }
 
     async loadPosts() {
+       
         const postsContainer = document.getElementById("postContainer");
         const token = localStorage.getItem('token');
 
@@ -103,9 +106,7 @@ export default class PostController {
                     headers: {
                         "Authorization": token
                     }
-                })
-                    .then(response => response.text())
-                    .then(async () => await this.loadPosts());
+                }).then(response => response.text()).then(async () => await this.loadPosts());
             });
         });
     }
@@ -125,6 +126,7 @@ export default class PostController {
 
                 let post;
                 try {
+                   
                     if (response.status === 401)
                         throw new Error('User unauthorized!');
                     post = await response.json();
